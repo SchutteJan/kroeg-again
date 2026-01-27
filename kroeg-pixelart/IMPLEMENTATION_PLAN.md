@@ -16,9 +16,9 @@ noted inline.
 - [x] Create `src/config.ts` to load and validate configuration with env overrides. (Ref: [SPEC.md — Configuration](./SPEC.md#configuration))
 - [x] Create `src/index.ts` CLI placeholder entry point. (Ref: [SPEC.md — CLI Commands](./SPEC.md#cli-commands))
 
-- [ ] Add production dependencies for database, rendering, and APIs. (Ref: [SPEC.md — Dependencies](./SPEC.md#dependencies)) (Depends on: none)
-- [ ] Create CLI entry point with Commander.js and subcommands (`init`, `render`, `generate`, `assemble`, `serve`, `status`, `dashboard`). (Ref: [SPEC.md — CLI Commands](./SPEC.md#cli-commands)) (Depends on: Commander dependency)
-- [ ] Add `bin` field to `package.json` for CLI usage. (Ref: [SPEC.md — CLI Commands](./SPEC.md#cli-commands)) (Depends on: CLI entry point)
+- [x] Add production dependencies for database, rendering, and APIs. (Ref: [SPEC.md — Dependencies](./SPEC.md#dependencies)) (Depends on: none)
+- [x] Create CLI entry point with Commander.js and subcommands (`init`, `render`, `generate`, `assemble`, `serve`, `status`, `dashboard`). (Ref: [SPEC.md — CLI Commands](./SPEC.md#cli-commands)) (Depends on: Commander dependency)
+- [x] Add `bin` field to `package.json` for CLI usage. (Ref: [SPEC.md — CLI Commands](./SPEC.md#cli-commands)) (Depends on: CLI entry point)
 
 - [ ] Create `src/db.ts` for SQLite initialization and schema creation. (Ref: [SPEC.md — Database Schema](./SPEC.md#database-schema)) (Depends on: `better-sqlite3` dependency)
 - [ ] Add database migration support with schema versioning. (Ref: [SPEC.md — Database Schema](./SPEC.md#database-schema)) (Depends on: `src/db.ts`)
