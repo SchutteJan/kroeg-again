@@ -2,8 +2,10 @@
 
 import { Command } from 'commander';
 
+import { runAssemble } from './commands/assemble.js';
 import { runDashboard } from './commands/dashboard.js';
 import { runInit } from './commands/init.js';
+import { runServe } from './commands/serve.js';
 import { runStatus } from './commands/status.js';
 
 const program = new Command();
@@ -50,16 +52,46 @@ program
 program
   .command('assemble')
   .description('Assemble tiles into Deep Zoom Image')
-  .action(() => {
-    console.log('assemble: not implemented yet');
+  .option('--db <path>', 'path to sqlite database')
+  .option('--tiles <path>', 'directory with tile images')
+  .option('--output <path>', 'output directory for DZI assets')
+  .option('--name <name>', 'DZI output name prefix')
+  .option('--tile-size <size>', 'override tile size', (value) => Number(value))
+  .option('--format <format>', 'tile output format (jpg|png)')
+  .option('--skip-viewer', 'skip writing viewer assets')
+  .action(async (options: { db?: string; tiles?: string; output?: string; name?: string; tileSize?: number; format?: 'jpg' | 'png'; skipViewer?: boolean }) => {
+    try {
+      const result = await runAssemble({
+        dbPath: options.db,
+        tilesDir: options.tiles,
+        outputDir: options.output,
+        name: options.name,
+        tileSize: options.tileSize,
+        format: options.format,
+        skipViewer: options.skipViewer,
+      });
+      console.log(`DZI written to ${result.dziPath}`);
+      console.log(`Levels: ${result.levels} | Size: ${result.width}x${result.height}`);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      console.error(message);
+      process.exitCode = 1;
+    }
   });
 
 program
   .command('serve')
   .description('Serve the viewer locally')
   .option('--port <port>', 'port to listen on', (value) => Number(value))
-  .action(() => {
-    console.log('serve: not implemented yet');
+  .option('--output <path>', 'output directory for viewer assets')
+  .action(async (options: { port?: number; output?: string }) => {
+    try {
+      await runServe({ port: options.port, outputDir: options.output });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      console.error(message);
+      process.exitCode = 1;
+    }
   });
 
 program

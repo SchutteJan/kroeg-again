@@ -66,13 +66,13 @@ noted inline.
 - [ ] Implement `pnpm run generate` command with flags. (Ref: [SPEC.md — Generate Pixel Art](./SPEC.md#generate-pixel-art)) (Depends on: `src/generate.ts`)
 - [ ] Write tests for generation orchestration and strategies. (Ref: [SPEC.md — Testing](./SPEC.md#testing)) (Depends on: `src/generate.ts`)
 
-- [ ] Create `src/assemble.ts` for DZI assembly and XML descriptor. (Ref: [SPEC.md — Stage 5](./SPEC.md#stage-5-assembly)) (Depends on: `sharp` dependency)
-- [ ] Implement zoom pyramid output and tile layout. (Ref: [SPEC.md — Assembly Process](./SPEC.md#assembly-process)) (Depends on: `src/assemble.ts`)
-- [ ] Implement `pnpm run assemble` command with flags. (Ref: [SPEC.md — Assemble Viewer](./SPEC.md#assemble-viewer)) (Depends on: `src/assemble.ts`)
-- [ ] Write tests for DZI assembly. (Ref: [SPEC.md — Testing](./SPEC.md#testing)) (Depends on: `src/assemble.ts`)
+- [x] Create `src/assemble.ts` for DZI assembly and XML descriptor. (Ref: [SPEC.md — Stage 5](./SPEC.md#stage-5-assembly)) (Depends on: `sharp` dependency)
+- [x] Implement zoom pyramid output and tile layout. (Ref: [SPEC.md — Assembly Process](./SPEC.md#assembly-process)) (Depends on: `src/assemble.ts`)
+- [x] Implement `pnpm run assemble` command with flags. (Ref: [SPEC.md — Assemble Viewer](./SPEC.md#assemble-viewer)) (Depends on: `src/assemble.ts`)
+- [x] Write tests for DZI assembly. (Ref: [SPEC.md — Testing](./SPEC.md#testing)) (Depends on: `src/assemble.ts`)
 
-- [ ] Create viewer files in `output/viewer/` using OpenSeaDragon. (Ref: [SPEC.md — Stage 6](./SPEC.md#stage-6-web-viewer)) (Depends on: DZI output)
-- [ ] Implement `pnpm run serve` command for static viewer hosting. (Ref: [SPEC.md — Serve Viewer](./SPEC.md#serve-viewer)) (Depends on: viewer output)
+- [x] Create viewer files in `output/viewer/` using OpenSeaDragon. (Ref: [SPEC.md — Stage 6](./SPEC.md#stage-6-web-viewer)) (Depends on: DZI output)
+- [x] Implement `pnpm run serve` command for static viewer hosting. (Ref: [SPEC.md — Serve Viewer](./SPEC.md#serve-viewer)) (Depends on: viewer output)
 
 - [ ] Implement dashboard generation controls (`/api/generate/start`, `/api/generate/pause`, `/api/generate/retry/:id`). (Ref: [SPEC.md — Dashboard Controls](./SPEC.md#dashboard-controls)) (Depends on: dashboard server, generation command)
 - [ ] Implement dashboard UI controls for start/pause/retry and settings. (Ref: [SPEC.md — Dashboard Controls](./SPEC.md#dashboard-controls)) (Depends on: dashboard UI)
