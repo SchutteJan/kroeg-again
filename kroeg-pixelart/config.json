@@ -1,0 +1,17 @@
+{
+  "bounds": {
+    "north": 52.4,
+    "south": 52.34,
+    "east": 4.95,
+    "west": 4.85
+  },
+  "tileSize": 512,
+  "zoomLevel": 18,
+  "oxen": {
+    "model": "your-oxen-model-id",
+    "numInferenceSteps": 28
+  },
+  "gcs": {
+    "bucket": "amsterdam-pixelart-infills"
+  }
+}
