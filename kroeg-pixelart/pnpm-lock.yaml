@@ -33,6 +33,9 @@ importers:
       '@eslint/js':
         specifier: ^9.9.0
         version: 9.39.2
+      '@types/better-sqlite3':
+        specifier: ^7.6.13
+        version: 7.6.13
       '@types/node':
         specifier: ^22.10.2
         version: 22.19.7
@@ -660,6 +663,9 @@ packages:
   '@tootallnate/once@2.0.0':
     resolution: {integrity: sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==}
     engines: {node: '>= 10'}
+
+  '@types/better-sqlite3@7.6.13':
+    resolution: {integrity: sha512-NMv9ASNARoKksWtsq/SHakpYAYnhBrQgGD8zkLYk/jaK8jUGn08CfEdTRgYhMypUQAfzSP8W6gNLe0q19/t4VA==}
 
   '@types/caseless@0.12.5':
     resolution: {integrity: sha512-hWtVTC2q7hc7xZ/RLbxapMvDMgUnDvKvMOpKal4DrMyfGBUfB1oKaZlIRr6mJL+If3bAP6sV/QneGzF6tJjZDg==}
@@ -2291,6 +2297,10 @@ snapshots:
     optional: true
 
   '@tootallnate/once@2.0.0': {}
+
+  '@types/better-sqlite3@7.6.13':
+    dependencies:
+      '@types/node': 22.19.7
 
   '@types/caseless@0.12.5': {}
 

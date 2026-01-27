@@ -20,11 +20,11 @@ noted inline.
 - [x] Create CLI entry point with Commander.js and subcommands (`init`, `render`, `generate`, `assemble`, `serve`, `status`, `dashboard`). (Ref: [SPEC.md — CLI Commands](./SPEC.md#cli-commands)) (Depends on: Commander dependency)
 - [x] Add `bin` field to `package.json` for CLI usage. (Ref: [SPEC.md — CLI Commands](./SPEC.md#cli-commands)) (Depends on: CLI entry point)
 
-- [ ] Create `src/db.ts` for SQLite initialization and schema creation. (Ref: [SPEC.md — Database Schema](./SPEC.md#database-schema)) (Depends on: `better-sqlite3` dependency)
-- [ ] Add database migration support with schema versioning. (Ref: [SPEC.md — Database Schema](./SPEC.md#database-schema)) (Depends on: `src/db.ts`)
-- [ ] Implement tile CRUD functions in `src/db.ts`. (Ref: [SPEC.md — Tile System](./SPEC.md#tile-system)) (Depends on: `src/db.ts`)
-- [ ] Implement quadrant CRUD functions in `src/db.ts`. (Ref: [SPEC.md — Tile System](./SPEC.md#tile-system)) (Depends on: `src/db.ts`)
-- [ ] Write tests for database initialization, migrations, and CRUD. (Ref: [SPEC.md — Testing](./SPEC.md#testing)) (Depends on: `src/db.ts`)
+- [x] Create `src/db.ts` for SQLite initialization and schema creation. (Ref: [SPEC.md — Database Schema](./SPEC.md#database-schema)) (Depends on: `better-sqlite3` dependency)
+- [x] Add database migration support with schema versioning. (Ref: [SPEC.md — Database Schema](./SPEC.md#database-schema)) (Depends on: `src/db.ts`)
+- [x] Implement tile CRUD functions in `src/db.ts`. (Ref: [SPEC.md — Tile System](./SPEC.md#tile-system)) (Depends on: `src/db.ts`)
+- [x] Implement quadrant CRUD functions in `src/db.ts`. (Ref: [SPEC.md — Tile System](./SPEC.md#tile-system)) (Depends on: `src/db.ts`)
+- [x] Write tests for database initialization, migrations, and CRUD. (Ref: [SPEC.md — Testing](./SPEC.md#testing)) (Depends on: `src/db.ts`)
 
 - [ ] Create `src/grid.ts` with slippy tile math helpers. (Ref: [SPEC.md — Stage 1](./SPEC.md#stage-1-grid-generation)) (Depends on: `src/types.ts`)
 - [ ] Implement `generateGrid` and `generateQuadrants`. (Ref: [SPEC.md — Stage 1](./SPEC.md#stage-1-grid-generation)) (Depends on: `src/grid.ts`)
