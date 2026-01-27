@@ -6,6 +6,7 @@ import { runAssemble } from './commands/assemble.js';
 import { runDashboard } from './commands/dashboard.js';
 import { runGenerateCommand } from './commands/generate.js';
 import { runInit } from './commands/init.js';
+import { runRenderCommand } from './commands/render.js';
 import { runServe } from './commands/serve.js';
 import { runStatus } from './commands/status.js';
 
@@ -35,8 +36,28 @@ program
   .description('Render geometry tiles')
   .option('--tile <x,y>', 'render a single tile')
   .option('--all', 'render all pending tiles')
-  .action(() => {
-    console.log('render: not implemented yet');
+  .option('--limit <count>', 'limit number of tiles', (value) => Number(value))
+  .option('--db <path>', 'path to sqlite database')
+  .option('--config <path>', 'path to config json')
+  .option('--renders <path>', 'renders directory')
+  .action(async (options: { tile?: string; all?: boolean; limit?: number; db?: string; config?: string; renders?: string }) => {
+    try {
+      const result = await runRenderCommand({
+        tile: options.tile,
+        all: options.all,
+        limit: options.limit,
+        dbPath: options.db,
+        configPath: options.config,
+        rendersDir: options.renders,
+      });
+      for (const line of result.summary) {
+        console.log(line);
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      console.error(message);
+      process.exitCode = 1;
+    }
   });
 
 program
