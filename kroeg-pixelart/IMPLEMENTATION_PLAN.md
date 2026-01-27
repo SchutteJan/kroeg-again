@@ -3,6 +3,8 @@
 This plan implements [SPEC.md](./SPEC.md). Task order does not imply sequence; dependencies are
 noted inline.
 
+Current status (Jan 27, 2026): all tasks are complete except performance profiling/optimization.
+
 - [x] Update `package.json` metadata and scripts (`build`, `dev`, `lint`, `format`, `typecheck`, `test`). (Ref: [SPEC.md — Dependencies](./SPEC.md#dependencies))
 - [x] Add dev dependencies for TypeScript, linting, formatting, and testing. (Ref: [SPEC.md — Dependencies](./SPEC.md#dependencies))
 - [x] Create `tsconfig.json` with NodeNext + strict settings. (Ref: [SPEC.md — Directory Structure](./SPEC.md#directory-structure))

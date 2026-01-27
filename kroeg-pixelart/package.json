@@ -22,6 +22,7 @@
   "devDependencies": {
     "@eslint/js": "^9.9.0",
     "@types/better-sqlite3": "^7.6.13",
+    "@types/express": "^5.0.0",
     "@types/node": "^22.10.2",
     "eslint": "^9.9.0",
     "prettier": "^3.3.3",
