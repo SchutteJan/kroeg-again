@@ -5,10 +5,13 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useRouteLoaderData,
 } from "react-router";
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import { getAuth } from "./lib/auth.server";
+import { SiteHeader } from "./components/site-header";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -19,11 +22,21 @@ export const links: Route.LinksFunction = () => [
   },
   {
     rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
+    href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Space+Grotesk:wght@300..700&display=swap",
   },
 ];
 
+export async function loader({ request }: Route.LoaderArgs) {
+  const auth = await getAuth();
+  const session = await auth.api.getSession({ headers: request.headers });
+  return { session };
+}
+
 export function Layout({ children }: { children: React.ReactNode }) {
+  const data = useRouteLoaderData("root") as
+    | { session?: { user?: { email?: string | null; name?: string | null } } }
+    | undefined;
+
   return (
     <html lang="en">
       <head>
@@ -32,7 +45,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="font-sans text-slate-900 antialiased">
+        <SiteHeader session={data?.session ?? null} />
         {children}
         <ScrollRestoration />
         <Scripts />

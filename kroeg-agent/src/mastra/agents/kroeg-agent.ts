@@ -4,6 +4,17 @@ import { pageActTool } from "../tools/page-act-tool";
 import { pageObserveTool } from "../tools/page-observe-tool";
 import { pageExtractTool } from "../tools/page-extract-tool";
 import { pageNavigateTool } from "../tools/page-navigate-tool";
+import {
+  kroegApiCreateDecisionTool,
+  kroegApiGetUncuratedTool,
+  kroegApiPendingTool,
+  kroegApiSearchLicensesTool,
+  kroegApiStatsTool,
+  kroegApiSyncLicensesTool,
+  kroegApiVerifyTool,
+} from "../tools/kroeg-api-tools";
+import { gmapsPlaceTool } from "../tools/gmaps-place-tool";
+import { geoDistanceTool } from "../tools/geo-distance-tool";
 
 const memory = new Memory();
 
@@ -28,8 +39,9 @@ export const kroegAgent = new Agent({
   - coffeeshop/cafe
   - restaurant
   - hotel bar
-  - event space
+  - event space (location that can be rented by businesses)
   - sportkantine
+  - cinema
   - other
 
   While we record the exact label, the most important one is bar/kroeg.
@@ -48,12 +60,34 @@ export const kroegAgent = new Agent({
   - Try to match the found location to existing entries in the dataset
   - Add new if unmatched, update curation decision otherwise
 
+  Use the Kroeg API tools to fetch uncurated licenses and submit decisions.
+  The API is available at http://localhost:5173 by default.
+  For API-key endpoints, use the provided API key from environment (KROEG_API_KEY).
+  For session-protected endpoints, use the session bearer token (KROEG_AUTH_TOKEN).
+
   Use the pageActTool to perform actions on webpages.
   Use the pageObserveTool to find elements on webpages.
   Use the pageExtractTool to extract data from webpages.
   Use the pageNavigateTool to navigate to a URL.
+  Use gmapsPlaceTool to query Google Maps Places for cross-referencing.
+  Use geoDistanceTool to verify that Google Maps coordinates are close enough to the license coordinates.
+  Use kroegApiSearchLicensesTool to search all licenses when a place seems missing.
 `,
   model: process.env.MODEL || "openai/gpt-5.2-2025-12-11",
-  tools: { pageActTool, pageObserveTool, pageExtractTool, pageNavigateTool },
+  tools: {
+    // pageActTool,
+    // pageObserveTool,
+    // pageExtractTool,
+    // pageNavigateTool,
+    kroegApiGetUncuratedTool,
+    kroegApiCreateDecisionTool,
+    kroegApiStatsTool,
+    kroegApiPendingTool,
+    kroegApiSearchLicensesTool,
+    kroegApiVerifyTool,
+    kroegApiSyncLicensesTool,
+    gmapsPlaceTool,
+    geoDistanceTool,
+  },
   memory: memory,
 });
