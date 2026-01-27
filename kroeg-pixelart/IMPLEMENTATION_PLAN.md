@@ -26,13 +26,13 @@ noted inline.
 - [x] Implement quadrant CRUD functions in `src/db.ts`. (Ref: [SPEC.md — Tile System](./SPEC.md#tile-system)) (Depends on: `src/db.ts`)
 - [x] Write tests for database initialization, migrations, and CRUD. (Ref: [SPEC.md — Testing](./SPEC.md#testing)) (Depends on: `src/db.ts`)
 
-- [ ] Create `src/grid.ts` with slippy tile math helpers. (Ref: [SPEC.md — Stage 1](./SPEC.md#stage-1-grid-generation)) (Depends on: `src/types.ts`)
-- [ ] Implement `generateGrid` and `generateQuadrants`. (Ref: [SPEC.md — Stage 1](./SPEC.md#stage-1-grid-generation)) (Depends on: `src/grid.ts`)
-- [ ] Write tests for grid generation and quadrant grouping. (Ref: [SPEC.md — Testing](./SPEC.md#testing)) (Depends on: `src/grid.ts`)
+- [x] Create `src/grid.ts` with slippy tile math helpers. (Ref: [SPEC.md — Stage 1](./SPEC.md#stage-1-grid-generation)) (Depends on: `src/types.ts`)
+- [x] Implement `generateGrid` and `generateQuadrants`. (Ref: [SPEC.md — Stage 1](./SPEC.md#stage-1-grid-generation)) (Depends on: `src/grid.ts`)
+- [x] Write tests for grid generation and quadrant grouping. (Ref: [SPEC.md — Testing](./SPEC.md#testing)) (Depends on: `src/grid.ts`)
 
-- [ ] Implement `pnpm run init` command in `src/commands/init.ts`. (Ref: [SPEC.md — CLI Commands](./SPEC.md#cli-commands)) (Depends on: `src/db.ts`, `src/grid.ts`)
-- [ ] Add `--force` and `--bounds` flags to init command. (Ref: [SPEC.md — CLI Commands](./SPEC.md#cli-commands)) (Depends on: init command)
-- [ ] Write integration tests for init command. (Ref: [SPEC.md — Testing](./SPEC.md#testing)) (Depends on: init command)
+- [x] Implement `pnpm run init` command in `src/commands/init.ts`. (Ref: [SPEC.md — CLI Commands](./SPEC.md#cli-commands)) (Depends on: `src/db.ts`, `src/grid.ts`)
+- [x] Add `--force` and `--bounds` flags to init command. (Ref: [SPEC.md — CLI Commands](./SPEC.md#cli-commands)) (Depends on: init command)
+- [x] Write integration tests for init command. (Ref: [SPEC.md — Testing](./SPEC.md#testing)) (Depends on: init command)
 
 - [ ] Create `src/dashboard/server.ts`, `src/dashboard/routes.ts`, and `src/dashboard/events.ts`. (Ref: [SPEC.md — Stage 7](./SPEC.md#stage-7-generation-dashboard)) (Depends on: `express` dependency)
 - [ ] Implement dashboard API endpoints (`/api/tiles`, `/api/tiles/:id`, `/api/progress`, `/api/events`). (Ref: [SPEC.md — Dashboard API Endpoints](./SPEC.md#dashboard-api-endpoints)) (Depends on: dashboard server)

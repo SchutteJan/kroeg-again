@@ -2,6 +2,8 @@
 
 import { Command } from 'commander';
 
+import { runInit } from './commands/init.js';
+
 const program = new Command();
 
 program.name('kroeg-pixelart').description('Amsterdam pixel art map pipeline CLI').version('0.1.0');
@@ -11,8 +13,16 @@ program
   .description('Initialize database and tile grid')
   .option('--force', 'overwrite existing database')
   .option('--bounds <north,south,east,west>', 'override bounds')
-  .action(() => {
-    console.log('init: not implemented yet');
+  .action((options: { force?: boolean; bounds?: string }) => {
+    try {
+      const result = runInit({ force: options.force, bounds: options.bounds });
+      console.log(`Initialized database at ${result.dbPath}`);
+      console.log(`Tiles: ${result.tiles} | Quadrants: ${result.quadrants}`);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      console.error(message);
+      process.exitCode = 1;
+    }
   });
 
 program
