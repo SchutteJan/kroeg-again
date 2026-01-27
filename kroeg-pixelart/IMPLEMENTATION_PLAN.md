@@ -60,11 +60,11 @@ noted inline.
 - [x] Implement neighbor detection and template validation. (Ref: [SPEC.md — Infill Template Shapes](./SPEC.md#infill-template-shapes)) (Depends on: `src/infill.ts`)
 - [x] Write tests for infill mask generation and template rules. (Ref: [SPEC.md — Testing](./SPEC.md#testing)) (Depends on: `src/infill.ts`)
 
-- [ ] Create `src/generate.ts` orchestration with logging. (Ref: [SPEC.md — Stage 3](./SPEC.md#stage-3-pixel-art-generation)) (Depends on: `src/gcs.ts`, `src/oxen.ts`, `src/infill.ts`)
-- [ ] Implement single-tile mode and retry handling. (Ref: [SPEC.md — Generate Pixel Art](./SPEC.md#generate-pixel-art)) (Depends on: `src/generate.ts`)
-- [ ] Implement generation strategy selection (`spiral`, `random`, `row-by-row`). (Ref: [SPEC.md — Generation Order](./SPEC.md#generation-order)) (Depends on: database, quadrants)
-- [ ] Implement `pnpm run generate` command with flags. (Ref: [SPEC.md — Generate Pixel Art](./SPEC.md#generate-pixel-art)) (Depends on: `src/generate.ts`)
-- [ ] Write tests for generation orchestration and strategies. (Ref: [SPEC.md — Testing](./SPEC.md#testing)) (Depends on: `src/generate.ts`)
+- [x] Create `src/generate.ts` orchestration with logging. (Ref: [SPEC.md — Stage 3](./SPEC.md#stage-3-pixel-art-generation)) (Depends on: `src/gcs.ts`, `src/oxen.ts`, `src/infill.ts`)
+- [x] Implement single-tile mode and retry handling. (Ref: [SPEC.md — Generate Pixel Art](./SPEC.md#generate-pixel-art)) (Depends on: `src/generate.ts`)
+- [x] Implement generation strategy selection (`spiral`, `random`, `row-by-row`). (Ref: [SPEC.md — Generation Order](./SPEC.md#generation-order)) (Depends on: database, quadrants)
+- [x] Implement `pnpm run generate` command with flags. (Ref: [SPEC.md — Generate Pixel Art](./SPEC.md#generate-pixel-art)) (Depends on: `src/generate.ts`)
+- [x] Write tests for generation orchestration and strategies. (Ref: [SPEC.md — Testing](./SPEC.md#testing)) (Depends on: `src/generate.ts`)
 
 - [x] Create `src/assemble.ts` for DZI assembly and XML descriptor. (Ref: [SPEC.md — Stage 5](./SPEC.md#stage-5-assembly)) (Depends on: `sharp` dependency)
 - [x] Implement zoom pyramid output and tile layout. (Ref: [SPEC.md — Assembly Process](./SPEC.md#assembly-process)) (Depends on: `src/assemble.ts`)

@@ -4,6 +4,7 @@ import { Command } from 'commander';
 
 import { runAssemble } from './commands/assemble.js';
 import { runDashboard } from './commands/dashboard.js';
+import { runGenerateCommand } from './commands/generate.js';
 import { runInit } from './commands/init.js';
 import { runServe } from './commands/serve.js';
 import { runStatus } from './commands/status.js';
@@ -45,8 +46,34 @@ program
   .option('--quadrant <qx,qy>', 'generate a quadrant')
   .option('--continue', 'resume generation')
   .option('--limit <count>', 'limit number of quadrants', (value) => Number(value))
-  .action(() => {
-    console.log('generate: not implemented yet');
+  .option('--strategy <strategy>', 'generation strategy (spiral, random, row-by-row)')
+  .option('--db <path>', 'path to sqlite database')
+  .option('--config <path>', 'path to config json')
+  .option('--tiles <path>', 'output tiles directory')
+  .option('--renders <path>', 'renders directory')
+  .option('--work <path>', 'working directory for infill assets')
+  .action(async (options: { tile?: string; quadrant?: string; continue?: boolean; limit?: number; strategy?: string; db?: string; config?: string; tiles?: string; renders?: string; work?: string }) => {
+    try {
+      const result = await runGenerateCommand({
+        tile: options.tile,
+        quadrant: options.quadrant,
+        continue: options.continue,
+        limit: options.limit,
+        strategy: options.strategy,
+        dbPath: options.db,
+        configPath: options.config,
+        tilesDir: options.tiles,
+        rendersDir: options.renders,
+        workDir: options.work,
+      });
+      for (const line of result.summary) {
+        console.log(line);
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      console.error(message);
+      process.exitCode = 1;
+    }
   });
 
 program
