@@ -51,14 +51,14 @@ noted inline.
 - [ ] Implement `pnpm run render` command with flags. (Ref: [SPEC.md — Render Geometry](./SPEC.md#render-geometry)) (Depends on: render pipeline)
 - [ ] Write unit/integration tests for render pipeline. (Ref: [SPEC.md — Testing](./SPEC.md#testing)) (Depends on: render pipeline)
 
-- [ ] Create `src/gcs.ts` for Google Cloud Storage uploads. (Ref: [SPEC.md — Google Cloud Storage](./SPEC.md#google-cloud-storage)) (Depends on: `@google-cloud/storage` dependency)
-- [ ] Create `src/oxen.ts` for Oxen.ai API integration with backoff. (Ref: [SPEC.md — Oxen.ai Image Generation](./SPEC.md#oxenai-image-generation)) (Depends on: HTTP client)
-- [ ] Implement download helper for generated images. (Ref: [SPEC.md — Stage 3](./SPEC.md#stage-3-pixel-art-generation)) (Depends on: `src/oxen.ts`)
-- [ ] Write unit tests for GCS and Oxen clients. (Ref: [SPEC.md — Testing](./SPEC.md#testing)) (Depends on: GCS/Oxen modules)
+- [x] Create `src/gcs.ts` for Google Cloud Storage uploads. (Ref: [SPEC.md — Google Cloud Storage](./SPEC.md#google-cloud-storage)) (Depends on: `@google-cloud/storage` dependency)
+- [x] Create `src/oxen.ts` for Oxen.ai API integration with backoff. (Ref: [SPEC.md — Oxen.ai Image Generation](./SPEC.md#oxenai-image-generation)) (Depends on: HTTP client)
+- [x] Implement download helper for generated images. (Ref: [SPEC.md — Stage 3](./SPEC.md#stage-3-pixel-art-generation)) (Depends on: `src/oxen.ts`)
+- [x] Write unit tests for GCS and Oxen clients. (Ref: [SPEC.md — Testing](./SPEC.md#testing)) (Depends on: GCS/Oxen modules)
 
-- [ ] Create `src/infill.ts` to generate infill images and masks. (Ref: [SPEC.md — Stage 4](./SPEC.md#stage-4-infill-generation)) (Depends on: `sharp` dependency, database)
-- [ ] Implement neighbor detection and template validation. (Ref: [SPEC.md — Infill Template Shapes](./SPEC.md#infill-template-shapes)) (Depends on: `src/infill.ts`)
-- [ ] Write tests for infill mask generation and template rules. (Ref: [SPEC.md — Testing](./SPEC.md#testing)) (Depends on: `src/infill.ts`)
+- [x] Create `src/infill.ts` to generate infill images and masks. (Ref: [SPEC.md — Stage 4](./SPEC.md#stage-4-infill-generation)) (Depends on: `sharp` dependency, database)
+- [x] Implement neighbor detection and template validation. (Ref: [SPEC.md — Infill Template Shapes](./SPEC.md#infill-template-shapes)) (Depends on: `src/infill.ts`)
+- [x] Write tests for infill mask generation and template rules. (Ref: [SPEC.md — Testing](./SPEC.md#testing)) (Depends on: `src/infill.ts`)
 
 - [ ] Create `src/generate.ts` orchestration with logging. (Ref: [SPEC.md — Stage 3](./SPEC.md#stage-3-pixel-art-generation)) (Depends on: `src/gcs.ts`, `src/oxen.ts`, `src/infill.ts`)
 - [ ] Implement single-tile mode and retry handling. (Ref: [SPEC.md — Generate Pixel Art](./SPEC.md#generate-pixel-art)) (Depends on: `src/generate.ts`)
