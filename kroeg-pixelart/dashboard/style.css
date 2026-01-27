@@ -101,6 +101,12 @@ body::after {
   border: 1px solid #cbe3d8;
 }
 
+.status-pill.running {
+  background: #f9e2cc;
+  color: #9a5625;
+  border-color: #efc49c;
+}
+
 .controls {
   display: flex;
   gap: 10px;

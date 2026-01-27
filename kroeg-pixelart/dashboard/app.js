@@ -37,6 +37,11 @@ const state = {
     complete: true,
     failed: true,
   },
+  generation: {
+    status: 'idle',
+    lastError: null,
+    lastRunAt: null,
+  },
 };
 
 const canvas = document.getElementById('gridCanvas');
@@ -47,6 +52,10 @@ const queueList = document.getElementById('queueList');
 const errorList = document.getElementById('errorList');
 const tileDetail = document.getElementById('tileDetail');
 const lastUpdate = document.getElementById('lastUpdate');
+const liveStatus = document.getElementById('liveStatus');
+const startButton = document.getElementById('startBtn');
+const pauseButton = document.getElementById('pauseBtn');
+const retryButton = document.getElementById('retryBtn');
 
 const ctx = canvas.getContext('2d');
 
@@ -268,6 +277,52 @@ function updateLastUpdate(timestamp) {
   lastUpdate.textContent = `Last update: ${date.toLocaleString()}`;
 }
 
+function updateLiveStatus() {
+  const status = state.generation.status;
+  if (!liveStatus) {
+    return;
+  }
+  if (status === 'running') {
+    liveStatus.textContent = 'Running';
+    liveStatus.classList.add('running');
+  } else if (status === 'stopping') {
+    liveStatus.textContent = 'Stopping';
+    liveStatus.classList.add('running');
+  } else {
+    liveStatus.textContent = 'Idle';
+    liveStatus.classList.remove('running');
+  }
+}
+
+function updateControlButtons() {
+  const isRunning = state.generation.status === 'running';
+  const isStopping = state.generation.status === 'stopping';
+  const hasFailed = Array.from(state.tiles.values()).some((tile) => tile.status === 'failed');
+
+  if (startButton) {
+    startButton.disabled = isRunning || isStopping;
+  }
+  if (pauseButton) {
+    pauseButton.disabled = !isRunning;
+  }
+  if (retryButton) {
+    retryButton.disabled = isRunning || isStopping || !hasFailed;
+  }
+}
+
+function setGenerationState(nextState) {
+  state.generation = {
+    status: nextState.status ?? 'idle',
+    lastError: nextState.lastError ?? null,
+    lastRunAt: nextState.lastRunAt ?? null,
+  };
+  updateLiveStatus();
+  updateControlButtons();
+  if (state.generation.lastError) {
+    addError({ tileId: 'generation', message: state.generation.lastError });
+  }
+}
+
 function addError(error) {
   if (!error) {
     return;
@@ -287,6 +342,19 @@ async function fetchTile(tileId) {
     return null;
   }
   return response.json();
+}
+
+async function fetchGenerationState() {
+  try {
+    const response = await fetch('/api/generate/status');
+    if (!response.ok) {
+      return;
+    }
+    const status = await response.json();
+    setGenerationState(status);
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 function normalizeTile(tile) {
@@ -313,6 +381,7 @@ async function loadTiles() {
     centerView();
     resizeCanvas();
     refreshLists();
+    updateControlButtons();
     renderGrid();
     setOverlay('');
   } catch (error) {
@@ -338,6 +407,70 @@ async function loadProgress() {
       rate: formatRate(progress.ratePerHour),
       eta: formatEta(progress.etaMinutes),
     });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function startGeneration() {
+  try {
+    const response = await fetch('/api/generate/start', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({}),
+    });
+    if (!response.ok) {
+      const payload = await response.json();
+      addError({ tileId: 'generation', message: payload.error || 'Failed to start' });
+      return;
+    }
+    const status = await response.json();
+    setGenerationState(status);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function pauseGeneration() {
+  try {
+    const response = await fetch('/api/generate/pause', { method: 'POST' });
+    if (!response.ok) {
+      const payload = await response.json();
+      addError({ tileId: 'generation', message: payload.error || 'Failed to pause' });
+      return;
+    }
+    const status = await response.json();
+    setGenerationState(status);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+function pickFailedTile() {
+  if (state.selectedId) {
+    const selected = state.tiles.get(state.selectedId);
+    if (selected && selected.status === 'failed') {
+      return selected.id;
+    }
+  }
+  const failed = Array.from(state.tiles.values()).find((tile) => tile.status === 'failed');
+  return failed ? failed.id : null;
+}
+
+async function retryFailed() {
+  const tileId = pickFailedTile();
+  if (!tileId) {
+    return;
+  }
+  try {
+    const response = await fetch(`/api/generate/retry/${tileId}`, { method: 'POST' });
+    if (!response.ok) {
+      const payload = await response.json();
+      addError({ tileId, message: payload.error || 'Failed to retry' });
+      return;
+    }
+    const status = await response.json();
+    setGenerationState(status);
   } catch (error) {
     console.error(error);
   }
@@ -381,6 +514,7 @@ function connectEvents() {
         tile.updatedAt = new Date(update.timestamp);
       }
       refreshLists();
+      updateControlButtons();
       renderGrid();
       if (state.selectedId === update.tileId) {
         updateDetail(state.tiles.get(update.tileId));
@@ -485,8 +619,24 @@ async function init() {
   setupFilters();
   setupCanvasInteractions();
   setupZoomButtons();
+  if (startButton) {
+    startButton.addEventListener('click', () => {
+      void startGeneration();
+    });
+  }
+  if (pauseButton) {
+    pauseButton.addEventListener('click', () => {
+      void pauseGeneration();
+    });
+  }
+  if (retryButton) {
+    retryButton.addEventListener('click', () => {
+      void retryFailed();
+    });
+  }
   await loadTiles();
   await loadProgress();
+  await fetchGenerationState();
   connectEvents();
 }
 

@@ -74,8 +74,8 @@ noted inline.
 - [x] Create viewer files in `output/viewer/` using OpenSeaDragon. (Ref: [SPEC.md — Stage 6](./SPEC.md#stage-6-web-viewer)) (Depends on: DZI output)
 - [x] Implement `pnpm run serve` command for static viewer hosting. (Ref: [SPEC.md — Serve Viewer](./SPEC.md#serve-viewer)) (Depends on: viewer output)
 
-- [ ] Implement dashboard generation controls (`/api/generate/start`, `/api/generate/pause`, `/api/generate/retry/:id`). (Ref: [SPEC.md — Dashboard Controls](./SPEC.md#dashboard-controls)) (Depends on: dashboard server, generation command)
-- [ ] Implement dashboard UI controls for start/pause/retry and settings. (Ref: [SPEC.md — Dashboard Controls](./SPEC.md#dashboard-controls)) (Depends on: dashboard UI)
+- [x] Implement dashboard generation controls (`/api/generate/start`, `/api/generate/pause`, `/api/generate/retry/:id`). (Ref: [SPEC.md — Dashboard Controls](./SPEC.md#dashboard-controls)) (Depends on: dashboard server, generation command)
+- [x] Implement dashboard UI controls for start/pause/retry and settings. (Ref: [SPEC.md — Dashboard Controls](./SPEC.md#dashboard-controls)) (Depends on: dashboard UI)
 
 - [ ] Add structured logging and graceful shutdown handling. (Ref: [SPEC.md — Error Handling](./SPEC.md#error-handling)) (Depends on: CLI commands)
 - [ ] Implement backup/restore command for database. (Ref: [SPEC.md — Error Handling](./SPEC.md#error-handling)) (Depends on: database)
