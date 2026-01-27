@@ -7,10 +7,16 @@ export interface ServeOptions {
   outputDir?: string;
 }
 
+export interface ServeHandle {
+  port: number;
+  url: string;
+  close: () => Promise<void>;
+}
+
 const DEFAULT_OUTPUT_DIR = 'output';
 const DEFAULT_PORT = 3000;
 
-export function runServe(options: ServeOptions = {}): Promise<{ port: number; url: string }> {
+export function runServe(options: ServeOptions = {}): Promise<ServeHandle> {
   const outputDir = options.outputDir ?? DEFAULT_OUTPUT_DIR;
   const port = options.port ?? DEFAULT_PORT;
   const resolvedDir = path.resolve(process.cwd(), outputDir);
@@ -23,8 +29,20 @@ export function runServe(options: ServeOptions = {}): Promise<{ port: number; ur
       const address = server.address();
       const actualPort = typeof address === 'object' && address ? address.port : port;
       const url = `http://localhost:${actualPort}`;
-      console.log(`Viewer running at ${url}/viewer/index.html`);
-      resolve({ port: actualPort, url });
+      resolve({
+        port: actualPort,
+        url,
+        close: () =>
+          new Promise<void>((closeResolve, closeReject) => {
+            server.close((error) => {
+              if (error) {
+                closeReject(error);
+                return;
+              }
+              closeResolve();
+            });
+          }),
+      });
     });
   });
 }

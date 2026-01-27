@@ -77,7 +77,7 @@ noted inline.
 - [x] Implement dashboard generation controls (`/api/generate/start`, `/api/generate/pause`, `/api/generate/retry/:id`). (Ref: [SPEC.md — Dashboard Controls](./SPEC.md#dashboard-controls)) (Depends on: dashboard server, generation command)
 - [x] Implement dashboard UI controls for start/pause/retry and settings. (Ref: [SPEC.md — Dashboard Controls](./SPEC.md#dashboard-controls)) (Depends on: dashboard UI)
 
-- [ ] Add structured logging and graceful shutdown handling. (Ref: [SPEC.md — Error Handling](./SPEC.md#error-handling)) (Depends on: CLI commands)
-- [ ] Implement backup/restore command for database. (Ref: [SPEC.md — Error Handling](./SPEC.md#error-handling)) (Depends on: database)
+- [x] Add structured logging and graceful shutdown handling. (Ref: [SPEC.md — Error Handling](./SPEC.md#error-handling)) (Depends on: CLI commands)
+- [x] Implement backup/restore command for database. (Ref: [SPEC.md — Error Handling](./SPEC.md#error-handling)) (Depends on: database)
 - [ ] Update README and usage docs. (Ref: [SPEC.md — Documentation](./SPEC.md#documentation)) (Depends on: core pipeline)
 - [ ] Profile and optimize performance hot spots. (Ref: [SPEC.md — Performance](./SPEC.md#performance)) (Depends on: pipeline)

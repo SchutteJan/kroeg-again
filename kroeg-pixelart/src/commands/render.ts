@@ -11,7 +11,7 @@ export interface RenderCommandOptions {
 
 export async function runRenderCommand(
   options: RenderCommandOptions = {}
-): Promise<{ summary: string[] }> {
+): Promise<{ summary: string[]; counts: { renderedTiles: number; skippedTiles: number; failedTiles: number } }> {
   const tile = parseTileOption(options.tile);
 
   if (!tile && !options.all) {
@@ -36,5 +36,5 @@ export async function runRenderCommand(
     `Tiles failed: ${result.failedTiles}`,
   ];
 
-  return { summary: lines };
+  return { summary: lines, counts: result };
 }

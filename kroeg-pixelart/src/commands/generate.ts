@@ -15,7 +15,15 @@ export interface GenerateCommandOptions {
 
 export async function runGenerateCommand(
   options: GenerateCommandOptions = {}
-): Promise<{ summary: string[] }> {
+): Promise<{
+  summary: string[];
+  counts: {
+    generatedQuadrants: number;
+    generatedTiles: number;
+    skippedQuadrants: number;
+    failedQuadrants: number;
+  };
+}> {
   const tile = parseTileOption(options.tile);
   const quadrant = parseQuadrantOption(options.quadrant);
 
@@ -45,5 +53,5 @@ export async function runGenerateCommand(
     `Quadrants failed: ${result.failedQuadrants}`,
   ];
 
-  return { summary: lines };
+  return { summary: lines, counts: result };
 }
