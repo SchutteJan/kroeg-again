@@ -79,5 +79,5 @@ noted inline.
 
 - [x] Add structured logging and graceful shutdown handling. (Ref: [SPEC.md — Error Handling](./SPEC.md#error-handling)) (Depends on: CLI commands)
 - [x] Implement backup/restore command for database. (Ref: [SPEC.md — Error Handling](./SPEC.md#error-handling)) (Depends on: database)
-- [ ] Update README and usage docs. (Ref: [SPEC.md — Documentation](./SPEC.md#documentation)) (Depends on: core pipeline)
+- [x] Update README and usage docs. (Ref: [SPEC.md — Documentation](./SPEC.md#documentation)) (Depends on: core pipeline)
 - [ ] Profile and optimize performance hot spots. (Ref: [SPEC.md — Performance](./SPEC.md#performance)) (Depends on: pipeline)
