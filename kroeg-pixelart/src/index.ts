@@ -2,7 +2,9 @@
 
 import { Command } from 'commander';
 
+import { runDashboard } from './commands/dashboard.js';
 import { runInit } from './commands/init.js';
+import { runStatus } from './commands/status.js';
 
 const program = new Command();
 
@@ -63,15 +65,38 @@ program
 program
   .command('status')
   .description('Show generation status')
-  .action(() => {
-    console.log('status: not implemented yet');
+  .option('--db <path>', 'path to sqlite database')
+  .action((options: { db?: string }) => {
+    try {
+      const result = runStatus({ dbPath: options.db });
+      for (const line of result.lines) {
+        console.log(line);
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      console.error(message);
+      process.exitCode = 1;
+    }
   });
 
 program
   .command('dashboard')
   .description('Start the generation dashboard')
-  .action(() => {
-    console.log('dashboard: not implemented yet');
+  .option('--port <port>', 'port to listen on', (value) => Number(value))
+  .option('--db <path>', 'path to sqlite database')
+  .option('--no-open', 'do not open the browser automatically')
+  .action(async (options: { port?: number; db?: string; open?: boolean }) => {
+    try {
+      await runDashboard({
+        port: options.port,
+        dbPath: options.db,
+        openBrowser: options.open,
+      });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      console.error(message);
+      process.exitCode = 1;
+    }
   });
 
 program.parse();

@@ -34,16 +34,16 @@ noted inline.
 - [x] Add `--force` and `--bounds` flags to init command. (Ref: [SPEC.md — CLI Commands](./SPEC.md#cli-commands)) (Depends on: init command)
 - [x] Write integration tests for init command. (Ref: [SPEC.md — Testing](./SPEC.md#testing)) (Depends on: init command)
 
-- [ ] Create `src/dashboard/server.ts`, `src/dashboard/routes.ts`, and `src/dashboard/events.ts`. (Ref: [SPEC.md — Stage 7](./SPEC.md#stage-7-generation-dashboard)) (Depends on: `express` dependency)
-- [ ] Implement dashboard API endpoints (`/api/tiles`, `/api/tiles/:id`, `/api/progress`, `/api/events`). (Ref: [SPEC.md — Dashboard API Endpoints](./SPEC.md#dashboard-api-endpoints)) (Depends on: dashboard server)
-- [ ] Implement SSE polling for tile updates. (Ref: [SPEC.md — Update Mechanism](./SPEC.md#update-mechanism)) (Depends on: dashboard server, database)
-- [ ] Write tests for SSE and API endpoints. (Ref: [SPEC.md — Testing](./SPEC.md#testing)) (Depends on: dashboard server)
+- [x] Create `src/dashboard/server.ts`, `src/dashboard/routes.ts`, and `src/dashboard/events.ts`. (Ref: [SPEC.md — Stage 7](./SPEC.md#stage-7-generation-dashboard)) (Depends on: `express` dependency)
+- [x] Implement dashboard API endpoints (`/api/tiles`, `/api/tiles/:id`, `/api/progress`, `/api/events`). (Ref: [SPEC.md — Dashboard API Endpoints](./SPEC.md#dashboard-api-endpoints)) (Depends on: dashboard server)
+- [x] Implement SSE polling for tile updates. (Ref: [SPEC.md — Update Mechanism](./SPEC.md#update-mechanism)) (Depends on: dashboard server, database)
+- [x] Write tests for SSE and API endpoints. (Ref: [SPEC.md — Testing](./SPEC.md#testing)) (Depends on: dashboard server)
 
-- [ ] Create dashboard static files (`dashboard/index.html`, `dashboard/style.css`, `dashboard/app.js`). (Ref: [SPEC.md — Dashboard Layout](./SPEC.md#dashboard-layout)) (Depends on: none)
-- [ ] Implement grid rendering, SSE updates, filters, zoom/pan, and tile detail UI. (Ref: [SPEC.md — Interactive Features](./SPEC.md#interactive-features)) (Depends on: dashboard static files)
-- [ ] Implement `pnpm run dashboard` command with `open` integration. (Ref: [SPEC.md — CLI Integration](./SPEC.md#cli-integration)) (Depends on: dashboard server)
+- [x] Create dashboard static files (`dashboard/index.html`, `dashboard/style.css`, `dashboard/app.js`). (Ref: [SPEC.md — Dashboard Layout](./SPEC.md#dashboard-layout)) (Depends on: none)
+- [x] Implement grid rendering, SSE updates, filters, zoom/pan, and tile detail UI. (Ref: [SPEC.md — Interactive Features](./SPEC.md#interactive-features)) (Depends on: dashboard static files)
+- [x] Implement `pnpm run dashboard` command with `open` integration. (Ref: [SPEC.md — CLI Integration](./SPEC.md#cli-integration)) (Depends on: dashboard server)
 
-- [ ] Implement `pnpm run status` command with progress stats. (Ref: [SPEC.md — Status](./SPEC.md#status)) (Depends on: database)
+- [x] Implement `pnpm run status` command with progress stats. (Ref: [SPEC.md — Status](./SPEC.md#status)) (Depends on: database)
 
 - [ ] Create `src/render.ts` with Three.js scene and isometric camera. (Ref: [SPEC.md — Stage 2](./SPEC.md#stage-2-geometry-rendering)) (Depends on: `three` dependency)
 - [ ] Integrate Google Maps 3D Tiles API fetching and rate limiting. (Ref: [SPEC.md — Google Maps 3D Tiles](./SPEC.md#google-maps-3d-tiles)) (Depends on: render setup)
