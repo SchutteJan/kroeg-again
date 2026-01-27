@@ -78,6 +78,11 @@ interface GenerationContext {
   overlapPixels: number;
 }
 
+interface TileMaps {
+  byId: Map<string, Tile>;
+  byCoord: Map<string, Tile>;
+}
+
 const DEFAULT_CONFIG_PATH = 'config.json';
 const DEFAULT_RENDERS_DIR = 'renders';
 const DEFAULT_TILES_DIR = 'tiles';
@@ -107,6 +112,22 @@ function resolveTilePaths(tile: Tile, rendersDir: string, tilesDir: string): Til
     renderPath: tile.renderPath ?? path.join(rendersDir, filename),
     outputPath: tile.outputPath ?? path.join(tilesDir, filename),
   };
+}
+
+function buildTileMaps(tiles: Tile[]): TileMaps {
+  const byId = new Map<string, Tile>();
+  const byCoord = new Map<string, Tile>();
+
+  for (const tile of tiles) {
+    byId.set(tile.id, tile);
+    byCoord.set(`${tile.coord.x}_${tile.coord.y}`, tile);
+  }
+
+  return { byId, byCoord };
+}
+
+function applyTileUpdate(tile: Tile, updates: Partial<Tile>): void {
+  Object.assign(tile, updates);
 }
 
 function toTileImageSource(tile: Tile, paths: TilePaths): TileImageSource {
@@ -171,7 +192,7 @@ function hasAnyCompletedTile(tiles: Tile[]): boolean {
   return tiles.some((tile) => tile.status === 'complete');
 }
 
-function isQuadrantEligible(plan: QuadrantPlan, tileMap: Map<string, Tile>): boolean {
+function isQuadrantEligible(plan: QuadrantPlan, tileByCoord: Map<string, Tile>): boolean {
   const tiles = collectQuadrantTiles(plan);
   if (tiles.length === 0) {
     return false;
@@ -206,7 +227,7 @@ function isQuadrantEligible(plan: QuadrantPlan, tileMap: Map<string, Tile>): boo
       if (coordsInQuadrant.has(neighborKey)) {
         continue;
       }
-      const neighborTile = tileMap.get(neighborKey);
+      const neighborTile = tileByCoord.get(neighborKey);
       if (!neighborTile) {
         continue;
       }
@@ -448,11 +469,6 @@ async function generateQuadrant(
     return { generatedTiles: 0 };
   }
 
-  const tileMap = new Map<string, Tile>();
-  for (const tile of allTiles) {
-    tileMap.set(`${tile.coord.x}_${tile.coord.y}`, tile);
-  }
-
   const positionsToGenerate: Array<{ position: QuadrantPosition; tile: Tile }> = [];
   const infillTiles: Array<{ position: QuadrantPosition; tile: TileImageSource | null }> = [];
 
@@ -606,12 +622,9 @@ export async function runGenerate(options: GenerateOptions = {}): Promise<Genera
       }
 
       const tiles = listTiles(db);
-      const tileMap = new Map<string, Tile>();
-      for (const tile of tiles) {
-        tileMap.set(tile.id, tile);
-      }
+      const { byId: tileById } = buildTileMaps(tiles);
 
-      const plan = buildQuadrantPlan(quadrant, tileMap);
+      const plan = buildQuadrantPlan(quadrant, tileById);
       if (quadrantAllTilesComplete(plan)) {
         updateQuadrantStatus(db, quadrant.id, 'complete');
         db.close();
@@ -622,6 +635,7 @@ export async function runGenerate(options: GenerateOptions = {}): Promise<Genera
       for (const entry of collectQuadrantTiles(plan)) {
         if (entry.tile.status !== 'complete') {
           updateTile(db, { id: entry.tile.id, status: 'generating', errorMessage: null });
+          applyTileUpdate(entry.tile, { status: 'generating' });
         }
       }
 
@@ -634,21 +648,18 @@ export async function runGenerate(options: GenerateOptions = {}): Promise<Genera
           if (entry.tile.status !== 'complete') {
             const paths = resolveTilePaths(entry.tile, rendersDir, tilesDir);
             updateTile(db, { id: entry.tile.id, status: 'complete', outputPath: paths.outputPath });
+            applyTileUpdate(entry.tile, { status: 'complete', outputPath: paths.outputPath });
           }
         }
 
-        const updatedTiles = listTiles(db);
-        const updatedTileMap = new Map<string, Tile>();
-        for (const tile of updatedTiles) {
-          updatedTileMap.set(tile.id, tile);
-        }
-        const updatedPlan = buildQuadrantPlan(quadrant, updatedTileMap);
+        const updatedPlan = buildQuadrantPlan(quadrant, tileById);
         updateQuadrantStatus(db, quadrant.id, quadrantAllTilesComplete(updatedPlan) ? 'complete' : 'pending');
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
         for (const entry of collectQuadrantTiles(plan)) {
           if (entry.tile.status !== 'complete') {
             updateTile(db, { id: entry.tile.id, status: 'failed', errorMessage: message });
+            applyTileUpdate(entry.tile, { status: 'failed' });
           }
         }
         updateQuadrantStatus(db, quadrant.id, 'failed');
@@ -659,14 +670,11 @@ export async function runGenerate(options: GenerateOptions = {}): Promise<Genera
       return { generatedQuadrants, generatedTiles, skippedQuadrants, failedQuadrants };
     }
 
-    let tiles = listTiles(db);
-    let tileMap = new Map<string, Tile>();
-    for (const tile of tiles) {
-      tileMap.set(tile.id, tile);
-    }
+    const tiles = listTiles(db);
+    const { byId: tileById, byCoord: tileByCoord } = buildTileMaps(tiles);
 
     const plans = listQuadrants(db)
-      .map((record) => buildQuadrantPlan(record, tileMap))
+      .map((record) => buildQuadrantPlan(record, tileById))
       .filter((plan) => quadrantHasIncompleteTiles(plan))
       .filter((plan) => canRetryQuadrant(plan, options));
 
@@ -675,13 +683,7 @@ export async function runGenerate(options: GenerateOptions = {}): Promise<Genera
 
     let processed = 0;
     for (const plan of ordered) {
-      tiles = listTiles(db);
-      tileMap = new Map<string, Tile>();
-      for (const tile of tiles) {
-        tileMap.set(tile.id, tile);
-      }
-      hasCompleted = hasAnyCompletedTile(tiles);
-      const currentPlan = buildQuadrantPlan(plan.record, tileMap);
+      const currentPlan = buildQuadrantPlan(plan.record, tileById);
 
       if (options.limit !== undefined && processed >= options.limit) {
         break;
@@ -691,7 +693,7 @@ export async function runGenerate(options: GenerateOptions = {}): Promise<Genera
         continue;
       }
 
-      if (hasCompleted && !isQuadrantEligible(currentPlan, tileMap)) {
+      if (hasCompleted && !isQuadrantEligible(currentPlan, tileByCoord)) {
         skippedQuadrants += 1;
         continue;
       }
@@ -700,6 +702,7 @@ export async function runGenerate(options: GenerateOptions = {}): Promise<Genera
       for (const entry of collectQuadrantTiles(currentPlan)) {
         if (entry.tile.status !== 'complete') {
           updateTile(db, { id: entry.tile.id, status: 'generating', errorMessage: null });
+          applyTileUpdate(entry.tile, { status: 'generating' });
         }
       }
 
@@ -713,15 +716,12 @@ export async function runGenerate(options: GenerateOptions = {}): Promise<Genera
           if (entry.tile.status !== 'complete') {
             const paths = resolveTilePaths(entry.tile, rendersDir, tilesDir);
             updateTile(db, { id: entry.tile.id, status: 'complete', outputPath: paths.outputPath });
+            applyTileUpdate(entry.tile, { status: 'complete', outputPath: paths.outputPath });
+            hasCompleted = true;
           }
         }
 
-        const updatedTiles = listTiles(db);
-        const updatedTileMap = new Map<string, Tile>();
-        for (const tile of updatedTiles) {
-          updatedTileMap.set(tile.id, tile);
-        }
-        const updatedPlan = buildQuadrantPlan(currentPlan.record, updatedTileMap);
+        const updatedPlan = buildQuadrantPlan(currentPlan.record, tileById);
         updateQuadrantStatus(
           db,
           currentPlan.record.id,
@@ -733,6 +733,7 @@ export async function runGenerate(options: GenerateOptions = {}): Promise<Genera
         for (const entry of collectQuadrantTiles(currentPlan)) {
           if (entry.tile.status !== 'complete') {
             updateTile(db, { id: entry.tile.id, status: 'failed', errorMessage: message });
+            applyTileUpdate(entry.tile, { status: 'failed' });
           }
         }
         updateQuadrantStatus(db, currentPlan.record.id, 'failed');

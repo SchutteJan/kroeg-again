@@ -3,7 +3,7 @@
 This plan implements [SPEC.md](./SPEC.md). Task order does not imply sequence; dependencies are
 noted inline.
 
-Current status (Jan 27, 2026): all tasks are complete except performance profiling/optimization.
+Current status (Jan 27, 2026): all tasks are complete.
 
 - [x] Update `package.json` metadata and scripts (`build`, `dev`, `lint`, `format`, `typecheck`, `test`). (Ref: [SPEC.md — Dependencies](./SPEC.md#dependencies))
 - [x] Add dev dependencies for TypeScript, linting, formatting, and testing. (Ref: [SPEC.md — Dependencies](./SPEC.md#dependencies))
@@ -82,4 +82,4 @@ Current status (Jan 27, 2026): all tasks are complete except performance profili
 - [x] Add structured logging and graceful shutdown handling. (Ref: [SPEC.md — Error Handling](./SPEC.md#error-handling)) (Depends on: CLI commands)
 - [x] Implement backup/restore command for database. (Ref: [SPEC.md — Error Handling](./SPEC.md#error-handling)) (Depends on: database)
 - [x] Update README and usage docs. (Ref: [SPEC.md — Documentation](./SPEC.md#documentation)) (Depends on: core pipeline)
-- [ ] Profile and optimize performance hot spots. (Ref: [SPEC.md — Performance](./SPEC.md#performance)) (Depends on: pipeline)
+- [x] Profile and optimize performance hot spots. (Ref: [SPEC.md — Performance](./SPEC.md#performance)) (Depends on: pipeline)
