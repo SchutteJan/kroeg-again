@@ -46,7 +46,7 @@ noted inline.
 - [x] Implement `pnpm run status` command with progress stats. (Ref: [SPEC.md — Status](./SPEC.md#status)) (Depends on: database)
 
 - [x] Create `src/render.ts` with placeholder renderer and isometric config settings. (Ref: [SPEC.md — Stage 2](./SPEC.md#stage-2-geometry-rendering)) (Depends on: `three` dependency)
-- [ ] Integrate Google Maps 3D Tiles API fetching and rate limiting. (Ref: [SPEC.md — Google Maps 3D Tiles](./SPEC.md#google-maps-3d-tiles)) (Depends on: render setup)
+- [x] Integrate Google Maps 3D Tiles API fetching and rate limiting. (Ref: [SPEC.md — Google Maps 3D Tiles](./SPEC.md#google-maps-3d-tiles)) (Depends on: render setup)
 - [x] Implement `renderTile` and render validation. (Ref: [SPEC.md — Stage 2](./SPEC.md#stage-2-geometry-rendering)) (Depends on: render setup)
 - [x] Implement `pnpm run render` command with flags. (Ref: [SPEC.md — Render Geometry](./SPEC.md#render-geometry)) (Depends on: render pipeline)
 - [x] Write unit/integration tests for render pipeline. (Ref: [SPEC.md — Testing](./SPEC.md#testing)) (Depends on: render pipeline)

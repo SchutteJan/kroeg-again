@@ -5,6 +5,7 @@ import sharp from 'sharp';
 
 import { loadConfig } from './config.js';
 import { DEFAULT_DB_PATH, getTile, listTiles, openDatabase, updateTile } from './db.js';
+import { fetchRootTileset } from './googleMaps.js';
 import type { RenderConfig, Tile } from './types.js';
 
 export interface RenderOptions {
@@ -66,6 +67,25 @@ async function validateRender(pathname: string, config: RenderConfig): Promise<v
   }
 }
 
+async function maybeFetchTileset(rendersDir: string): Promise<void> {
+  const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+  if (!apiKey) {
+    return;
+  }
+  const result = await fetchRootTileset({ apiKey });
+  await fs.mkdir(rendersDir, { recursive: true });
+  const payload = JSON.stringify(
+    {
+      rootUrl: result.rootUrl,
+      session: result.session,
+      tileset: result.tileset,
+    },
+    null,
+    2
+  );
+  await fs.writeFile(path.join(rendersDir, 'tileset.json'), payload);
+}
+
 export async function renderTile(
   tile: Tile,
   config: RenderConfig,
@@ -96,6 +116,8 @@ export async function runRender(options: RenderOptions = {}): Promise<RenderSumm
   if (!options.tile && !options.all) {
     throw new Error('Provide either --tile or --all to render tiles.');
   }
+
+  await maybeFetchTileset(rendersDir);
 
   const db = openDatabase(dbPath);
 
