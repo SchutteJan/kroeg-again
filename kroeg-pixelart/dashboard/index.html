@@ -1,147 +1,20 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Amsterdam Pixel Forge</title>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Space+Grotesk:wght@400;500;600&display=swap"
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Space+Grotesk:wght@400;500;600&display=swap"
     />
-    <link rel="stylesheet" href="style.css" />
+    <title>Kroeg Pixel Art Dashboard</title>
+    <script type="module" crossorigin src="/assets/index-uAq8xUe1.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-OiHCJUEd.css">
   </head>
   <body>
-    <div class="page">
-      <header class="top">
-        <div>
-          <p class="eyebrow">Amsterdam Isometric Pixel Art</p>
-          <h1>Pixel Forge Dashboard</h1>
-        </div>
-        <div class="top-actions">
-          <div class="status-pill" id="liveStatus">Idle</div>
-          <div class="controls">
-            <button class="ghost" id="startBtn" disabled>Start</button>
-            <button class="ghost" id="pauseBtn" disabled>Pause</button>
-            <button class="ghost" id="retryBtn" disabled>Retry Failed</button>
-          </div>
-        </div>
-      </header>
-
-      <main class="content">
-        <section class="panel grid-panel">
-          <div class="panel-head">
-            <div>
-              <h2>Tile Grid</h2>
-              <p class="subtext">Zoom, pan, and click tiles to inspect details.</p>
-            </div>
-            <div class="panel-actions">
-              <div class="filters">
-                <label><input type="checkbox" data-status="pending" checked />Pending</label>
-                <label><input type="checkbox" data-status="rendered" checked />Rendered</label>
-                <label><input type="checkbox" data-status="generating" checked />Generating</label>
-                <label><input type="checkbox" data-status="complete" checked />Complete</label>
-                <label><input type="checkbox" data-status="failed" checked />Failed</label>
-              </div>
-              <div class="zoom-controls">
-                <button class="ghost" id="zoomIn">+</button>
-                <button class="ghost" id="zoomOut">-</button>
-                <button class="ghost" id="resetView">Reset</button>
-              </div>
-            </div>
-          </div>
-          <div class="canvas-wrap">
-            <canvas id="gridCanvas"></canvas>
-            <div class="canvas-overlay" id="gridOverlay">Loading tiles...</div>
-          </div>
-          <div class="legend">
-            <span><i class="legend-dot pending"></i>Pending</span>
-            <span><i class="legend-dot rendered"></i>Rendered</span>
-            <span><i class="legend-dot generating"></i>Generating</span>
-            <span><i class="legend-dot complete"></i>Complete</span>
-            <span><i class="legend-dot failed"></i>Failed</span>
-          </div>
-        </section>
-
-        <aside class="side">
-          <section class="panel">
-            <div class="panel-head compact">
-              <h2>Progress</h2>
-            </div>
-            <div class="stats" id="progressStats">
-              <div class="stat">
-                <span class="label">Total</span>
-                <span class="value" data-stat="total">0</span>
-              </div>
-              <div class="stat">
-                <span class="label">Complete</span>
-                <span class="value" data-stat="complete">0</span>
-              </div>
-              <div class="stat">
-                <span class="label">Pending</span>
-                <span class="value" data-stat="pending">0</span>
-              </div>
-              <div class="stat">
-                <span class="label">Rendered</span>
-                <span class="value" data-stat="rendered">0</span>
-              </div>
-              <div class="stat">
-                <span class="label">Generating</span>
-                <span class="value" data-stat="generating">0</span>
-              </div>
-              <div class="stat">
-                <span class="label">Failed</span>
-                <span class="value" data-stat="failed">0</span>
-              </div>
-              <div class="stat wide">
-                <span class="label">Rate</span>
-                <span class="value" data-stat="rate">0/hr</span>
-              </div>
-              <div class="stat wide">
-                <span class="label">ETA</span>
-                <span class="value" data-stat="eta">n/a</span>
-              </div>
-            </div>
-          </section>
-
-          <section class="panel">
-            <div class="panel-head compact">
-              <h2>Currently Generating</h2>
-            </div>
-            <ul class="list" id="generatingList"></ul>
-          </section>
-
-          <section class="panel">
-            <div class="panel-head compact">
-              <h2>Generation Queue</h2>
-              <p class="subtext">Next pending tiles in view order.</p>
-            </div>
-            <ul class="list" id="queueList"></ul>
-          </section>
-
-          <section class="panel">
-            <div class="panel-head compact">
-              <h2>Tile Details</h2>
-            </div>
-            <div class="detail" id="tileDetail">
-              <p class="subtext">Click a tile to see metadata.</p>
-            </div>
-          </section>
-
-          <section class="panel">
-            <div class="panel-head compact">
-              <h2>Recent Errors</h2>
-            </div>
-            <ul class="list" id="errorList"></ul>
-          </section>
-        </aside>
-      </main>
-
-      <footer class="footer">
-        <span id="lastUpdate">Last update: --</span>
-        <span class="subtext">Use controls to start, pause, or retry failed tiles.</span>
-      </footer>
-    </div>
-
-    <script src="app.js"></script>
+    <div id="root"></div>
   </body>
 </html>

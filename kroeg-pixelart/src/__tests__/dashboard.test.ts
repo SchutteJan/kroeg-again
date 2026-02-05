@@ -95,6 +95,8 @@ describeSqlite('dashboard API', () => {
         south: 0,
         east: 1,
         west: 0,
+        centerLat: 0.5,
+        centerLon: 0.5,
       },
       {
         id: 'tile_0_1',
@@ -104,6 +106,8 @@ describeSqlite('dashboard API', () => {
         south: -1,
         east: 1,
         west: 0,
+        centerLat: -0.5,
+        centerLon: 0.5,
         status: 'complete',
       },
     ]);

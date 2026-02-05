@@ -29,6 +29,13 @@ function writeConfig(configPath: string, zoomLevel = 1): void {
     },
     tileSize: 512,
     zoomLevel,
+    view: {
+      originLat: 0,
+      originLon: 0,
+      viewHeightMeters: 200,
+      cameraElevation: 30,
+      cameraAzimuth: 0,
+    },
     oxen: {
       model: 'test-model',
       numInferenceSteps: 28,

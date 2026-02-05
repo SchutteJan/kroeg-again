@@ -90,8 +90,7 @@ const DEFAULT_WORK_DIR = path.join('output', 'generation');
 const DEFAULT_OVERLAP_PIXELS = 64;
 
 const PROMPT_TEMPLATE =
-  'Convert the image to isometric pixel art with visible pixels and a warm autumn palette.\n' +
-  'Include Dutch architecture, gabled roofs, canals, and small details like people, cars, and boats.';
+  'Transform this aerial image into pixel art while maintaining building placement season is summer';
 
 const POSITION_ORDER: QuadrantPosition[] = ['tl', 'tr', 'bl', 'br'];
 
@@ -143,14 +142,16 @@ function toTileImageSource(tile: Tile, paths: TilePaths): TileImageSource {
 function buildQuadrantPlan(record: QuadrantRecord, tileMap: Map<string, Tile>): QuadrantPlan {
   return {
     record,
-    tileTl: record.tileTl ? tileMap.get(record.tileTl) ?? null : null,
-    tileTr: record.tileTr ? tileMap.get(record.tileTr) ?? null : null,
-    tileBl: record.tileBl ? tileMap.get(record.tileBl) ?? null : null,
-    tileBr: record.tileBr ? tileMap.get(record.tileBr) ?? null : null,
+    tileTl: record.tileTl ? (tileMap.get(record.tileTl) ?? null) : null,
+    tileTr: record.tileTr ? (tileMap.get(record.tileTr) ?? null) : null,
+    tileBl: record.tileBl ? (tileMap.get(record.tileBl) ?? null) : null,
+    tileBr: record.tileBr ? (tileMap.get(record.tileBr) ?? null) : null,
   };
 }
 
-function collectQuadrantTiles(plan: QuadrantPlan): Array<{ position: QuadrantPosition; tile: Tile }>{
+function collectQuadrantTiles(
+  plan: QuadrantPlan,
+): Array<{ position: QuadrantPosition; tile: Tile }> {
   const entries: Array<{ position: QuadrantPosition; tile: Tile }> = [];
 
   if (plan.tileTl) {
@@ -171,13 +172,13 @@ function collectQuadrantTiles(plan: QuadrantPlan): Array<{ position: QuadrantPos
 
 function quadrantHasIncompleteTiles(plan: QuadrantPlan): boolean {
   return [plan.tileTl, plan.tileTr, plan.tileBl, plan.tileBr].some(
-    (tile) => tile && tile.status !== 'complete'
+    (tile) => tile && tile.status !== 'complete',
   );
 }
 
 function quadrantAllTilesComplete(plan: QuadrantPlan): boolean {
   return [plan.tileTl, plan.tileTr, plan.tileBl, plan.tileBr].every(
-    (tile) => !tile || tile.status === 'complete'
+    (tile) => !tile || tile.status === 'complete',
   );
 }
 
@@ -198,7 +199,9 @@ function isQuadrantEligible(plan: QuadrantPlan, tileByCoord: Map<string, Tile>):
     return false;
   }
 
-  const coordsInQuadrant = new Set(tiles.map((entry) => `${entry.tile.coord.x}_${entry.tile.coord.y}`));
+  const coordsInQuadrant = new Set(
+    tiles.map((entry) => `${entry.tile.coord.x}_${entry.tile.coord.y}`),
+  );
 
   const edgeNeedsNeighbor = {
     top: false,
@@ -239,14 +242,14 @@ function isQuadrantEligible(plan: QuadrantPlan, tileByCoord: Map<string, Tile>):
   }
 
   return (Object.keys(edgeNeedsNeighbor) as Array<keyof typeof edgeNeedsNeighbor>).every(
-    (edge) => !edgeNeedsNeighbor[edge] || edgeHasComplete[edge]
+    (edge) => !edgeNeedsNeighbor[edge] || edgeHasComplete[edge],
   );
 }
 
 function isTemplateValid(
   plan: QuadrantPlan,
   templateTiles: TileImageSource[],
-  allTiles: TileImageSource[]
+  allTiles: TileImageSource[],
 ): boolean {
   const positions: QuadrantPosition[] = [];
   for (const entry of collectQuadrantTiles(plan)) {
@@ -276,7 +279,10 @@ function isTemplateValid(
 function resolveQuadrantPosition(plan: QuadrantPlan, tile: Tile): QuadrantPosition | null {
   for (const position of POSITION_ORDER) {
     const delta = POSITION_DELTAS[position];
-    if (tile.coord.x === plan.record.qx * 2 + delta.dx && tile.coord.y === plan.record.qy * 2 + delta.dy) {
+    if (
+      tile.coord.x === plan.record.qx * 2 + delta.dx &&
+      tile.coord.y === plan.record.qy * 2 + delta.dy
+    ) {
       return position;
     }
   }
@@ -308,7 +314,7 @@ function buildSpiralOrder(plans: QuadrantPlan[]): QuadrantPlan[] {
     Math.abs(minX - centerX),
     Math.abs(maxX - centerX),
     Math.abs(minY - centerY),
-    Math.abs(maxY - centerY)
+    Math.abs(maxY - centerY),
   );
 
   for (let radius = 0; radius <= maxRadius; radius += 1) {
@@ -368,7 +374,7 @@ function shufflePlans(plans: QuadrantPlan[]): QuadrantPlan[] {
 
 export function orderQuadrants(
   plans: QuadrantPlan[],
-  strategy: GenerationStrategy
+  strategy: GenerationStrategy,
 ): QuadrantPlan[] {
   switch (strategy) {
     case 'row-by-row':
@@ -405,7 +411,7 @@ async function ensureDirs(...paths: string[]): Promise<void> {
 async function splitQuadrantImage(
   sourcePath: string,
   tileSize: number,
-  outputs: Array<{ position: QuadrantPosition; outputPath: string }>
+  outputs: Array<{ position: QuadrantPosition; outputPath: string }>,
 ): Promise<void> {
   const image = sharp(sourcePath);
 
@@ -427,8 +433,8 @@ async function splitQuadrantImage(
 
 async function generateSingleTile(
   tile: Tile,
-  context: GenerationContext
-): Promise<{ generated: boolean }>{
+  context: GenerationContext,
+): Promise<{ generated: boolean }> {
   const paths = resolveTilePaths(tile, context.rendersDir, context.tilesDir);
   await fs.stat(paths.renderPath);
 
@@ -439,7 +445,7 @@ async function generateSingleTile(
     sourcePath: paths.renderPath,
     destination: `single/${tile.id}.png`,
     contentType: 'image/png',
-    makePublic: true,
+    makePublic: false,
     storage: context.storage,
   });
 
@@ -448,9 +454,8 @@ async function generateSingleTile(
       model: context.config.oxen.model,
       input_image: gcsResult.publicUrl,
       prompt: PROMPT_TEMPLATE,
-      num_inference_steps: context.config.oxen.numInferenceSteps,
     },
-    { fetcher: context.fetcher }
+    { fetcher: context.fetcher },
   );
 
   await downloadImage(editResult.outputUrl, paths.outputPath, { fetcher: context.fetcher });
@@ -462,8 +467,8 @@ async function generateQuadrant(
   plan: QuadrantPlan,
   context: GenerationContext,
   allTiles: Tile[],
-  options: { allowInvalidTemplate?: boolean }
-): Promise<{ generatedTiles: number }>{
+  options: { allowInvalidTemplate?: boolean },
+): Promise<{ generatedTiles: number }> {
   const tiles = collectQuadrantTiles(plan);
   if (tiles.length === 0) {
     return { generatedTiles: 0 };
@@ -508,7 +513,10 @@ async function generateQuadrant(
   const maskEntries = positionsToGenerate.map(({ position, tile }) => ({
     position,
     generate: true,
-    neighbors: getNeighborInfo(neighborMap, templateTiles.find((entry) => entry.id === tile.id) ?? null),
+    neighbors: getNeighborInfo(
+      neighborMap,
+      templateTiles.find((entry) => entry.id === tile.id) ?? null,
+    ),
   }));
 
   const infillDir = path.join(context.workDir, 'infill');
@@ -538,7 +546,7 @@ async function generateQuadrant(
     sourcePath: infillPath,
     destination: `infill/${plan.record.id}.png`,
     contentType: 'image/png',
-    makePublic: true,
+    makePublic: false,
     storage: context.storage,
   });
 
@@ -547,9 +555,8 @@ async function generateQuadrant(
       model: context.config.oxen.model,
       input_image: gcsResult.publicUrl,
       prompt: PROMPT_TEMPLATE,
-      num_inference_steps: context.config.oxen.numInferenceSteps,
     },
-    { fetcher: context.fetcher }
+    { fetcher: context.fetcher },
   );
 
   const quadrantOutputPath = path.join(outputDir, `${plan.record.id}.png`);
@@ -602,7 +609,11 @@ export async function runGenerate(options: GenerateOptions = {}): Promise<Genera
 
       try {
         await generateSingleTile(tile, context);
-        updateTile(db, { id: tile.id, status: 'complete', outputPath: resolveTilePaths(tile, rendersDir, tilesDir).outputPath });
+        updateTile(db, {
+          id: tile.id,
+          status: 'complete',
+          outputPath: resolveTilePaths(tile, rendersDir, tilesDir).outputPath,
+        });
         generatedTiles += 1;
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
@@ -653,7 +664,11 @@ export async function runGenerate(options: GenerateOptions = {}): Promise<Genera
         }
 
         const updatedPlan = buildQuadrantPlan(quadrant, tileById);
-        updateQuadrantStatus(db, quadrant.id, quadrantAllTilesComplete(updatedPlan) ? 'complete' : 'pending');
+        updateQuadrantStatus(
+          db,
+          quadrant.id,
+          quadrantAllTilesComplete(updatedPlan) ? 'complete' : 'pending',
+        );
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
         for (const entry of collectQuadrantTiles(plan)) {
@@ -707,7 +722,9 @@ export async function runGenerate(options: GenerateOptions = {}): Promise<Genera
       }
 
       try {
-        const result = await generateQuadrant(currentPlan, context, tiles, { allowInvalidTemplate: false });
+        const result = await generateQuadrant(currentPlan, context, tiles, {
+          allowInvalidTemplate: false,
+        });
         generatedTiles += result.generatedTiles;
         generatedQuadrants += 1;
         processed += 1;
@@ -725,7 +742,7 @@ export async function runGenerate(options: GenerateOptions = {}): Promise<Genera
         updateQuadrantStatus(
           db,
           currentPlan.record.id,
-          quadrantAllTilesComplete(updatedPlan) ? 'complete' : 'pending'
+          quadrantAllTilesComplete(updatedPlan) ? 'complete' : 'pending',
         );
       } catch (error) {
         failedQuadrants += 1;

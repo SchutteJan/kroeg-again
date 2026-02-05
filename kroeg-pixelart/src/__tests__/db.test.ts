@@ -58,6 +58,8 @@ describeSqlite('db', () => {
         south: 0,
         east: 1,
         west: 0,
+        centerLat: 0.5,
+        centerLon: 0.5,
       },
     ]);
 
@@ -86,6 +88,14 @@ describeSqlite('db', () => {
 
   it('inserts and updates quadrants', () => {
     const db = initDatabase(':memory:');
+
+    // Insert tiles first to satisfy foreign key constraints
+    insertTiles(db, [
+      { id: 'tile_0_0', x: 0, y: 0, north: 1, south: 0, east: 1, west: 0, centerLat: 0.5, centerLon: 0.5 },
+      { id: 'tile_1_0', x: 1, y: 0, north: 1, south: 0, east: 2, west: 1, centerLat: 0.5, centerLon: 1.5 },
+      { id: 'tile_0_1', x: 0, y: 1, north: 0, south: -1, east: 1, west: 0, centerLat: -0.5, centerLon: 0.5 },
+      { id: 'tile_1_1', x: 1, y: 1, north: 0, south: -1, east: 2, west: 1, centerLat: -0.5, centerLon: 1.5 },
+    ]);
 
     insertQuadrants(db, [
       {

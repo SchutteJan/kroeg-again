@@ -24,7 +24,7 @@ export interface DownloadResult {
 }
 
 const DEFAULT_BASE_URL = 'https://hub.oxen.ai/api';
-const DEFAULT_MAX_RETRIES = 2;
+const DEFAULT_MAX_RETRIES = 0;
 const DEFAULT_INITIAL_DELAY_MS = 500;
 const DEFAULT_MAX_DELAY_MS = 4_000;
 
@@ -98,13 +98,24 @@ export async function requestOxenEdit(
 
   while (attempt <= maxRetries) {
     try {
+      const body: Record<string, unknown> = {
+        model: payload.model,
+        input_image: payload.input_image,
+        prompt: payload.prompt,
+      };
+      if (payload.num_inference_steps !== undefined) {
+        body.num_inference_steps = payload.num_inference_steps;
+      }
+
+      console.log('[Oxen] Request:', JSON.stringify(body, null, 2));
+
       const response = await fetcher(`${baseUrl}/images/edit`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${apiKey}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(body),
       });
 
       if (response.ok) {

@@ -93,7 +93,12 @@ export function runInit(options: InitCommandOptions = {}): InitResult {
   }
 
   const db = initDatabase(resolvedDbPath);
-  const tiles = generateGrid(bounds, config.tileSize, config.zoomLevel);
+  const tiles = generateGrid({
+    bounds,
+    tileSize: config.tileSize,
+    zoomLevel: config.zoomLevel,
+    viewConfig: config.view,
+  });
   const quadrants = generateQuadrants(tiles, { includePartial: true });
 
   const tileRows: TileInsertInput[] = tiles.map((tile) => ({
@@ -105,6 +110,8 @@ export function runInit(options: InitCommandOptions = {}): InitResult {
     south: tile.bounds.south,
     east: tile.bounds.east,
     west: tile.bounds.west,
+    centerLat: tile.center.lat,
+    centerLon: tile.center.lon,
   }));
 
   const quadrantRows: QuadrantInsertInput[] = quadrants.map((quadrant) => ({

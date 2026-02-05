@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Tile Renderer</title>
+  <style>
+    * { margin: 0; padding: 0; }
+    html, body { width: 100%; height: 100%; overflow: hidden; }
+    #canvas { width: 100%; height: 100%; display: block; }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://esm.sh/three@0.170.0",
+      "three/addons/": "https://esm.sh/three@0.170.0/examples/jsm/",
+      "3d-tiles-renderer": "https://esm.sh/3d-tiles-renderer@0.4.19",
+      "3d-tiles-renderer/plugins": "https://esm.sh/3d-tiles-renderer@0.4.19/plugins"
+    }
+  }
+  </script>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { TilesRenderer, WGS84_ELLIPSOID, CAMERA_FRAME } from '3d-tiles-renderer';
+    import { GoogleCloudAuthPlugin } from '3d-tiles-renderer/plugins';
+
+    const DEG2RAD = Math.PI / 180;
+
+    const canvas = document.getElementById('canvas');
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
+    renderer.setPixelRatio(1);
+    renderer.setClearColor(0x87ceeb); // Sky blue background
+
+    const scene = new THREE.Scene();
+
+    // Orthographic camera (will be configured per render)
+    let camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 1, 160000000);
+
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambientLight);
+
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    directionalLight.position.set(1, 1, 1).normalize();
+    scene.add(directionalLight);
+
+    let tilesRenderer = null;
+
+    /**
+     * Render a tile with the given parameters.
+     * @param {Object} params
+     * @param {Object} params.center - Tile center {lat, lon}
+     * @param {number} params.viewHeightMeters - View frustum height in meters (square)
+     * @param {number} params.width - Output width in pixels
+     * @param {number} params.height - Output height in pixels
+     * @param {number} params.cameraElevation - Camera elevation angle in degrees (positive = looking down)
+     * @param {number} params.cameraAzimuth - Camera azimuth in degrees (0 = north)
+     * @param {string} params.apiKey - Google Maps API key
+     * @returns {Promise<string>} Base64-encoded PNG image
+     */
+    window.renderScene = async function(params) {
+      const { center, viewHeightMeters, width, height, cameraElevation, cameraAzimuth, apiKey } = params;
+
+      // Resize renderer to requested dimensions
+      renderer.setSize(width, height);
+      canvas.width = width;
+      canvas.height = height;
+
+      // Initialize or update tiles renderer
+      if (tilesRenderer) {
+        scene.remove(tilesRenderer.group);
+        tilesRenderer.dispose();
+      }
+
+      tilesRenderer = new TilesRenderer();
+
+      // Register Google Cloud Auth plugin
+      tilesRenderer.registerPlugin(new GoogleCloudAuthPlugin({
+        apiToken: apiKey,
+        autoRefreshToken: true,
+      }));
+
+      // Configure for maximum quality
+      tilesRenderer.errorTarget = 0.5;
+      tilesRenderer.maxDepth = 30;
+      tilesRenderer.loadSiblings = true;
+      tilesRenderer.displayActiveTiles = true;
+
+      // Rotate tiles from Z-up (ECEF) to Y-up (Three.js)
+      tilesRenderer.group.rotation.x = -Math.PI / 2;
+
+      scene.add(tilesRenderer.group);
+
+      // Wait for tileset to load before positioning camera
+      await new Promise((resolve) => {
+        const onLoadTileset = () => {
+          tilesRenderer.removeEventListener('load-tileset', onLoadTileset);
+          resolve();
+        };
+        tilesRenderer.addEventListener('load-tileset', onLoadTileset);
+
+        // Force an update to trigger tileset loading
+        tilesRenderer.update();
+      });
+
+      // Position camera using ellipsoid reference frame (matching isometric-nyc)
+      // Elevation: negative = looking down from above
+      const elevation = -Math.abs(cameraElevation);
+      const TARGET_HEIGHT = 0;  // Ground level
+
+      WGS84_ELLIPSOID.getObjectFrame(
+        center.lat * DEG2RAD,
+        center.lon * DEG2RAD,
+        TARGET_HEIGHT,
+        cameraAzimuth * DEG2RAD,
+        elevation * DEG2RAD,
+        0,  // roll
+        camera.matrixWorld,
+        CAMERA_FRAME
+      );
+
+      // Move camera back 2000m along its own Z axis (viewing direction)
+      camera.matrixWorld.multiply(new THREE.Matrix4().makeTranslation(0, 0, 2000));
+
+      // Apply tiles group transform to camera
+      tilesRenderer.group.updateMatrixWorld(true);
+      camera.matrixWorld.premultiply(tilesRenderer.group.matrixWorld);
+      camera.matrixWorld.decompose(camera.position, camera.quaternion, camera.scale);
+
+      // Set up orthographic camera frustum
+      // viewHeightMeters is the view-space size, square frustum
+      const aspect = width / height;
+      const halfHeight = viewHeightMeters / 2;
+      const halfWidth = halfHeight * aspect;
+
+      camera.left = -halfWidth;
+      camera.right = halfWidth;
+      camera.top = halfHeight;
+      camera.bottom = -halfHeight;
+      camera.near = 1;
+      camera.far = 160000000;
+      camera.zoom = 1.0;
+      camera.updateProjectionMatrix();
+
+      // Set camera on tiles renderer for LOD calculations
+      tilesRenderer.setCamera(camera);
+      tilesRenderer.setResolutionFromRenderer(camera, renderer);
+
+      // Wait for tiles to fully load at highest quality
+      const maxWaitTime = 20000;
+      const minLoadTime = 3000;
+      const startTime = Date.now();
+      let stableFrames = 0;
+      const requiredStableFrames = 30;
+      let lastChildrenCount = 0;
+
+      await new Promise((resolve) => {
+        const checkLoaded = () => {
+          camera.updateMatrixWorld();
+          tilesRenderer.setCamera(camera);
+          tilesRenderer.setResolutionFromRenderer(camera, renderer);
+          tilesRenderer.update();
+          renderer.render(scene, camera);
+
+          const elapsed = Date.now() - startTime;
+
+          // Check tile stats for loading status
+          const stats = tilesRenderer.stats;
+          const downloading = stats.downloading || 0;
+          const parsing = stats.parsing || 0;
+
+          // Count visible meshes as proxy for loaded tiles
+          let meshCount = 0;
+          tilesRenderer.group.traverse((obj) => {
+            if (obj.isMesh) meshCount++;
+          });
+
+          const isStable = downloading === 0 && parsing === 0 && meshCount === lastChildrenCount && meshCount > 0;
+
+          if (isStable) {
+            stableFrames++;
+          } else {
+            stableFrames = 0;
+            lastChildrenCount = meshCount;
+          }
+
+          if (stableFrames >= requiredStableFrames && elapsed > minLoadTime) {
+            for (let i = 0; i < 5; i++) {
+              tilesRenderer.update();
+              renderer.render(scene, camera);
+            }
+            console.log(`Tiles loaded in ${elapsed}ms, meshes: ${meshCount}`);
+            resolve();
+          } else if (elapsed > maxWaitTime) {
+            console.warn(`Tile loading timeout after ${elapsed}ms, meshes: ${meshCount}, downloading: ${downloading}, parsing: ${parsing}`);
+            resolve();
+          } else {
+            requestAnimationFrame(checkLoaded);
+          }
+        };
+        checkLoaded();
+      });
+
+      // Final render
+      renderer.render(scene, camera);
+
+      // Capture as base64 PNG
+      const dataUrl = canvas.toDataURL('image/png');
+      return dataUrl.split(',')[1];
+    };
+
+    // Signal that the scene is ready
+    window.sceneReady = true;
+    console.log('Scene initialized and ready');
+  </script>
+</body>
+</html>

@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+import 'dotenv/config';
+
 import { Command } from 'commander';
 
 import { runAssemble } from './commands/assemble.js';
@@ -174,7 +176,7 @@ program
   .description('Start the generation dashboard')
   .option('--port <port>', 'port to listen on', (value) => Number(value))
   .option('--db <path>', 'path to sqlite database')
-  .option('--no-open', 'do not open the browser automatically')
+  .option('--open', 'open the browser automatically')
   .action(async (options: { port?: number; db?: string; open?: boolean }) => {
     const logger = commandLogger('dashboard');
     try {

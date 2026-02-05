@@ -16,6 +16,7 @@ export interface Tile {
   id: string;
   coord: TileCoord;
   bounds: GeoBounds;
+  center: TileCenter;  // View-space tile center for rendering
   status: TileStatus;
   renderPath?: string;
   outputPath?: string;
@@ -35,15 +36,21 @@ export interface Quadrant {
 export interface RenderConfig {
   width: number;
   height: number;
-  cameraAngle: number;
-  cameraZoom: number;
+  cameraElevation: number;  // Degrees below horizontal (positive = looking down)
+  cameraAzimuth: number;    // Degrees from north (0 = north, 90 = east)
+  viewHeightMeters: number; // Height of view frustum in meters (square tiles)
+}
+
+export interface TileCenter {
+  lat: number;
+  lon: number;
 }
 
 export interface OxenGenerationRequest {
   model: string;
   input_image: string;
   prompt: string;
-  num_inference_steps: number;
+  num_inference_steps?: number;
 }
 
 export interface GenerationRequest {
@@ -92,14 +99,32 @@ export interface OxenConfig {
   numInferenceSteps: number;
 }
 
+export interface GeminiConfig {
+  model?: string;
+  stylePath?: string;
+}
+
 export interface GcsConfig {
   bucket: string;
 }
+
+export interface ViewConfig {
+  originLat: number;        // Lat/lon of tile (0,0) center
+  originLon: number;
+  viewHeightMeters: number; // View frustum height in meters
+  cameraElevation: number;  // Degrees below horizontal
+  cameraAzimuth: number;    // Degrees from north
+}
+
+export type AIProvider = 'gemini' | 'oxen';
 
 export interface AppConfig {
   bounds: GeoBounds;
   tileSize: number;
   zoomLevel: number;
+  view: ViewConfig;         // View-space rendering config
+  aiProvider?: AIProvider;  // Default: 'gemini'
+  gemini?: GeminiConfig;
   oxen: OxenConfig;
   gcs: GcsConfig;
 }

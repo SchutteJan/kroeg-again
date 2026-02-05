@@ -19,6 +19,8 @@ export interface TileInsertInput {
   south: number;
   east: number;
   west: number;
+  centerLat: number;
+  centerLon: number;
   renderPath?: string;
   outputPath?: string;
   errorMessage?: string;
@@ -65,6 +67,8 @@ interface TileRow {
   south: number;
   east: number;
   west: number;
+  center_lat: number;
+  center_lon: number;
   render_path: string | null;
   output_path: string | null;
   error_message: string | null;
@@ -131,6 +135,8 @@ export function migrateDatabase(db: DatabaseType): number {
           south REAL NOT NULL,
           east REAL NOT NULL,
           west REAL NOT NULL,
+          center_lat REAL NOT NULL,
+          center_lon REAL NOT NULL,
           render_path TEXT,
           output_path TEXT,
           error_message TEXT,
@@ -201,6 +207,8 @@ export function insertTiles(db: DatabaseType, tiles: TileInsertInput[]): void {
       south,
       east,
       west,
+      center_lat,
+      center_lon,
       render_path,
       output_path,
       error_message
@@ -213,6 +221,8 @@ export function insertTiles(db: DatabaseType, tiles: TileInsertInput[]): void {
       @south,
       @east,
       @west,
+      @centerLat,
+      @centerLon,
       @renderPath,
       @outputPath,
       @errorMessage
@@ -387,6 +397,10 @@ function mapTileRow(row: TileRow): Tile {
       south: row.south,
       east: row.east,
       west: row.west,
+    },
+    center: {
+      lat: row.center_lat,
+      lon: row.center_lon,
     },
     status: row.status,
     renderPath: row.render_path ?? undefined,

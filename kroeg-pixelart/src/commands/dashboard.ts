@@ -25,7 +25,7 @@ export async function runDashboard(
 
   const url = `http://localhost:${handle.port}`;
 
-  if (options.openBrowser !== false) {
+  if (options.openBrowser === true) {
     void open(url);
   }
 

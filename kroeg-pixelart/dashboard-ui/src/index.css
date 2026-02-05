@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: only light;
+}
+
+body {
+  margin: 0;
+  background: radial-gradient(circle at top, #fff1da 0%, #f2e8d6 45%, #e7d6bf 100%);
+  min-height: 100vh;
+  position: relative;
+}
+
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  inset: auto;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  opacity: 0.22;
+  z-index: -1;
+  filter: blur(0px);
+}
+
+body::before {
+  background: radial-gradient(circle, #f6c27a 0%, transparent 70%);
+  top: -120px;
+  left: -60px;
+}
+
+body::after {
+  background: radial-gradient(circle, #9cc0aa 0%, transparent 70%);
+  bottom: -180px;
+  right: -80px;
+}
+
+@layer components {
+  .stat-card {
+    @apply bg-bg-accent rounded-[14px] p-3 border border-[#eadbc8];
+  }
+
+  .stat-label {
+    @apply text-xs uppercase tracking-[0.18em] text-muted;
+  }
+
+  .stat-value {
+    @apply text-xl font-semibold mt-1.5 block;
+  }
+
+  .list-item {
+    @apply p-2 px-3 bg-bg-accent rounded-xl border border-[#eadbc8] flex justify-between gap-2.5 text-sm text-muted;
+  }
+
+  .list-item strong {
+    @apply text-ink;
+  }
+
+  .btn {
+    @apply font-sans font-semibold rounded-full border border-panel-border px-4 py-2 bg-white cursor-pointer transition-all duration-200;
+  }
+
+  .btn:hover:not(:disabled) {
+    @apply -translate-y-0.5 shadow-lg;
+  }
+
+  .btn:disabled {
+    @apply cursor-not-allowed opacity-60 shadow-none translate-y-0;
+  }
+
+  .btn-ghost {
+    @apply bg-transparent;
+  }
+}

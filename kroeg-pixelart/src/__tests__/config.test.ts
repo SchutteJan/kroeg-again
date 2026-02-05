@@ -16,10 +16,12 @@ describe('loadConfig', () => {
   it('loads defaults from config.json', () => {
     const config = loadConfig('config.json');
 
-    expect(config.bounds.north).toBe(52.4);
-    expect(config.bounds.south).toBe(52.34);
+    expect(config.bounds.north).toBe(52.3682);
+    expect(config.bounds.south).toBe(52.3636);
     expect(config.tileSize).toBe(512);
     expect(config.zoomLevel).toBe(18);
+    expect(config.view.originLat).toBe(52.366);
+    expect(config.view.viewHeightMeters).toBe(200);
   });
 
   it('applies environment overrides', () => {

@@ -24,6 +24,7 @@ export interface GenerationController {
   start: (options?: { strategy?: GenerationStrategy }) => GenerationState;
   pause: () => GenerationState;
   retryTile: (tileId: string) => Promise<GenerationState>;
+  generateTile: (tileId: string) => Promise<GenerationState>;
   isBusy: () => boolean;
 }
 
@@ -148,6 +149,47 @@ export function createGenerationController(options: GenerationControllerOptions)
     return { ...state };
   }
 
+  async function generateTile(tileId: string): Promise<GenerationState> {
+    if (state.status !== 'idle') {
+      return { ...state };
+    }
+
+    const coords = parseTileId(tileId);
+    if (!coords) {
+      throw new Error('Tile id must be in the format tile_x_y.');
+    }
+
+    const db = openDatabase(options.dbPath);
+    try {
+      const tile = getTile(db, tileId);
+      if (!tile) {
+        throw new Error('Tile not found.');
+      }
+      if (tile.status !== 'rendered' && tile.status !== 'complete' && tile.status !== 'failed') {
+        throw new Error('Tile must be rendered before generating.');
+      }
+    } finally {
+      db.close();
+    }
+
+    state.status = 'running';
+    state.lastError = null;
+    try {
+      await runner({
+        ...baseOptions,
+        tile: coords,
+      });
+      state.lastRunAt = new Date().toISOString();
+    } catch (error) {
+      state.lastError = error instanceof Error ? error.message : String(error);
+      throw error;
+    } finally {
+      state.status = 'idle';
+    }
+
+    return { ...state };
+  }
+
   function getState(): GenerationState {
     return { ...state };
   }
@@ -161,6 +203,7 @@ export function createGenerationController(options: GenerationControllerOptions)
     start,
     pause,
     retryTile,
+    generateTile,
     isBusy,
   };
 }

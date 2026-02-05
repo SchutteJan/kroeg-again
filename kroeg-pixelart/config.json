@@ -1,17 +1,24 @@
 {
   "bounds": {
-    "north": 52.4,
-    "south": 52.34,
-    "east": 4.95,
-    "west": 4.85
+    "north": 52.3682,
+    "south": 52.3636,
+    "east": 4.8954,
+    "west": 4.8854
   },
   "tileSize": 512,
   "zoomLevel": 18,
+  "view": {
+    "originLat": 52.3682,
+    "originLon": 4.8854,
+    "viewHeightMeters": 60,
+    "cameraElevation": 30,
+    "cameraAzimuth": 0
+  },
   "oxen": {
-    "model": "your-oxen-model-id",
+    "model": "SchutteJan-melodic-apricot-cephalopod",
     "numInferenceSteps": 28
   },
   "gcs": {
-    "bucket": "amsterdam-pixelart-infills"
+    "bucket": "ams-tiles-public"
   }
 }

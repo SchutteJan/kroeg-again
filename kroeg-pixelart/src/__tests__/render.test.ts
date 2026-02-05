@@ -19,9 +19,13 @@ function hasSqliteBindings(): boolean {
   }
 }
 
-const describeSqlite = hasSqliteBindings() ? describe : describe.skip;
+function hasGoogleApiKey(): boolean {
+  return !!process.env.GOOGLE_MAPS_API_KEY;
+}
 
-describeSqlite('render pipeline', () => {
+const describeWithApiKey = hasSqliteBindings() && hasGoogleApiKey() ? describe : describe.skip;
+
+describeWithApiKey('render pipeline', () => {
   const tempDirs: string[] = [];
 
   afterEach(async () => {
@@ -64,6 +68,8 @@ describeSqlite('render pipeline', () => {
         south: 0,
         east: 1,
         west: 0,
+        centerLat: 0.5,
+        centerLon: 0.5,
         status: 'pending',
       },
     ]);

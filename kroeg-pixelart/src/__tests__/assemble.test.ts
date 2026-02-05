@@ -75,6 +75,8 @@ describeSqlite('assembleDZI', () => {
         south: 0,
         east: 1,
         west: 0,
+        centerLat: 0.5,
+        centerLon: 0.5,
       }))
     );
     db.close();

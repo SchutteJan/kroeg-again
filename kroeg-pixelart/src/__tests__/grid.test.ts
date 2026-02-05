@@ -9,6 +9,15 @@ import {
   tileXToLon,
   tileYToLat,
 } from '../grid.js';
+import type { ViewConfig } from '../types.js';
+
+const testViewConfig: ViewConfig = {
+  originLat: 0,
+  originLon: 0,
+  viewHeightMeters: 200,
+  cameraElevation: 30,
+  cameraAzimuth: 0,
+};
 
 describe('slippy tile math', () => {
   it('converts lon/lat to tile coordinates and back', () => {
@@ -31,22 +40,24 @@ describe('slippy tile math', () => {
 
 describe('generateGrid', () => {
   it('returns a single tile at zoom 0', () => {
-    const tiles = generateGrid(
-      { north: 10, south: -10, east: 10, west: -10 },
-      512,
-      0
-    );
+    const tiles = generateGrid({
+      bounds: { north: 10, south: -10, east: 10, west: -10 },
+      tileSize: 512,
+      zoomLevel: 0,
+      viewConfig: testViewConfig,
+    });
 
     expect(tiles).toHaveLength(1);
     expect(tiles[0].id).toBe('tile_0_0');
   });
 
   it('covers bounds with all intersecting tiles', () => {
-    const tiles = generateGrid(
-      { north: 1, south: -1, east: 0.1, west: -0.1 },
-      512,
-      1
-    );
+    const tiles = generateGrid({
+      bounds: { north: 1, south: -1, east: 0.1, west: -0.1 },
+      tileSize: 512,
+      zoomLevel: 1,
+      viewConfig: testViewConfig,
+    });
 
     const ids = tiles.map((tile) => tile.id).sort();
     expect(ids).toEqual(['tile_0_0', 'tile_0_1', 'tile_1_0', 'tile_1_1']);
@@ -55,11 +66,12 @@ describe('generateGrid', () => {
 
 describe('generateQuadrants', () => {
   it('groups tiles into complete quadrants', () => {
-    const tiles = generateGrid(
-      { north: 1, south: -1, east: 0.1, west: -0.1 },
-      512,
-      1
-    );
+    const tiles = generateGrid({
+      bounds: { north: 1, south: -1, east: 0.1, west: -0.1 },
+      tileSize: 512,
+      zoomLevel: 1,
+      viewConfig: testViewConfig,
+    });
 
     const quadrants = generateQuadrants(tiles, { includePartial: false });
     expect(quadrants).toHaveLength(1);
@@ -71,11 +83,12 @@ describe('generateQuadrants', () => {
   });
 
   it('includes partial quadrants when enabled', () => {
-    const tiles = generateGrid(
-      { north: 1, south: -1, east: 0.1, west: -0.1 },
-      512,
-      1
-    );
+    const tiles = generateGrid({
+      bounds: { north: 1, south: -1, east: 0.1, west: -0.1 },
+      tileSize: 512,
+      zoomLevel: 1,
+      viewConfig: testViewConfig,
+    });
 
     const partialTiles = tiles.filter((tile) => tile.id !== 'tile_1_1');
     const quadrants = generateQuadrants(partialTiles, { includePartial: true });
