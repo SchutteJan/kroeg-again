@@ -1,5 +1,5 @@
 import type { JSX, ParentProps } from "solid-js";
-import { splitProps } from "solid-js";
+import { Show, splitProps } from "solid-js";
 
 export type NavbarProps = ParentProps<{
   brand?: string;
@@ -14,11 +14,11 @@ export function Navbar(props: NavbarProps) {
       class={`flex items-center gap-6 border-b border-gray-200 bg-white px-6 py-3 ${local.class ?? ""}`}
       {...rest}
     >
-      {local.brand && (
+      <Show when={local.brand}>
         <a href="/" class="mr-4 text-lg font-semibold text-gray-900">
           {local.brand}
         </a>
-      )}
+      </Show>
       <div class="flex items-center gap-1">{local.children}</div>
     </nav>
   );

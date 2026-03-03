@@ -62,5 +62,6 @@ export function DropdownItem(props: DropdownItemProps) {
 }
 
 export function DropdownSeparator(props: { class?: string }) {
-  return <DropdownMenuPrimitive.Separator class={`my-1 h-px bg-gray-200 ${props.class ?? ""}`} />;
+  const [local] = splitProps(props, ["class"]);
+  return <DropdownMenuPrimitive.Separator class={`my-1 h-px bg-gray-200 ${local.class ?? ""}`} />;
 }
