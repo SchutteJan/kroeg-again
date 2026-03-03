@@ -62,6 +62,8 @@ export default function Design() {
               <div class="bg-accent-red-dark h-16 w-16 rounded-lg" title="accent-red-dark" />
               <div class="bg-accent-yellow h-16 w-16 rounded-lg" title="accent-yellow" />
               <div class="bg-accent-yellow-dark h-16 w-16 rounded-lg" title="accent-yellow-dark" />
+              <div class="bg-accent-green h-16 w-16 rounded-lg" title="accent-green" />
+              <div class="bg-accent-green-dark h-16 w-16 rounded-lg" title="accent-green-dark" />
             </div>
           </div>
         </Section>
@@ -70,7 +72,7 @@ export default function Design() {
         <Section title="Location Cards">
           <div class="space-y-4">
             <LocationCard
-              name="Ruk en Pluk"
+              name="Café Kompleet | Buurtcafé met Nederlandse gerechten"
               type="Kroeg"
               areaName="Oud-Oost"
               addressLine="Linnaeusstraat 48"
@@ -102,7 +104,7 @@ export default function Design() {
             {/* Popup with arrow, anchored above the pin */}
             <div class="absolute top-2/3 left-1/2 -translate-x-1/2 -translate-y-[calc(100%+2rem)]">
               <LocationPopup
-                name="Ruk en Pluk"
+                name="Café Kompleet | Buurtcafé met Nederlandse gerechten"
                 type="Kroeg"
                 imageUrl="https://images.jan.tf/1UAaYm897pM3B_YQWSx7fDqvrVY1Ip7XOa4AkJCyjSM/rs:fit:300:300/plain/https%3A%2F%2Fimage.parool.nl%2F38722782%2Fwidth%2F768%2Fgezelligheid-in-cafe-ruk-en-pluk-op-de-linnaeusstraat-tijdens"
                 checkedIn={rukChecked()}

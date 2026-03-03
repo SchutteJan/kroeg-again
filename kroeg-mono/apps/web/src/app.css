@@ -29,6 +29,10 @@
   --color-accent-yellow: #e8c840;
   --color-accent-yellow-dark: #d4b635;
 
+  /* Sage green accent */
+  --color-accent-green: #5e8a4f;
+  --color-accent-green-dark: #4d7640;
+
   /* Warm text tones */
   --color-ink-900: #2a2a2a;
   --color-ink-800: #3d3530;

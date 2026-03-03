@@ -1,4 +1,11 @@
-import { EllipsisVertical, ExternalLink, EyeOff, MapPin as MapPinIcon, Share } from "lucide-solid";
+import {
+  Check,
+  EllipsisVertical,
+  ExternalLink,
+  EyeOff,
+  MapPin as MapPinIcon,
+  Share,
+} from "lucide-solid";
 import type { JSX } from "solid-js";
 import { Show, splitProps } from "solid-js";
 import { Button } from "~/components/Button";
@@ -66,19 +73,21 @@ export function LocationPopup(props: LocationPopupProps) {
     <div class={`flex flex-col items-center ${local.class ?? ""}`} {...rest}>
       <div class="border-cream-300 bg-cream-50 flex w-56 flex-col rounded-lg border shadow-md">
         <div class="flex gap-3 p-2.5">
-          <img
-            src={local.imageUrl}
-            alt={local.name}
-            class="bg-cream-200 h-14 w-14 shrink-0 rounded object-cover"
-          />
+          <div class="relative shrink-0">
+            <img
+              src={local.imageUrl}
+              alt={local.name}
+              class="bg-cream-200 h-14 w-14 rounded object-cover"
+            />
+            <Show when={local.checkedIn}>
+              <span class="bg-accent-green absolute top-0 left-0 flex h-5 w-5 items-center justify-center rounded-tl rounded-br text-white shadow">
+                <Check class="h-3.5 w-3.5 stroke-[3]" />
+              </span>
+            </Show>
+          </div>
           <div class="min-w-0 flex-1">
             <div class="flex items-center gap-1.5">
               <h4 class="text-ink-900 truncate text-sm font-semibold">{local.name}</h4>
-              <Show when={local.checkedIn}>
-                <span class="bg-primary-500 shrink-0 rounded-full px-1.5 py-px text-[10px] font-medium text-white">
-                  ✓
-                </span>
-              </Show>
             </div>
             <span class="bg-accent-yellow/20 text-ink-800 mt-1 inline-block rounded-full px-2 py-px text-[11px] font-medium">
               {local.type}
@@ -120,7 +129,7 @@ export function MapPin(props: { checked?: boolean; class?: string }) {
     >
       <path
         d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"
-        fill={props.checked ? "var(--color-primary-500)" : "var(--color-accent-red)"}
+        fill={props.checked ? "var(--color-accent-green)" : "var(--color-accent-red)"}
       />
       <circle cx="12" cy="9" r="2.5" fill="white" />
     </svg>
@@ -194,21 +203,23 @@ export function LocationCard(props: LocationCardProps) {
       class={`border-cream-300 bg-cream-50 flex gap-4 rounded-lg border p-4 ${local.class ?? ""}`}
       {...rest}
     >
-      <img
-        src={local.imageUrl}
-        alt={local.name}
-        class="bg-cream-200 h-28 w-28 shrink-0 rounded-md object-cover"
-      />
+      <div class="relative shrink-0">
+        <img
+          src={local.imageUrl}
+          alt={local.name}
+          class="bg-cream-200 h-28 w-28 rounded-md object-cover"
+        />
+        <Show when={local.checkedIn}>
+          <span class="bg-accent-green absolute top-0 left-0 flex h-7 w-7 items-center justify-center rounded-tl-md rounded-br-md text-white shadow">
+            <Check class="h-4 w-4 stroke-[3]" />
+          </span>
+        </Show>
+      </div>
       <div class="flex min-w-0 flex-1 flex-col">
         <div class="flex items-start justify-between gap-2">
           <div>
             <div class="flex items-center gap-2">
               <h3 class="text-ink-900 text-2xl font-semibold">{local.name}</h3>
-              <Show when={local.checkedIn}>
-                <span class="bg-primary-500 inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium text-white">
-                  Checked in
-                </span>
-              </Show>
             </div>
             <div class="mt-1 flex flex-wrap items-center gap-1.5">
               <span class="bg-accent-yellow/20 text-ink-800 rounded-full px-2.5 py-0.5 text-xs font-medium">
