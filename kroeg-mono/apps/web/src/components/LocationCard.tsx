@@ -1,6 +1,43 @@
+import { EllipsisVertical, ExternalLink, EyeOff, MapPin as MapPinIcon, Share } from "lucide-solid";
 import type { JSX } from "solid-js";
 import { Show, splitProps } from "solid-js";
 import { Button } from "~/components/Button";
+import { Popover, PopoverContent, PopoverItem, PopoverTrigger } from "~/components/Popover";
+
+type LocationMenuActions = {
+  onShare?: () => void;
+  onOpenInMaps?: () => void;
+  onShowOnMap?: () => void;
+  onHide?: () => void;
+};
+
+function LocationMenuButton(props: LocationMenuActions & { class?: string }) {
+  return (
+    <Popover>
+      <PopoverTrigger class={`text-ink-500 p-1 ${props.class ?? ""}`}>
+        <EllipsisVertical class="h-4 w-4" />
+      </PopoverTrigger>
+      <PopoverContent>
+        <PopoverItem onClick={props.onShare}>
+          <Share class="h-4 w-4 shrink-0" />
+          Share
+        </PopoverItem>
+        <PopoverItem onClick={props.onOpenInMaps}>
+          <ExternalLink class="h-4 w-4 shrink-0" />
+          Open in Google Maps
+        </PopoverItem>
+        <PopoverItem onClick={props.onShowOnMap}>
+          <MapPinIcon class="h-4 w-4 shrink-0" />
+          Show on Map
+        </PopoverItem>
+        <PopoverItem onClick={props.onHide}>
+          <EyeOff class="h-4 w-4 shrink-0" />
+          Hide
+        </PopoverItem>
+      </PopoverContent>
+    </Popover>
+  );
+}
 
 export type LocationPopupProps = {
   name: string;
@@ -9,7 +46,7 @@ export type LocationPopupProps = {
   checkedIn?: boolean;
   onToggleCheckIn?: () => void;
   class?: string;
-};
+} & LocationMenuActions;
 
 export function LocationPopup(props: LocationPopupProps) {
   const [local, rest] = splitProps(props, [
@@ -18,6 +55,10 @@ export function LocationPopup(props: LocationPopupProps) {
     "imageUrl",
     "checkedIn",
     "onToggleCheckIn",
+    "onShare",
+    "onOpenInMaps",
+    "onShowOnMap",
+    "onHide",
     "class",
   ]);
 
@@ -30,7 +71,7 @@ export function LocationPopup(props: LocationPopupProps) {
             alt={local.name}
             class="bg-cream-200 h-14 w-14 shrink-0 rounded object-cover"
           />
-          <div class="min-w-0">
+          <div class="min-w-0 flex-1">
             <div class="flex items-center gap-1.5">
               <h4 class="text-ink-900 truncate text-sm font-semibold">{local.name}</h4>
               <Show when={local.checkedIn}>
@@ -43,6 +84,13 @@ export function LocationPopup(props: LocationPopupProps) {
               {local.type}
             </span>
           </div>
+          <LocationMenuButton
+            onShare={local.onShare}
+            onOpenInMaps={local.onOpenInMaps}
+            onShowOnMap={local.onShowOnMap}
+            onHide={local.onHide}
+            class="-mt-1 -mr-1 self-start"
+          />
         </div>
         <div class="border-cream-300 border-t px-2.5 py-2">
           <Button
@@ -122,7 +170,7 @@ export type LocationCardProps = {
   checkedIn?: boolean;
   onToggleCheckIn?: () => void;
   class?: string;
-};
+} & LocationMenuActions;
 
 export function LocationCard(props: LocationCardProps) {
   const [local, rest] = splitProps(props, [
@@ -134,6 +182,10 @@ export function LocationCard(props: LocationCardProps) {
     "imageUrl",
     "checkedIn",
     "onToggleCheckIn",
+    "onShare",
+    "onOpenInMaps",
+    "onShowOnMap",
+    "onHide",
     "class",
   ]);
 
@@ -169,14 +221,22 @@ export function LocationCard(props: LocationCardProps) {
               <span class="text-ink-500 text-xs">{local.addressLine}</span>
             </div>
           </div>
-          <Button
-            size="sm"
-            variant={local.checkedIn ? "outline" : "default"}
-            class="shrink-0"
-            onClick={local.onToggleCheckIn}
-          >
-            {local.checkedIn ? "Check out" : "Check in"}
-          </Button>
+          <div class="flex shrink-0 items-center gap-1">
+            <Button
+              size="sm"
+              variant={local.checkedIn ? "outline" : "default"}
+              onClick={local.onToggleCheckIn}
+            >
+              {local.checkedIn ? "Check out" : "Check in"}
+            </Button>
+            <LocationMenuButton
+              onShare={local.onShare}
+              onOpenInMaps={local.onOpenInMaps}
+              onShowOnMap={local.onShowOnMap}
+              onHide={local.onHide}
+              class="p-1.5"
+            />
+          </div>
         </div>
         <p class="text-ink-600 mt-2 line-clamp-2 text-sm leading-relaxed">{local.description}</p>
       </div>

@@ -1,4 +1,5 @@
 import { DropdownMenu as DropdownMenuPrimitive } from "@kobalte/core/dropdown-menu";
+import { ChevronDown } from "lucide-solid";
 import type { ComponentProps, ParentProps } from "solid-js";
 import { splitProps } from "solid-js";
 
@@ -19,13 +20,7 @@ export function DropdownTrigger(props: DropdownTriggerProps) {
     >
       {local.children}
       <DropdownMenuPrimitive.Icon class="ui-expanded:rotate-180 transition-transform">
-        <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-          <path
-            fill-rule="evenodd"
-            d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-            clip-rule="evenodd"
-          />
-        </svg>
+        <ChevronDown class="h-4 w-4" />
       </DropdownMenuPrimitive.Icon>
     </DropdownMenuPrimitive.Trigger>
   );
