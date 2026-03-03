@@ -20,7 +20,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Check formatting
-        run: pnpx prettier --ignore-unknown --check .
+        run: pnpx oxfmt --check
 
       - name: Run lint
         run: pnpx oxlint

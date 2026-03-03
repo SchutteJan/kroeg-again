@@ -1,0 +1,18 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "singleQuote": false,
+  "semi": true,
+  "tabWidth": 2,
+  "useTabs": false,
+  "printWidth": 100,
+  "proseWrap": "always",
+  "trailingComma": "all",
+  "sortTailwindcss": {},
+  "sortPackageJson": false,
+  "ignorePatterns": [
+    "pnpm-lock.yaml",
+    "apps/web/cloudflare-env.d.ts",
+    "apps/agent/.mastra",
+    "apps/web/.output"
+  ]
+}

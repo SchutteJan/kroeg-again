@@ -4,10 +4,8 @@
 pre-commit:
   parallel: true
   jobs:
-    - name: prettier
-      run:
-        sh -c 'bunx prettier --ignore-unknown --check "{staged_files}"; code=$?; pnpx prettier
-        --ignore-unknown --write "{staged_files}"; exit $code'
+    - name: format
+      run: pnpx oxfmt --check "{staged_files}"
     - name: lint
       run: pnpx oxlint --fix "{staged_files}"
     - name: "turbo: build + test + type-check"
