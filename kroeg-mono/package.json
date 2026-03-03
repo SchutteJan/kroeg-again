@@ -21,5 +21,10 @@
   "packageManager": "pnpm@10.0.0",
   "engines": {
     "node": ">=22"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "@solidjs/start@2.0.0-alpha.2": "patches/@solidjs__start@2.0.0-alpha.2.patch"
+    }
   }
 }

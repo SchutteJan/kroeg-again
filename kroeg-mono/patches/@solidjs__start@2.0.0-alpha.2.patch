@@ -1,0 +1,68 @@
+diff --git a/dist/config/fs-routes/index.js b/dist/config/fs-routes/index.js
+index 23b4c62414bd72e07fba8068f09e38b924b87e4b..475b06c8a8a61b5962b62777b2e1495f387ee2e5 100644
+--- a/dist/config/fs-routes/index.js
++++ b/dist/config/fs-routes/index.js
+@@ -43,8 +43,8 @@ export function fsRoutes({ routers }) {
+                         const buildId = `${v.src}?${v.pick.map((p) => `pick=${p}`).join("&")}`;
+                         return {
+                             src: relative(root, buildId),
+-                            build: isBuild ? `_$() => import(/* @vite-ignore */ '${buildId}')$_` : undefined,
+-                            import: `_$() => import(/* @vite-ignore */ '${buildId}')$_`,
++                            build: isBuild ? `_$() => import('${buildId}')$_` : undefined,
++                            import: `_$() => import('${buildId}')$_`,
+                         };
+                     }
+                     return v;
+diff --git a/dist/config/index.js b/dist/config/index.js
+index 308b813b970ecbcf2c2b83294d59f5dc0e710035..76a8f64d81dd7382c3e10db0ce5699f85e0b7faf 100644
+--- a/dist/config/index.js
++++ b/dist/config/index.js
+@@ -203,8 +203,9 @@ export function solidStart(options) {
+         {
+             name: "solid-start:capture-client-bundle",
+             enforce: "post",
+-            generateBundle(_options, bundle) {
++            generateBundle(options, bundle) {
+                 globalThis.START_CLIENT_BUNDLE = bundle;
++                globalThis.START_CLIENT_OUT_DIR = options.dir;
+             },
+         },
+         devServer(),
+diff --git a/dist/config/manifest.js b/dist/config/manifest.js
+index 3bcdc386f8c487a2197441f8625a0b283263153f..f254ae32f32a3b38a155af599c963c71397b410f 100644
+--- a/dist/config/manifest.js
++++ b/dist/config/manifest.js
+@@ -35,7 +35,32 @@ export function manifest(start) {
+                     const entry = Object.values(globalThis.START_CLIENT_BUNDLE).find(v => "isEntry" in v && v.isEntry);
+                     if (!entry)
+                         throw new Error("No client entry found");
+-                    clientViteManifest = JSON.parse(globalThis.START_CLIENT_BUNDLE[".vite/manifest.json"].source);
++                    let rawManifest;
++                    const manifestKey = Object.keys(globalThis.START_CLIENT_BUNDLE).find(k => k.endsWith("manifest.json"));
++                    if (manifestKey && globalThis.START_CLIENT_BUNDLE[manifestKey]?.source) {
++                        rawManifest = globalThis.START_CLIENT_BUNDLE[manifestKey].source;
++                    } else {
++                        const fs = await import("node:fs");
++                        const path = await import("node:path");
++                        try {
++                            let outDir = ".solid-start/client";
++                            if (devServer?.environments?.client?.config?.build?.outDir) {
++                                outDir = devServer.environments.client.config.build.outDir;
++                            } else if (this.environment?.config?.build?.outDir && this.environment?.config?.consumer === "client") {
++                                outDir = this.environment.config.build.outDir;
++                            } else if (globalThis.START_CLIENT_OUT_DIR) {
++                                outDir = globalThis.START_CLIENT_OUT_DIR;
++                            }
++                            const manifestPath = path.resolve(start.appRoot || "./src", "..", outDir, ".vite/manifest.json");
++                            rawManifest = fs.readFileSync(manifestPath, "utf-8");
++                        } catch (e) {
++                            throw new Error(`Manifest asset not found in bundle and could not be read from disk. Keys: ${Object.keys(globalThis.START_CLIENT_BUNDLE).join(", ")}. Error: ${e}`);
++                        }
++                    }
++                    if (!rawManifest) {
++                        throw new Error("Failed to extract or read raw manifest.");
++                    }
++                    clientViteManifest = JSON.parse(rawManifest);
+                 }
+                 return `export const clientViteManifest = ${JSON.stringify(clientViteManifest)};`;
+             }
