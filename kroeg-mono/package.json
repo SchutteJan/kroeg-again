@@ -1,0 +1,25 @@
+{
+  "name": "kroegen",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "format": "prettier --write .",
+    "types:check": "turbo run types:check",
+    "lint": "oxlint",
+    "test": "turbo run test"
+  },
+  "devDependencies": {
+    "lefthook": "^2.1.2",
+    "oxlint": "^1.51.0",
+    "prettier": "^3.8.1",
+    "prettier-plugin-tailwindcss": "^0.7.2",
+    "turbo": "^2.8.12",
+    "typescript": "5.9.2",
+    "wrangler": "^4.69.0"
+  },
+  "packageManager": "pnpm@10.0.0",
+  "engines": {
+    "node": ">=22"
+  }
+}
