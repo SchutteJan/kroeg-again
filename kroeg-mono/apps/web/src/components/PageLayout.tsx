@@ -8,7 +8,7 @@ export type PageLayoutProps = ParentProps<{
 export function PageLayout(props: PageLayoutProps) {
   const [local, rest] = splitProps(props, ["class", "children"]);
   return (
-    <div class={`min-h-screen bg-gray-50 font-serif ${local.class ?? ""}`} {...rest}>
+    <div class={`bg-cream-200 text-ink-900 min-h-screen font-serif ${local.class ?? ""}`} {...rest}>
       {local.children}
     </div>
   );

@@ -14,7 +14,7 @@ export function DropdownTrigger(props: DropdownTriggerProps) {
   const [local, rest] = splitProps(props, ["class", "children"]);
   return (
     <DropdownMenuPrimitive.Trigger
-      class={`inline-flex cursor-pointer items-center gap-1 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 ${local.class ?? ""}`}
+      class={`hover:bg-cream-300 focus-visible:outline-primary-500 inline-flex cursor-pointer items-center gap-1 rounded-md px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 ${local.class ?? ""}`}
       {...rest}
     >
       {local.children}
@@ -36,7 +36,7 @@ export function DropdownContent(props: ParentProps<{ class?: string }>) {
   return (
     <DropdownMenuPrimitive.Portal>
       <DropdownMenuPrimitive.Content
-        class={`ui-expanded:animate-[contentShow_150ms_ease] z-50 min-w-48 origin-(--kb-menu-content-transform-origin) animate-[contentHide_150ms_ease] overflow-hidden rounded-lg border border-gray-200 bg-white py-1 shadow-lg ${local.class ?? ""}`}
+        class={`ui-expanded:animate-[contentShow_150ms_ease] border-cream-300 bg-cream-50 z-50 min-w-48 origin-(--kb-menu-content-transform-origin) animate-[contentHide_150ms_ease] overflow-hidden rounded-lg border py-1 shadow-lg ${local.class ?? ""}`}
         {...rest}
       >
         {local.children}
@@ -53,7 +53,7 @@ export function DropdownItem(props: DropdownItemProps) {
   const [local, rest] = splitProps(props, ["class", "children"]);
   return (
     <DropdownMenuPrimitive.Item
-      class={`ui-disabled:cursor-not-allowed ui-disabled:text-gray-400 ui-highlighted:bg-gray-100 ui-highlighted:text-gray-900 flex cursor-pointer items-center px-3 py-2 text-sm text-gray-700 transition-colors outline-none ${local.class ?? ""}`}
+      class={`ui-disabled:cursor-not-allowed ui-disabled:text-ink-400 ui-highlighted:bg-cream-200 ui-highlighted:text-ink-900 text-ink-700 flex cursor-pointer items-center px-3 py-2 text-sm transition-colors outline-none ${local.class ?? ""}`}
       {...rest}
     >
       {local.children}
@@ -63,5 +63,9 @@ export function DropdownItem(props: DropdownItemProps) {
 
 export function DropdownSeparator(props: { class?: string }) {
   const [local] = splitProps(props, ["class"]);
-  return <DropdownMenuPrimitive.Separator class={`my-1 h-px bg-gray-200 ${local.class ?? ""}`} />;
+  return (
+    <DropdownMenuPrimitive.Separator
+      class={`bg-cream-300 my-1 h-px border-none ${local.class ?? ""}`}
+    />
+  );
 }

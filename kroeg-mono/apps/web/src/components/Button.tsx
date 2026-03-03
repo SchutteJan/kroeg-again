@@ -2,14 +2,16 @@ import { Button as ButtonPrimitive } from "@kobalte/core/button";
 import type { ComponentProps } from "solid-js";
 import { splitProps } from "solid-js";
 
-type Variant = "solid" | "outline" | "ghost";
+type Variant = "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
 type Size = "sm" | "md" | "lg";
 
 const variantClasses: Record<Variant, string> = {
-  solid: "bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 ui-disabled:bg-blue-300",
-  outline:
-    "border border-blue-600 text-blue-600 hover:bg-blue-50 active:bg-blue-100 ui-disabled:border-blue-300 ui-disabled:text-blue-300",
-  ghost: "text-blue-600 hover:bg-blue-50 active:bg-blue-100 ui-disabled:text-blue-300",
+  default: "bg-primary-500 text-white hover:bg-primary-500/90",
+  destructive: "bg-accent-red text-white hover:bg-accent-red/90",
+  outline: "border border-cream-300 bg-cream-50 shadow-xs hover:bg-cream-300 hover:text-ink-900",
+  secondary: "bg-cream-200 text-ink-900 hover:bg-cream-200/80",
+  ghost: "hover:bg-cream-300 hover:text-ink-900",
+  link: "text-primary-500 underline-offset-4 hover:underline",
 };
 
 const sizeClasses: Record<Size, string> = {
@@ -28,7 +30,7 @@ export function Button(props: ButtonProps) {
 
   return (
     <ButtonPrimitive
-      class={`ui-disabled:cursor-not-allowed inline-flex cursor-pointer items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 ${sizeClasses[local.size ?? "md"]} ${variantClasses[local.variant ?? "solid"]} ${local.class ?? ""}`}
+      class={`ui-disabled:cursor-not-allowed ui-disabled:opacity-50 focus-visible:outline-primary-500 inline-flex cursor-pointer items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 ${sizeClasses[local.size ?? "md"]} ${variantClasses[local.variant ?? "default"]} ${local.class ?? ""}`}
       {...rest}
     />
   );

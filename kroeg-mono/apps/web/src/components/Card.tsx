@@ -10,7 +10,7 @@ export function Card(props: CardProps) {
 
   return (
     <div
-      class={`rounded-lg border border-gray-200 bg-white shadow-sm ${local.class ?? ""}`}
+      class={`border-cream-300 bg-cream-50 rounded-lg border shadow-sm ${local.class ?? ""}`}
       {...rest}
     >
       {local.children}
@@ -23,7 +23,7 @@ export type CardHeaderProps = ParentProps<{ class?: string }>;
 export function CardHeader(props: CardHeaderProps) {
   const [local, rest] = splitProps(props, ["class", "children"]);
   return (
-    <div class={`border-b border-gray-200 px-6 py-4 ${local.class ?? ""}`} {...rest}>
+    <div class={`border-cream-300 border-b px-6 py-4 ${local.class ?? ""}`} {...rest}>
       {local.children}
     </div>
   );
@@ -45,7 +45,7 @@ export type CardFooterProps = ParentProps<{ class?: string }>;
 export function CardFooter(props: CardFooterProps) {
   const [local, rest] = splitProps(props, ["class", "children"]);
   return (
-    <div class={`border-t border-gray-200 px-6 py-4 ${local.class ?? ""}`} {...rest}>
+    <div class={`border-cream-300 border-t px-6 py-4 ${local.class ?? ""}`} {...rest}>
       {local.children}
     </div>
   );

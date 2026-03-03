@@ -12,11 +12,11 @@ export function Navbar(props: NavbarProps) {
 
   return (
     <nav
-      class={`flex items-center gap-6 border-b border-gray-200 bg-white px-6 py-3 ${local.class ?? ""}`}
+      class={`border-cream-300 bg-cream-100 flex items-center gap-6 border-b px-6 py-3 ${local.class ?? ""}`}
       {...rest}
     >
       <Show when={local.brand}>
-        <A href="/" class="mr-4 text-lg font-semibold text-gray-900">
+        <A href="/" class="text-ink-900 mr-4 text-lg font-semibold">
           {local.brand}
         </A>
       </Show>
@@ -39,9 +39,9 @@ export function NavItem(props: NavItemProps) {
     <A
       href={local.href}
       end={local.end}
-      activeClass="bg-gray-100 text-gray-900"
-      inactiveClass="text-gray-600"
-      class={`rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 ${local.class ?? ""}`}
+      activeClass="bg-cream-300 text-ink-900"
+      inactiveClass="text-ink-600"
+      class={`hover:bg-cream-300 hover:text-ink-900 rounded-md px-3 py-2 text-sm font-medium transition-colors ${local.class ?? ""}`}
       {...rest}
     >
       {local.children}

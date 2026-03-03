@@ -7,10 +7,14 @@ export default function NotFound() {
     <PageContent class="text-center">
       <Title>Not Found</Title>
       <HttpStatusCode code={404} />
-      <h1 class="my-16 text-4xl font-thin text-blue-800 uppercase">Page Not Found</h1>
+      <h1 class="text-primary-800 my-16 text-4xl font-thin uppercase">Page Not Found</h1>
       <p class="mx-auto my-8 leading-relaxed">
         Visit{" "}
-        <a href="https://start.solidjs.com" target="_blank" class="text-blue-600 hover:underline">
+        <a
+          href="https://start.solidjs.com"
+          target="_blank"
+          class="text-primary-500 hover:underline"
+        >
           start.solidjs.com
         </a>{" "}
         to learn how to build SolidStart apps.
