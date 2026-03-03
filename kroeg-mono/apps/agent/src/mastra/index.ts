@@ -6,6 +6,7 @@ import { kroegAgent } from "./agents/kroeg-agent";
 
 export const mastra = new Mastra({
   storage: new LibSQLStore({
+    id: "mastra-storage",
     // stores telemetry, evals, ... into memory storage, if it needs to persist, change to file:../mastra.db
     url: ":memory:",
   }),
@@ -14,9 +15,4 @@ export const mastra = new Mastra({
     name: "Mastra",
     level: "info",
   }),
-  observability: {
-    default: {
-      enabled: true,
-    },
-  },
 });

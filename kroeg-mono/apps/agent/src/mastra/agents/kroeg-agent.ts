@@ -19,6 +19,7 @@ import { geoDistanceTool } from "../tools/geo-distance-tool";
 const memory = new Memory();
 
 export const kroegAgent = new Agent({
+  id: "kroeg-agent",
   name: "Kroeg Agent",
   instructions: `
   You are an agent that is tasked to curate a dataset of all kroegen in Amsterdam,

@@ -1,2 +1,4 @@
 pnpm-lock.yaml
 apps/web/cloudflare-env.d.ts
+apps/agent/.mastra
+apps/web/.output

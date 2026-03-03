@@ -1,4 +1,4 @@
-import { Stagehand } from '@browserbasehq/stagehand';
+import { Stagehand } from "@browserbasehq/stagehand";
 
 class StagehandSessionManager {
   private static instance: StagehandSessionManager;
@@ -31,43 +31,43 @@ class StagehandSessionManager {
     try {
       // Initialize if not already initialized
       if (!this.stagehand || !this.initialized) {
-        console.log('Creating new Stagehand instance');
+        console.log("Creating new Stagehand instance");
         this.stagehand = new Stagehand({
           apiKey: process.env.BROWSERBASE_API_KEY!,
           projectId: process.env.BROWSERBASE_PROJECT_ID!,
-          env: 'BROWSERBASE',
+          env: "BROWSERBASE",
         });
 
         try {
-          console.log('Initializing Stagehand...');
+          console.log("Initializing Stagehand...");
           await this.stagehand.init();
-          console.log('Stagehand initialized successfully');
+          console.log("Stagehand initialized successfully");
           this.initialized = true;
           return this.stagehand;
         } catch (initError) {
-          console.error('Failed to initialize Stagehand:', initError);
+          console.error("Failed to initialize Stagehand:", initError);
           throw initError;
         }
       }
 
       try {
         const title = await this.stagehand.page.evaluate(() => document.title);
-        console.log('Session check successful, page title:', title);
+        console.log("Session check successful, page title:", title);
         return this.stagehand;
       } catch (error) {
         // If we get an error indicating the session is invalid, reinitialize
-        console.error('Session check failed:', error);
+        console.error("Session check failed:", error);
         if (
           error instanceof Error &&
-          (error.message.includes('Target page, context or browser has been closed') ||
-            error.message.includes('Session expired') ||
-            error.message.includes('context destroyed'))
+          (error.message.includes("Target page, context or browser has been closed") ||
+            error.message.includes("Session expired") ||
+            error.message.includes("context destroyed"))
         ) {
-          console.log('Browser session expired, reinitializing Stagehand...');
+          console.log("Browser session expired, reinitializing Stagehand...");
           this.stagehand = new Stagehand({
             apiKey: process.env.BROWSERBASE_API_KEY!,
             projectId: process.env.BROWSERBASE_PROJECT_ID!,
-            env: 'BROWSERBASE',
+            env: "BROWSERBASE",
           });
           await this.stagehand.init();
           this.initialized = true;
@@ -91,7 +91,7 @@ class StagehandSessionManager {
 
     const now = Date.now();
     if (now - this.lastUsed > this.sessionTimeout) {
-      console.log('Cleaning up idle Stagehand session');
+      console.log("Cleaning up idle Stagehand session");
       try {
         await this.stagehand.close();
       } catch (error) {

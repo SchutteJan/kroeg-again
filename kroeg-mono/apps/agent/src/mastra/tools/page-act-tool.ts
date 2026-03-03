@@ -1,20 +1,22 @@
-import { createTool } from '@mastra/core/tools';
-import z from 'zod';
-import { sessionManager } from '../../lib/stage-hand';
+import { createTool } from "@mastra/core/tools";
+import z from "zod";
+import { sessionManager } from "../../lib/stage-hand";
 
 export const pageActTool = createTool({
-  id: 'web-act',
-  description: 'Take an action on a webpage using Stagehand',
+  id: "web-act",
+  description: "Take an action on a webpage using Stagehand",
   inputSchema: z.object({
-    url: z.string().optional().describe('URL to navigate to (optional if already on a page)'),
-    action: z.string().describe('Action to perform (e.g., "click sign in button", "type hello in search field")'),
+    url: z.string().optional().describe("URL to navigate to (optional if already on a page)"),
+    action: z
+      .string()
+      .describe('Action to perform (e.g., "click sign in button", "type hello in search field")'),
   }),
   outputSchema: z.object({
     success: z.boolean(),
     message: z.string(),
   }),
-  execute: async ({ context }) => {
-    return await performWebAction(context.url, context.action);
+  execute: async (inputData) => {
+    return await performWebAction(inputData.url, inputData.action);
   },
 });
 

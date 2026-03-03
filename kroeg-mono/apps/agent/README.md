@@ -1,10 +1,14 @@
 # Stagehand & Mastra Integration
 
-A powerful integration that combines the capabilities of [Browserbase's Stagehand](https://stagehand.dev) with [Mastra](https://mastra.ai/) for advanced web automation, scraping, and AI-powered web interactions.
+A powerful integration that combines the capabilities of
+[Browserbase's Stagehand](https://stagehand.dev) with [Mastra](https://mastra.ai/) for advanced web
+automation, scraping, and AI-powered web interactions.
 
 ## Overview
 
-This project enables AI agents to interact with web pages through the Mastra framework using Stagehand's browser automation capabilities. It provides tools for web navigation, element observation, data extraction, and action execution, all orchestrated through Mastra's agent system.
+This project enables AI agents to interact with web pages through the Mastra framework using
+Stagehand's browser automation capabilities. It provides tools for web navigation, element
+observation, data extraction, and action execution, all orchestrated through Mastra's agent system.
 
 ## Features
 
@@ -83,7 +87,8 @@ User Query → Mastra Agent → Stagehand Tools → Browser Interaction → Web 
 
 ## Configuration
 
-The project can be configured through the `.env` file and by modifying the agent instructions in `src/mastra/agents/index.ts`.
+The project can be configured through the `.env` file and by modifying the agent instructions in
+`src/mastra/agents/index.ts`.
 
 ## Credits
 

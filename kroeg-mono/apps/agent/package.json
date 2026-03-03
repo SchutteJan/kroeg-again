@@ -1,9 +1,10 @@
 {
-  "name": "kroeg-agent",
+  "name": "@kroegen/agent",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "types:check": "tsc --noEmit",
     "dev": "mastra dev",
     "build": "mastra build",
     "start": "mastra start"
@@ -20,16 +21,17 @@
     "@ai-sdk/openai": "^2.0.87",
     "@browserbasehq/stagehand": "^2.5.2",
     "@googlemaps/google-maps-services-js": "^3.4.2",
-    "@mastra/core": "latest",
-    "@mastra/libsql": "latest",
-    "@mastra/loggers": "latest",
-    "@mastra/memory": "latest",
-    "zod": "^3.25.76"
+    "@googlemaps/places": "^2.3.0",
+    "@mastra/core": "^1.8.0",
+    "@mastra/libsql": "^1.6.2",
+    "@mastra/loggers": "^1.0.2",
+    "@mastra/memory": "^1.5.2",
+    "zod": "^4"
   },
   "devDependencies": {
+    "@kroegen/ts-config": "workspace:*",
     "@types/node": "^24.0.4",
     "dotenv": "^17.2.1",
-    "mastra": "latest",
-    "typescript": "^5.8.3"
+    "mastra": "^1.3.5"
   }
 }

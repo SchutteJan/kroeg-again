@@ -1,31 +1,34 @@
-import { createTool } from '@mastra/core/tools';
-import { z } from 'zod';
-import { sessionManager } from '../../lib/stage-hand';
+import { createTool } from "@mastra/core/tools";
+import { z } from "zod";
+import { sessionManager } from "../../lib/stage-hand";
 
 export const pageExtractTool = createTool({
-  id: 'web-extract',
-  description: 'Extract data from a webpage using Stagehand',
+  id: "web-extract",
+  description: "Extract data from a webpage using Stagehand",
   inputSchema: z.object({
-    url: z.string().optional().describe('URL to navigate to (optional if already on a page)'),
+    url: z.string().optional().describe("URL to navigate to (optional if already on a page)"),
     instruction: z.string().describe('What to extract (e.g., "extract all product prices")'),
-    schema: z.record(z.any()).optional().describe('Zod schema definition for data extraction'),
+    schema: z
+      .record(z.string(), z.any())
+      .optional()
+      .describe("Zod schema definition for data extraction"),
     useTextExtract: z
       .boolean()
       .optional()
-      .describe('Set true for larger-scale extractions, false for small extractions'),
+      .describe("Set true for larger-scale extractions, false for small extractions"),
   }),
-  outputSchema: z.any().describe('Extracted data according to schema'),
-  execute: async ({ context }) => {
+  outputSchema: z.any().describe("Extracted data according to schema"),
+  execute: async (inputData) => {
     // Create a default schema if none is provided
     const defaultSchema = {
       content: z.string(),
     };
 
     return await performWebExtraction(
-      context.url,
-      context.instruction,
-      context.schema || defaultSchema,
-      context.useTextExtract,
+      inputData.url,
+      inputData.instruction,
+      inputData.schema || defaultSchema,
+      inputData.useTextExtract,
     );
   },
 });
@@ -36,7 +39,7 @@ const performWebExtraction = async (
   schemaObj?: Record<string, any>,
   useTextExtract?: boolean,
 ) => {
-  console.log(`Starting extraction${url ? ` for ${url}` : ''} with instruction: ${instruction}`);
+  console.log(`Starting extraction${url ? ` for ${url}` : ""} with instruction: ${instruction}`);
 
   try {
     const stagehand = await sessionManager.ensureStagehand();
@@ -62,21 +65,21 @@ const performWebExtraction = async (
 
           const result = await page.extract({
             instruction,
-            schema,
+            schema: schema as any,
             useTextExtract,
           });
 
           console.log(`Extraction successful:`, result);
           return result;
         } catch (extractError) {
-          console.error('Error during extraction:', extractError);
+          console.error("Error during extraction:", extractError);
           throw extractError;
         }
       }
 
       return null;
     } catch (pageError) {
-      console.error('Error in page operation:', pageError);
+      console.error("Error in page operation:", pageError);
       throw pageError;
     }
   } catch (error: any) {
