@@ -1,5 +1,6 @@
 import { Title } from "@solidjs/meta";
 import type { ParentProps } from "solid-js";
+import { createSignal } from "solid-js";
 import { Button } from "~/components/Button";
 import { Card, CardHeader, CardBody, CardFooter } from "~/components/Card";
 import {
@@ -9,6 +10,7 @@ import {
   DropdownItem,
   DropdownSeparator,
 } from "~/components/DropdownMenu";
+import { LocationCard, LocationPopup, MapPin, MockMap } from "~/components/LocationCard";
 import { PageContent } from "~/components/PageLayout";
 
 function Section(props: ParentProps<{ title: string }>) {
@@ -23,6 +25,9 @@ function Section(props: ParentProps<{ title: string }>) {
 }
 
 export default function Design() {
+  const [rukChecked, setRukChecked] = createSignal(true);
+  const [brechtChecked, setBrechtChecked] = createSignal(false);
+
   return (
     <>
       <Title>Design System</Title>
@@ -59,6 +64,52 @@ export default function Design() {
               <div class="bg-accent-yellow-dark h-16 w-16 rounded-lg" title="accent-yellow-dark" />
             </div>
           </div>
+        </Section>
+
+        {/* Location Cards */}
+        <Section title="Location Cards">
+          <div class="space-y-4">
+            <LocationCard
+              name="Ruk en Pluk"
+              type="Kroeg"
+              areaName="Oud-Oost"
+              addressLine="Linnaeusstraat 48"
+              description="Café Ruk en Pluk aan de Linnaeusstraat in Amsterdam Oost is een iconische bruine kroeg. Het staat bekend om zijn excentrieke interieur en biedt een warme, chaotische en feestelijke sfeer. Het is een favoriete plek voor locals om te genieten van een drankje en typisch Nederlandse snacks."
+              imageUrl="https://images.jan.tf/1UAaYm897pM3B_YQWSx7fDqvrVY1Ip7XOa4AkJCyjSM/rs:fit:300:300/plain/https%3A%2F%2Fimage.parool.nl%2F38722782%2Fwidth%2F768%2Fgezelligheid-in-cafe-ruk-en-pluk-op-de-linnaeusstraat-tijdens"
+              checkedIn={rukChecked()}
+              onToggleCheckIn={() => setRukChecked((v) => !v)}
+            />
+            <LocationCard
+              name="Café Brecht"
+              type="Kroeg"
+              areaName="Centrum"
+              addressLine="Weteringschans 157"
+              description="Café Brecht is een gezellig Berlijn-geïnspireerd café aan de Weteringschans. Met zijn vintage meubels, kaarslicht en uitgebreide borrelkaart is het de perfecte plek voor een ontspannen avond met vrienden."
+              imageUrl="https://images.jan.tf/zf09CdZbxP5idXMq7HgIdOmXYVkKdrwc6bujajDCCXQ/rs:fit:300:300/plain/https%3A%2F%2Flh3.googleusercontent.com%2Fplaces%2FANXAkqEIE8LEimIlg32HKlHKmwOlODmYtY19kYMu7PMGnFoJ7U0RpQO_vPdA9LaRGvi55eUtQML7pyCuj7wTKX6rviSmiDWM2kotlzY%3Ds1600-w512"
+              checkedIn={brechtChecked()}
+              onToggleCheckIn={() => setBrechtChecked((v) => !v)}
+            />
+          </div>
+        </Section>
+
+        {/* Map View */}
+        <Section title="Map View">
+          <MockMap>
+            {/* Pin */}
+            <div class="absolute top-2/3 left-1/2 -translate-x-1/2 -translate-y-full">
+              <MapPin checked={rukChecked()} />
+            </div>
+            {/* Popup with arrow, anchored above the pin */}
+            <div class="absolute top-2/3 left-1/2 -translate-x-1/2 -translate-y-[calc(100%+2rem)]">
+              <LocationPopup
+                name="Ruk en Pluk"
+                type="Kroeg"
+                imageUrl="https://images.jan.tf/1UAaYm897pM3B_YQWSx7fDqvrVY1Ip7XOa4AkJCyjSM/rs:fit:300:300/plain/https%3A%2F%2Fimage.parool.nl%2F38722782%2Fwidth%2F768%2Fgezelligheid-in-cafe-ruk-en-pluk-op-de-linnaeusstraat-tijdens"
+                checkedIn={rukChecked()}
+                onToggleCheckIn={() => setRukChecked((v) => !v)}
+              />
+            </div>
+          </MockMap>
         </Section>
 
         {/* Typography */}
@@ -229,47 +280,6 @@ export default function Design() {
               </DropdownContent>
             </DropdownMenu>
           </div>
-        </Section>
-
-        {/* Page Layout Demo */}
-        <Section title="Page Layout">
-          <Card>
-            <CardBody>
-              <p class="text-ink-600 mb-4">
-                The current page demonstrates the{" "}
-                <code class="bg-cream-100 text-accent-red rounded px-1.5 py-0.5 font-mono text-sm">
-                  PageLayout
-                </code>{" "}
-                and{" "}
-                <code class="bg-cream-100 text-accent-red rounded px-1.5 py-0.5 font-mono text-sm">
-                  PageContent
-                </code>{" "}
-                components.
-              </p>
-              <ul class="text-ink-600 list-inside list-disc space-y-1 text-sm">
-                <li>
-                  <code class="bg-cream-100 text-accent-red rounded px-1 font-mono">
-                    PageLayout
-                  </code>{" "}
-                  &mdash; full height, warm cream background
-                </li>
-                <li>
-                  <code class="bg-cream-100 text-accent-red rounded px-1 font-mono">
-                    PageContent
-                  </code>{" "}
-                  &mdash; centered max-width container with padding
-                </li>
-                <li>
-                  Width options:{" "}
-                  <code class="bg-cream-100 text-accent-red rounded px-1 font-mono">sm</code>,{" "}
-                  <code class="bg-cream-100 text-accent-red rounded px-1 font-mono">md</code>,{" "}
-                  <code class="bg-cream-100 text-accent-red rounded px-1 font-mono">lg</code>,{" "}
-                  <code class="bg-cream-100 text-accent-red rounded px-1 font-mono">xl</code>,{" "}
-                  <code class="bg-cream-100 text-accent-red rounded px-1 font-mono">full</code>
-                </li>
-              </ul>
-            </CardBody>
-          </Card>
         </Section>
       </PageContent>
     </>
