@@ -9,8 +9,7 @@ import {
   DropdownItem,
   DropdownSeparator,
 } from "~/components/DropdownMenu";
-import { Navbar, NavItem } from "~/components/Navbar";
-import { PageLayout, PageContent } from "~/components/PageLayout";
+import { PageContent } from "~/components/PageLayout";
 
 function Section(props: ParentProps<{ title: string }>) {
   return (
@@ -25,19 +24,10 @@ function Section(props: ParentProps<{ title: string }>) {
 
 export default function Design() {
   return (
-    <PageLayout>
+    <>
       <Title>Design System</Title>
 
-      {/* Navbar */}
-      <Navbar brand="Kroegen">
-        <NavItem href="/design" active>
-          Design
-        </NavItem>
-        <NavItem href="/">Home</NavItem>
-        <NavItem href="/about">About</NavItem>
-      </Navbar>
-
-      <PageContent width="lg">
+      <PageContent>
         <h1 class="mb-8 text-4xl font-bold text-gray-900">Design System</h1>
 
         {/* Typography */}
@@ -235,6 +225,6 @@ export default function Design() {
           </Card>
         </Section>
       </PageContent>
-    </PageLayout>
+    </>
   );
 }

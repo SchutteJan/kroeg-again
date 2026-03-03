@@ -1,30 +1,33 @@
 import { MetaProvider, Title } from "@solidjs/meta";
 import { Router } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start/router";
+import type { ParentProps } from "solid-js";
 import { Suspense } from "solid-js";
+import { Navbar, NavItem } from "~/components/Navbar";
+import { PageLayout } from "~/components/PageLayout";
 import "./app.css";
+
+function Layout(props: ParentProps) {
+  return (
+    <MetaProvider>
+      <Title>Kroegen</Title>
+      <PageLayout>
+        <Navbar brand="Kroegen">
+          <NavItem href="/" end>
+            Home
+          </NavItem>
+          <NavItem href="/about">About</NavItem>
+          <NavItem href="/design">Design</NavItem>
+        </Navbar>
+        <Suspense>{props.children}</Suspense>
+      </PageLayout>
+    </MetaProvider>
+  );
+}
 
 export default function App() {
   return (
-    <Router
-      root={(props) => (
-        <MetaProvider>
-          <Title>SolidStart - Basic</Title>
-          <nav class="flex gap-4 p-4">
-            <a href="/" class="text-blue-600 hover:underline">
-              Index
-            </a>
-            <a href="/about" class="text-blue-600 hover:underline">
-              About
-            </a>
-            <a href="/design" class="text-blue-600 hover:underline">
-              Design
-            </a>
-          </nav>
-          <Suspense>{props.children}</Suspense>
-        </MetaProvider>
-      )}
-    >
+    <Router root={Layout}>
       <FileRoutes />
     </Router>
   );

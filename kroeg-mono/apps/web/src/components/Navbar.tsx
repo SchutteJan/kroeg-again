@@ -1,3 +1,4 @@
+import { A } from "@solidjs/router";
 import type { JSX, ParentProps } from "solid-js";
 import { Show, splitProps } from "solid-js";
 
@@ -15,9 +16,9 @@ export function Navbar(props: NavbarProps) {
       {...rest}
     >
       <Show when={local.brand}>
-        <a href="/" class="mr-4 text-lg font-semibold text-gray-900">
+        <A href="/" class="mr-4 text-lg font-semibold text-gray-900">
           {local.brand}
-        </a>
+        </A>
       </Show>
       <div class="flex items-center gap-1">{local.children}</div>
     </nav>
@@ -26,23 +27,24 @@ export function Navbar(props: NavbarProps) {
 
 export type NavItemProps = {
   href: string;
-  active?: boolean;
+  end?: boolean;
   class?: string;
   children: JSX.Element;
 };
 
 export function NavItem(props: NavItemProps) {
-  const [local, rest] = splitProps(props, ["href", "active", "class", "children"]);
+  const [local, rest] = splitProps(props, ["href", "end", "class", "children"]);
 
   return (
-    <a
+    <A
       href={local.href}
-      class={`rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 ${
-        local.active ? "bg-gray-100 text-gray-900" : "text-gray-600"
-      } ${local.class ?? ""}`}
+      end={local.end}
+      activeClass="bg-gray-100 text-gray-900"
+      inactiveClass="text-gray-600"
+      class={`rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 ${local.class ?? ""}`}
       {...rest}
     >
       {local.children}
-    </a>
+    </A>
   );
 }

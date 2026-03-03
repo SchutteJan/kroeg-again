@@ -16,24 +16,12 @@ export function PageLayout(props: PageLayoutProps) {
 
 export type PageContentProps = ParentProps<{
   class?: string;
-  width?: "sm" | "md" | "lg" | "xl" | "full";
 }>;
 
-const widthClasses = {
-  sm: "max-w-2xl",
-  md: "max-w-4xl",
-  lg: "max-w-6xl",
-  xl: "max-w-7xl",
-  full: "max-w-full",
-};
-
 export function PageContent(props: PageContentProps) {
-  const [local, rest] = splitProps(props, ["class", "children", "width"]);
+  const [local, rest] = splitProps(props, ["class", "children"]);
   return (
-    <main
-      class={`mx-auto px-6 py-8 ${widthClasses[local.width ?? "lg"]} ${local.class ?? ""}`}
-      {...rest}
-    >
+    <main class={`mx-auto max-w-6xl px-6 py-8 ${local.class ?? ""}`} {...rest}>
       {local.children}
     </main>
   );
