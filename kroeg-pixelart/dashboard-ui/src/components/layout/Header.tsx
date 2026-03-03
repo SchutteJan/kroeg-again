@@ -44,7 +44,7 @@ export function Header() {
   };
 
   return (
-    <header className="flex justify-between items-center gap-6 flex-wrap bg-panel/90 backdrop-blur-sm rounded-panel p-4 border border-panel-border shadow-panel">
+    <header className="flex justify-between items-center gap-6 flex-wrap bg-panel/90 backdrop-blur-sm rounded-panel p-4 border border-panel-border">
       <div>
         <p className="uppercase text-xs tracking-[0.24em] m-0 text-muted">Kroeg Pipeline</p>
         <h1 className="font-serif text-[clamp(24px,2.5vw,36px)] m-0 mt-1 tracking-[0.5px]">

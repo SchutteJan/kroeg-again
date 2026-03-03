@@ -11,7 +11,7 @@ interface PanelProps {
 export function Panel({ title, children, actions, className = '', compact }: PanelProps) {
   return (
     <section
-      className={`bg-panel rounded-panel border border-panel-border shadow-panel p-5 flex flex-col gap-4 ${className}`}
+      className={`bg-panel rounded-panel border border-panel-border p-5 flex flex-col gap-4 ${className}`}
     >
       <div className={`flex justify-between gap-4 ${compact ? 'items-center' : 'items-start'}`}>
         <h2 className="font-serif text-xl m-0">{title}</h2>
