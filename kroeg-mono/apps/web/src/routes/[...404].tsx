@@ -3,13 +3,13 @@ import { HttpStatusCode } from "@solidjs/start";
 
 export default function NotFound() {
   return (
-    <main>
+    <main class="mx-auto p-4 text-center">
       <Title>Not Found</Title>
       <HttpStatusCode code={404} />
-      <h1>Page Not Found</h1>
-      <p>
+      <h1 class="my-16 text-4xl font-thin text-blue-800 uppercase">Page Not Found</h1>
+      <p class="mx-auto my-8 leading-relaxed">
         Visit{" "}
-        <a href="https://start.solidjs.com" target="_blank">
+        <a href="https://start.solidjs.com" target="_blank" class="text-blue-600 hover:underline">
           start.solidjs.com
         </a>{" "}
         to learn how to build SolidStart apps.
