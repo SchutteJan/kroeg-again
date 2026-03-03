@@ -17,6 +17,9 @@ export default function App() {
             <a href="/about" class="text-blue-600 hover:underline">
               About
             </a>
+            <a href="/design" class="text-blue-600 hover:underline">
+              Design
+            </a>
           </nav>
           <Suspense>{props.children}</Suspense>
         </MetaProvider>

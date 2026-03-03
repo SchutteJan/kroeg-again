@@ -23,6 +23,7 @@
     "node": ">=22"
   },
   "devDependencies": {
+    "@kobalte/tailwindcss": "^0.9.0",
     "@kroegen/ts-config": "workspace:*"
   }
 }

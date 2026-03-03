@@ -1,0 +1,52 @@
+import type { ParentProps } from "solid-js";
+import { splitProps } from "solid-js";
+
+export type CardProps = ParentProps<{
+  class?: string;
+}>;
+
+export function Card(props: CardProps) {
+  const [local, rest] = splitProps(props, ["class", "children"]);
+
+  return (
+    <div
+      class={`rounded-lg border border-gray-200 bg-white shadow-sm ${local.class ?? ""}`}
+      {...rest}
+    >
+      {local.children}
+    </div>
+  );
+}
+
+export type CardHeaderProps = ParentProps<{ class?: string }>;
+
+export function CardHeader(props: CardHeaderProps) {
+  const [local, rest] = splitProps(props, ["class", "children"]);
+  return (
+    <div class={`border-b border-gray-200 px-6 py-4 ${local.class ?? ""}`} {...rest}>
+      {local.children}
+    </div>
+  );
+}
+
+export type CardBodyProps = ParentProps<{ class?: string }>;
+
+export function CardBody(props: CardBodyProps) {
+  const [local, rest] = splitProps(props, ["class", "children"]);
+  return (
+    <div class={`px-6 py-4 ${local.class ?? ""}`} {...rest}>
+      {local.children}
+    </div>
+  );
+}
+
+export type CardFooterProps = ParentProps<{ class?: string }>;
+
+export function CardFooter(props: CardFooterProps) {
+  const [local, rest] = splitProps(props, ["class", "children"]);
+  return (
+    <div class={`border-t border-gray-200 px-6 py-4 ${local.class ?? ""}`} {...rest}>
+      {local.children}
+    </div>
+  );
+}
