@@ -57,7 +57,7 @@ const performWebObservation = async (url?: string, instruction?: string) => {
       console.error("Error in page operation:", pageError);
       throw pageError;
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     throw new Error(`Stagehand observation failed: ${errorMessage}`);
   }

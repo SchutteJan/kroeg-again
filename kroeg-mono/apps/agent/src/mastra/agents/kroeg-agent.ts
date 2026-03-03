@@ -1,9 +1,5 @@
 import { Agent } from "@mastra/core/agent";
 import { Memory } from "@mastra/memory";
-import { pageActTool } from "../tools/page-act-tool";
-import { pageObserveTool } from "../tools/page-observe-tool";
-import { pageExtractTool } from "../tools/page-extract-tool";
-import { pageNavigateTool } from "../tools/page-navigate-tool";
 import {
   kroegApiCreateDecisionTool,
   kroegApiGetUncuratedTool,

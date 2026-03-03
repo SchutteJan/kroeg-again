@@ -87,7 +87,9 @@ class StagehandSessionManager {
    * Close the Stagehand session if it's been idle for too long
    */
   private async checkAndCleanupSession(): Promise<void> {
-    if (!this.stagehand || !this.initialized) return;
+    if (!this.stagehand || !this.initialized) {
+      return;
+    }
 
     const now = Date.now();
     if (now - this.lastUsed > this.sessionTimeout) {

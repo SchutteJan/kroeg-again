@@ -36,7 +36,7 @@ export const pageExtractTool = createTool({
 const performWebExtraction = async (
   url?: string,
   instruction?: string,
-  schemaObj?: Record<string, any>,
+  schemaObj?: Record<string, unknown>,
   useTextExtract?: boolean,
 ) => {
   console.log(`Starting extraction${url ? ` for ${url}` : ""} with instruction: ${instruction}`);
@@ -65,7 +65,7 @@ const performWebExtraction = async (
 
           const result = await page.extract({
             instruction,
-            schema: schema as any,
+            schema: schema as z.ZodObject,
             useTextExtract,
           });
 
@@ -82,7 +82,7 @@ const performWebExtraction = async (
       console.error("Error in page operation:", pageError);
       throw pageError;
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     console.error(`Full stack trace for extraction error:`, error);
     throw new Error(`Stagehand extraction failed: ${errorMessage}`);
