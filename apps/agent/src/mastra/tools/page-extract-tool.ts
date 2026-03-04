@@ -1,5 +1,6 @@
 import { createTool } from "@mastra/core/tools";
 import { z } from "zod";
+import { z as z3 } from "zod/v3";
 import { sessionManager } from "../../lib/stage-hand";
 
 export const pageExtractTool = createTool({
@@ -21,7 +22,7 @@ export const pageExtractTool = createTool({
   execute: async (inputData) => {
     // Create a default schema if none is provided
     const defaultSchema = {
-      content: z.string(),
+      content: z3.string(),
     };
 
     return await performWebExtraction(
@@ -58,14 +59,14 @@ const performWebExtraction = async (
         console.log(`Extracting with instruction: ${instruction}`);
 
         // Create a default schema if none is provided from Mastra Agent
-        const finalSchemaObj = schemaObj || { content: z.string() };
+        const finalSchemaObj = schemaObj || { content: z3.string() };
 
         try {
-          const schema = z.object(finalSchemaObj);
+          const schema = z3.object(finalSchemaObj as z3.ZodRawShape);
 
           const result = await page.extract({
             instruction,
-            schema: schema as z.ZodObject,
+            schema,
             useTextExtract,
           });
 
