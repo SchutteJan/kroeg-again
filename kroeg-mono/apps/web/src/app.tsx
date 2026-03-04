@@ -13,11 +13,12 @@ function Layout(props: ParentProps) {
       <Title>Kroegen</Title>
       <PageLayout>
         <Navbar brand="Kroegen">
-          <NavItem href="/" end>
-            Home
+          <NavItem href="/about" chalkClass="bg-accent-red">
+            About
           </NavItem>
-          <NavItem href="/about">About</NavItem>
-          <NavItem href="/design">Design</NavItem>
+          <NavItem href="/design" chalkClass="bg-accent-red">
+            Design
+          </NavItem>
         </Navbar>
         <Suspense>{props.children}</Suspense>
       </PageLayout>

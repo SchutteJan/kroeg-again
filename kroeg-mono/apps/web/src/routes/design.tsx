@@ -30,10 +30,10 @@ export default function Design() {
 
   return (
     <>
-      <Title>Design System</Title>
+      <Title>Design</Title>
 
       <PageContent>
-        <h1 class="text-ink-900 mb-8 text-4xl font-bold">Design System</h1>
+        <h1 class="text-ink-900 mb-8 text-4xl font-bold">Design</h1>
 
         {/* Color Palette */}
         <Section title="Color Palette">

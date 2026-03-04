@@ -16,8 +16,12 @@ export function Navbar(props: NavbarProps) {
       {...rest}
     >
       <Show when={local.brand}>
-        <A href="/" class="text-ink-900 mr-4 text-lg font-semibold">
+        <A href="/" class="text-ink-900 relative isolate mr-4 text-xl font-extrabold">
           {local.brand}
+          <span
+            aria-hidden="true"
+            class="bg-accent-yellow pointer-events-none absolute bottom-1 left-0 -z-10 h-2 w-full mask-[url('/chalk-line.png')] mask-size-[100%_100%] mask-no-repeat select-none"
+          />
         </A>
       </Show>
       <div class="flex items-center gap-1">{local.children}</div>
@@ -29,22 +33,31 @@ export type NavItemProps = {
   href: string;
   end?: boolean;
   class?: string;
+  chalkClass?: string;
   children: JSX.Element;
 };
 
 export function NavItem(props: NavItemProps) {
-  const [local, rest] = splitProps(props, ["href", "end", "class", "children"]);
+  const [local, rest] = splitProps(props, ["href", "end", "class", "chalkClass", "children"]);
 
   return (
     <A
       href={local.href}
       end={local.end}
-      activeClass="bg-cream-300 text-ink-900"
+      activeClass="text-ink-900 [&_.chalk]:opacity-100"
       inactiveClass="text-ink-600"
-      class={`hover:bg-cream-300 hover:text-ink-900 rounded-md px-3 py-2 text-sm font-medium transition-colors ${local.class ?? ""}`}
+      class={`hover:text-ink-900 rounded-md px-3 py-2 text-base font-medium transition-colors hover:[&_.chalk]:opacity-100 ${local.class ?? ""}`}
       {...rest}
     >
-      {local.children}
+      <span class="relative isolate">
+        {local.children}
+        <Show when={local.chalkClass}>
+          <span
+            aria-hidden="true"
+            class={`chalk pointer-events-none absolute bottom-0 left-0 -z-10 h-[5px] w-full mask-[url('/chalk-line.png')] mask-size-[100%_100%] mask-no-repeat opacity-0 transition-opacity select-none ${local.chalkClass}`}
+          />
+        </Show>
+      </span>
     </A>
   );
 }
