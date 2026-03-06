@@ -1,0 +1,14 @@
+volumes:
+  database:
+
+services:
+  db:
+    image: postgis/postgis:18-3.6
+    volumes:
+      - database:/var/lib/postgresql
+    environment:
+      POSTGRES_DB: kroeg
+      POSTGRES_USER: kroeg
+      POSTGRES_PASSWORD: kroeg
+    ports:
+      - 5432:5432
