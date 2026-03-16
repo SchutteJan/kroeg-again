@@ -1,3 +1,36 @@
+# UI Components
+
+## Use Kobalte Primitives
+
+Always build UI components on top of [Kobalte](https://kobalte.dev) primitives (`@kobalte/core`).
+Kobalte provides accessible, unstyled headless components that handle ARIA attributes, keyboard
+navigation, and focus management. Our components wrap these primitives with project-specific
+styling.
+
+```javascript
+// Good - wrap Kobalte primitive
+import { TextField as TextFieldPrimitive } from "@kobalte/core/text-field";
+
+export function TextInput(props) {
+  return (
+    <TextFieldPrimitive>
+      <TextFieldPrimitive.Label>...</TextFieldPrimitive.Label>
+      <TextFieldPrimitive.Input class="..." />
+    </TextFieldPrimitive>
+  );
+}
+
+// Bad - raw HTML elements for interactive components
+export function TextInput(props) {
+  return (
+    <label>
+      <span>...</span>
+      <input class="..." />
+    </label>
+  );
+}
+```
+
 # Solid.js Best Practices
 
 ## 1. Call Functions When Passing Signals to JSX Props

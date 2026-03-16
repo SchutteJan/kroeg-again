@@ -1,6 +1,7 @@
 import { Title } from "@solidjs/meta";
 import type { ParentProps } from "solid-js";
 import { createSignal } from "solid-js";
+import { Alert } from "~/components/Alert";
 import { Button } from "~/components/Button";
 import { Card, CardHeader, CardBody, CardFooter } from "~/components/Card";
 import {
@@ -12,6 +13,7 @@ import {
 } from "~/components/DropdownMenu";
 import { LocationCard, LocationPopup, MapPin, MockMap } from "~/components/LocationCard";
 import { PageContent } from "~/components/PageLayout";
+import { TextInput } from "~/components/TextInput";
 
 function Section(props: ParentProps<{ title: string }>) {
   return (
@@ -237,6 +239,23 @@ export default function Design() {
                 </p>
               </CardBody>
             </Card>
+          </div>
+        </Section>
+
+        {/* Text Inputs */}
+        <Section title="Text Inputs">
+          <div class="max-w-sm space-y-4">
+            <TextInput label="Email" type="email" placeholder="you@example.com" />
+            <TextInput label="Password" type="password" placeholder="••••••••" />
+            <TextInput label="Disabled" placeholder="Cannot edit" disabled />
+            <TextInput label="Required" required />
+          </div>
+        </Section>
+
+        {/* Alerts */}
+        <Section title="Alerts">
+          <div class="max-w-sm space-y-3">
+            <Alert variant="error">Something went wrong. Please try again.</Alert>
           </div>
         </Section>
 
