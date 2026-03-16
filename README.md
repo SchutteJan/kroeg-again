@@ -8,7 +8,7 @@ TypeScript monorepo for kroeg.jan.tf v2
   [turbo.json](./turbo.json)
 - Pre-commit hooks: [Lefthook](https://lefthook.dev/) which are configured in
   [lefthook.yaml](./lefthook.yaml)
-- Deployment: Cloudflare (see wrangler.jsonc files for details)
+- App runtime: Node.js via Nitro with PostgreSQL
 - CI/CD: Github Actions, see [workflows here](.github/workflows)
 
 ## Prerequisites
@@ -45,10 +45,6 @@ pnpm test           # Run tests
 - **Monorepo**: Uses Turborepo for task orchestration and pnpm workspaces
 - **Code Quality**: Pre-commit hooks (Lefthook) auto-format and lint staged files
 - **TypeScript**: Strict mode enabled across all packages
-
-## Deployment
-
-Deployed to Cloudflare. Configuration in `wrangler.jsonc` files.
 
 ## Project Structure
 

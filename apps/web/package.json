@@ -4,24 +4,21 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
-    "start": "vite start",
-    "preview": "vite preview",
+    "start": "node .output/server/index.mjs",
+    "preview": "node .output/server/index.mjs",
+    "db:fragno:generate": "fragno-cli db generate ./src/lib/auth-server.ts --format drizzle -o ./db/fragno-auth-schema.ts",
     "types:check": "tsc --noEmit",
-    "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate",
-    "db:push": "drizzle-kit push",
-    "db:fragno:generate": "fragno-cli db generate src/lib/auth-server.ts --format drizzle -o db/fragno-auth-schema.ts",
-    "db:fragno:migrate": "fragno-cli db migrate src/lib/auth-server.ts"
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@fragno-dev/auth": "^0.0.14",
+    "@fragno-dev/core": "^0.2.0",
     "@fragno-dev/db": "^0.3.0",
     "@kobalte/core": "^0.13.11",
     "@solidjs/meta": "^0.29.4",
     "@solidjs/router": "^0.15.0",
     "@solidjs/start": "2.0.0-alpha.2",
     "@tailwindcss/vite": "^4.2.1",
-    "drizzle-orm": "^0.45.1",
     "lucide-solid": "^0.576.0",
     "nitro": "3.0.1-alpha.2",
     "pg": "^8.20.0",
@@ -37,6 +34,7 @@
     "@kroegen/ts-config": "workspace:*",
     "@types/pg": "^8.18.0",
     "drizzle-kit": "^0.31.9",
+    "drizzle-orm": "^0.45.1",
     "vite": "npm:rolldown-vite@latest"
   }
 }
