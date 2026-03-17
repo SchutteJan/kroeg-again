@@ -30,12 +30,18 @@ ENV NODE_ENV=production
 ENV HOST=0.0.0.0
 ENV PORT=3000
 
-WORKDIR /app
+WORKDIR /app/apps/web
 
 COPY --from=build /app/apps/web/.output ./.output
 COPY --from=build /app/apps/web/package.json ./package.json
-COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/apps/web/drizzle.config.ts ./drizzle.config.ts
+COPY --from=build /app/apps/web/db ./db
+COPY --from=build /app/apps/web/entrypoint.sh ./entrypoint.sh
+COPY --from=build /app/apps/web/node_modules ./node_modules
+COPY --from=build /app/node_modules /app/node_modules
+
+RUN chmod +x ./entrypoint.sh
 
 EXPOSE 3000
 
-CMD ["node", ".output/server/index.mjs"]
+CMD ["./entrypoint.sh"]
