@@ -1,8 +1,8 @@
 import type { APIEvent } from "@solidjs/start/server";
-import { ensureAuthServerReady, fragment } from "~/lib/auth-server";
+import { createAuthServer } from "~/lib/auth-server";
 
 async function handler(event: APIEvent): Promise<Response> {
-  await ensureAuthServerReady();
+  const fragment = createAuthServer(event.locals.pool);
   return fragment.handler(event.request);
 }
 

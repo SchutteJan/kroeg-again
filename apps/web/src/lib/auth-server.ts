@@ -1,8 +1,9 @@
 import { createAuthFragment } from "@fragno-dev/auth";
-import { migrate } from "@fragno-dev/db";
-import { createDatabaseAdapter } from "./db";
+import { createAdapter, createPostgresPool, PostgresPool } from "./db";
 
-export function createAuthServer() {
+export function createAuthServer(
+  pool: PostgresPool | (() => PostgresPool),
+): ReturnType<typeof createAuthFragment> {
   return createAuthFragment(
     {
       cookieOptions: {
@@ -11,25 +12,11 @@ export function createAuthServer() {
       },
     },
     {
-      databaseAdapter: createDatabaseAdapter(),
+      databaseAdapter: createAdapter(pool),
     },
   );
 }
 
 export type AuthFragment = ReturnType<typeof createAuthServer>;
 
-export const fragment = createAuthServer();
-
-let authServerReadyPromise: Promise<void> | null = null;
-
-export function ensureAuthServerReady() {
-  if (process.env.FRAGNO_INIT_DRY_RUN === "true") {
-    return Promise.resolve();
-  }
-
-  if (!authServerReadyPromise) {
-    authServerReadyPromise = migrate(fragment);
-  }
-
-  return authServerReadyPromise;
-}
+export const fragment = createAuthServer(() => createPostgresPool());

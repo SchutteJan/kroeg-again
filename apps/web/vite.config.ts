@@ -16,5 +16,5 @@ export default defineConfig({
       "@fragno-dev/auth/solid": resolve(authPkgDir, "dist/browser/client/solid.js"),
     },
   },
-  plugins: [tailwindcss(), solidStart(), nitro()],
+  plugins: [tailwindcss(), solidStart({ middleware: "./src/middleware.ts" }), nitro()],
 });
