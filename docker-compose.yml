@@ -10,8 +10,6 @@ services:
       POSTGRES_DB: kroeg
       POSTGRES_USER: kroeg
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
-    ports:
-      - 5432:5432
 
   web:
     image: kroegen-web:latest
@@ -25,5 +23,3 @@ services:
       - HOST=0.0.0.0
       - PORT=3000
       - DATABASE_URL=postgres://kroeg:${DATABASE_PASSWORD}@db:5432/kroeg
-    ports:
-      - 3000:3000
