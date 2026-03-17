@@ -15,6 +15,9 @@ function getDatabaseUrl() {
 }
 
 export function createPostgresPool() {
+  if (process.env.FRAGNO_INIT_DRY_RUN === "true") {
+    return {} as PostgresPool;
+  }
   return new Pool({
     connectionString: getDatabaseUrl(),
   });
