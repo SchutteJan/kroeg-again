@@ -9,6 +9,21 @@ services:
     environment:
       POSTGRES_DB: kroeg
       POSTGRES_USER: kroeg
-      POSTGRES_PASSWORD: kroeg
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
     ports:
       - 5432:5432
+
+  web:
+    image: kroegen-web:latest
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    depends_on:
+      - db
+    environment:
+      - NODE_ENV=production
+      - HOST=0.0.0.0
+      - PORT=3000
+      - DATABASE_URL=postgres://kroeg:${DATABASE_PASSWORD}@db:5432/kroeg
+    ports:
+      - 3000:3000

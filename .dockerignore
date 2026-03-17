@@ -1,0 +1,17 @@
+node_modules
+.pnpm-store
+.turbo
+.git
+.github
+dist
+build
+coverage
+apps/*/node_modules
+apps/*/.output
+apps/*/.vinxi
+apps/*/dist
+packages/*/node_modules
+packages/*/dist
+.env
+.env.*
+!.env.example
