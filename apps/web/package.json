@@ -35,6 +35,6 @@
     "@types/pg": "^8.18.0",
     "drizzle-kit": "^0.31.9",
     "drizzle-orm": "^0.45.1",
-    "vite": "npm:rolldown-vite@latest"
+    "vite": "^8.0.0"
   }
 }
