@@ -13,15 +13,8 @@ const authPkgDir = resolve(
 export default defineConfig({
   resolve: {
     alias: {
-      "@fragno-dev/auth/solid": resolve(
-        authPkgDir,
-        "dist/browser/client/solid.js",
-      ),
+      "@fragno-dev/auth/solid": resolve(authPkgDir, "dist/browser/client/solid.js"),
     },
   },
-  plugins: [
-    tailwindcss(),
-    solidStart(),
-    nitro(),
-  ],
+  plugins: [tailwindcss(), solidStart(), nitro()],
 });

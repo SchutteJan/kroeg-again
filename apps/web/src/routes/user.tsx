@@ -12,8 +12,7 @@ export default function User() {
   const navigate = useNavigate();
   const isUnauthenticated = () =>
     !me.loading() && !me.data() && me.error()?.code === "session_invalid";
-  const hasLoadError = () =>
-    !me.loading() && !me.data() && !!me.error() && !isUnauthenticated();
+  const hasLoadError = () => !me.loading() && !me.data() && !!me.error() && !isUnauthenticated();
 
   async function handleSignOut() {
     await signOut({ body: {} });
@@ -29,9 +28,7 @@ export default function User() {
       <Show when={isUnauthenticated()}>
         <Card class="w-full max-w-sm p-6">
           <h1 class="text-ink-900 mb-4 text-2xl font-bold">Account</h1>
-          <p class="text-ink-600 mb-6 text-sm">
-            You need to sign in to view your account.
-          </p>
+          <p class="text-ink-600 mb-6 text-sm">You need to sign in to view your account.</p>
           <Button as={A} href="/login">
             Sign in
           </Button>

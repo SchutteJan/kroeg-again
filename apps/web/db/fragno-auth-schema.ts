@@ -18,7 +18,10 @@ import { relations } from "drizzle-orm";
 export const fragno_db_settings = pgTable(
   "fragno_db_settings",
   {
-    id: varchar("id", { length: 30 }).notNull().unique().$defaultFn(() => createId()),
+    id: varchar("id", { length: 30 })
+      .notNull()
+      .unique()
+      .$defaultFn(() => createId()),
     key: text("key").notNull(),
     value: text("value").notNull(),
     _internalId: bigserial("_internalId", { mode: "number" }).primaryKey().notNull(),
@@ -30,7 +33,10 @@ export const fragno_db_settings = pgTable(
 export const fragno_hooks = pgTable(
   "fragno_hooks",
   {
-    id: varchar("id", { length: 30 }).notNull().unique().$defaultFn(() => createId()),
+    id: varchar("id", { length: 30 })
+      .notNull()
+      .unique()
+      .$defaultFn(() => createId()),
     namespace: text("namespace").notNull(),
     hookName: text("hookName").notNull(),
     payload: json("payload").notNull(),
@@ -48,14 +54,21 @@ export const fragno_hooks = pgTable(
   (table) => [
     index("idx_namespace_status_retry").on(table.namespace, table.status, table.nextRetryAt),
     index("idx_nonce").on(table.nonce),
-    index("idx_namespace_status_last_attempt").on(table.namespace, table.status, table.lastAttemptAt),
+    index("idx_namespace_status_last_attempt").on(
+      table.namespace,
+      table.status,
+      table.lastAttemptAt,
+    ),
   ],
 );
 
 export const fragno_db_outbox = pgTable(
   "fragno_db_outbox",
   {
-    id: varchar("id", { length: 30 }).notNull().unique().$defaultFn(() => createId()),
+    id: varchar("id", { length: 30 })
+      .notNull()
+      .unique()
+      .$defaultFn(() => createId()),
     versionstamp: text("versionstamp").notNull(),
     uowId: text("uowId").notNull(),
     payload: json("payload").notNull(),
@@ -73,7 +86,10 @@ export const fragno_db_outbox = pgTable(
 export const fragno_db_outbox_mutations = pgTable(
   "fragno_db_outbox_mutations",
   {
-    id: varchar("id", { length: 30 }).notNull().unique().$defaultFn(() => createId()),
+    id: varchar("id", { length: 30 })
+      .notNull()
+      .unique()
+      .$defaultFn(() => createId()),
     entryVersionstamp: text("entryVersionstamp").notNull(),
     mutationVersionstamp: text("mutationVersionstamp").notNull(),
     uowId: text("uowId").notNull(),
@@ -100,7 +116,10 @@ export const fragno_db_outbox_mutations = pgTable(
 export const fragno_db_sync_requests = pgTable(
   "fragno_db_sync_requests",
   {
-    id: varchar("id", { length: 30 }).notNull().unique().$defaultFn(() => createId()),
+    id: varchar("id", { length: 30 })
+      .notNull()
+      .unique()
+      .$defaultFn(() => createId()),
     requestId: text("requestId").notNull(),
     status: text("status").notNull(),
     confirmedCommandIds: json("confirmedCommandIds").notNull(),
@@ -119,7 +138,10 @@ const schema_simple_auth_db = pgSchema("simple-auth-db");
 export const user_simple_auth_db = schema_simple_auth_db.table(
   "user",
   {
-    id: varchar("id", { length: 30 }).notNull().unique().$defaultFn(() => createId()),
+    id: varchar("id", { length: 30 })
+      .notNull()
+      .unique()
+      .$defaultFn(() => createId()),
     email: text("email").notNull(),
     passwordHash: text("passwordHash").notNull(),
     role: text("role").notNull().default("user"),
@@ -137,7 +159,10 @@ export const user_simple_auth_db = schema_simple_auth_db.table(
 export const session_simple_auth_db = schema_simple_auth_db.table(
   "session",
   {
-    id: varchar("id", { length: 30 }).notNull().unique().$defaultFn(() => createId()),
+    id: varchar("id", { length: 30 })
+      .notNull()
+      .unique()
+      .$defaultFn(() => createId()),
     userId: bigint("userId", { mode: "number" }).notNull(),
     expiresAt: timestamp("expiresAt").notNull(),
     createdAt: timestamp("createdAt").notNull().defaultNow(),
