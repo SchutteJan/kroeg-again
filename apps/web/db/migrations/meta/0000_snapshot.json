@@ -97,9 +97,7 @@
         "fragno_db_outbox_id_unique": {
           "name": "fragno_db_outbox_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "policies": {},
@@ -165,9 +163,7 @@
         "fragno_db_settings_id_unique": {
           "name": "fragno_db_settings_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "policies": {},
@@ -317,9 +313,7 @@
         "fragno_hooks_id_unique": {
           "name": "fragno_hooks_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "policies": {},
@@ -392,12 +386,8 @@
           "tableFrom": "session",
           "tableTo": "user",
           "schemaTo": "simple-auth-db",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "_internalId"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["_internalId"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -407,9 +397,7 @@
         "session_id_unique": {
           "name": "session_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "policies": {},
@@ -519,9 +507,7 @@
         "user_id_unique": {
           "name": "user_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "policies": {},
