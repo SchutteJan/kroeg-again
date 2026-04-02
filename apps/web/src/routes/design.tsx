@@ -5,6 +5,16 @@ import { Alert } from "~/components/Alert";
 import { Button } from "~/components/Button";
 import { Card, CardHeader, CardBody, CardFooter } from "~/components/Card";
 import {
+  Drawer,
+  DrawerTrigger,
+  DrawerContent,
+  DrawerHeader,
+  DrawerFooter,
+  DrawerTitle,
+  DrawerDescription,
+  DrawerClose,
+} from "~/components/Drawer";
+import {
   DropdownMenu,
   DropdownTrigger,
   DropdownContent,
@@ -300,6 +310,40 @@ export default function Design() {
                 <DropdownItem>Sign out</DropdownItem>
               </DropdownContent>
             </DropdownMenu>
+          </div>
+        </Section>
+        {/* Drawers */}
+        <Section title="Drawers">
+          <div class="flex flex-wrap items-start gap-4">
+            <Drawer>
+              <DrawerTrigger class="border-cream-400 bg-cream-50 border px-3 py-2 text-sm font-medium">
+                Open Drawer
+              </DrawerTrigger>
+              <DrawerContent>
+                <DrawerHeader>
+                  <DrawerTitle>Edit Profile</DrawerTitle>
+                  <DrawerDescription>
+                    Make changes to your profile here. Click save when you're done.
+                  </DrawerDescription>
+                </DrawerHeader>
+                <div class="px-6 py-4">
+                  <p class="text-ink-600 text-sm">
+                    This is the drawer body content. You can put forms, lists, or any other content
+                    here.
+                  </p>
+                </div>
+                <DrawerFooter>
+                  <div class="flex gap-2">
+                    <DrawerClose class="bg-primary-500 hover:bg-primary-600 text-cream-50 focus-visible:outline-primary-500 inline-flex cursor-pointer items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2">
+                      Submit
+                    </DrawerClose>
+                    <DrawerClose class="text-ink-700 hover:bg-cream-200 hover:text-ink-900 inline-flex cursor-pointer items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2">
+                      Cancel
+                    </DrawerClose>
+                  </div>
+                </DrawerFooter>
+              </DrawerContent>
+            </Drawer>
           </div>
         </Section>
       </PageContent>

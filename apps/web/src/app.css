@@ -64,3 +64,21 @@
     transform: scale(0.96);
   }
 }
+
+@keyframes drawerSlideIn {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes drawerSlideOut {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
