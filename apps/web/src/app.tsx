@@ -6,6 +6,7 @@ import { Show, Suspense } from "solid-js";
 import { authClient } from "~/lib/auth-client";
 import { Navbar, NavItem } from "~/components/Navbar";
 import { PageLayout } from "~/components/PageLayout";
+import { ToastRegion } from "~/components/Toast";
 import "./app.css";
 
 function AuthNav() {
@@ -45,6 +46,7 @@ function Layout(props: ParentProps) {
         </Navbar>
         <Suspense>{props.children}</Suspense>
       </PageLayout>
+      <ToastRegion />
     </MetaProvider>
   );
 }

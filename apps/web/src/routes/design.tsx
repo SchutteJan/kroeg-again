@@ -1,7 +1,8 @@
 import { Title } from "@solidjs/meta";
+import { CircleCheck, CircleX, Info, TriangleAlert } from "lucide-solid";
 import type { ParentProps } from "solid-js";
 import { createSignal } from "solid-js";
-import { Alert } from "~/components/Alert";
+import { Alert, AlertTitle, AlertDescription } from "~/components/Alert";
 import { Button } from "~/components/Button";
 import { Card, CardHeader, CardBody, CardFooter } from "~/components/Card";
 import {
@@ -22,6 +23,8 @@ import {
   DropdownSeparator,
 } from "~/components/DropdownMenu";
 import { LocationCard, LocationPopup, MapPin, MockMap } from "~/components/LocationCard";
+import { Map } from "~/components/Map";
+import { showToast } from "~/components/Toast";
 import { PageContent } from "~/components/PageLayout";
 import { TextInput } from "~/components/TextInput";
 
@@ -124,6 +127,11 @@ export default function Design() {
               />
             </div>
           </MockMap>
+        </Section>
+
+        {/* Leaflet Map */}
+        <Section title="Map">
+          <Map class="h-80 rounded-lg" />
         </Section>
 
         {/* Typography */}
@@ -264,8 +272,30 @@ export default function Design() {
 
         {/* Alerts */}
         <Section title="Alerts">
-          <div class="max-w-sm space-y-3">
-            <Alert variant="error">Something went wrong. Please try again.</Alert>
+          <div class="max-w-md space-y-3">
+            <Alert variant="error" icon={<CircleX />}>
+              <AlertTitle>Something went wrong</AlertTitle>
+              <AlertDescription>
+                Please try again or contact support if the problem persists.
+              </AlertDescription>
+            </Alert>
+
+            <Alert variant="warning" icon={<TriangleAlert />}>
+              <AlertTitle>Your subscription expires in 3 days</AlertTitle>
+              <AlertDescription>Renew now to avoid service interruption.</AlertDescription>
+            </Alert>
+
+            <Alert variant="info" icon={<Info />}>
+              <AlertTitle>New device detected</AlertTitle>
+              <AlertDescription>
+                Your account was accessed from a device we don't recognize.
+              </AlertDescription>
+            </Alert>
+
+            <Alert variant="success" icon={<CircleCheck />}>
+              <AlertTitle>Changes saved</AlertTitle>
+              <AlertDescription>Your profile has been updated successfully.</AlertDescription>
+            </Alert>
           </div>
         </Section>
 
@@ -312,6 +342,28 @@ export default function Design() {
             </DropdownMenu>
           </div>
         </Section>
+        {/* Toasts */}
+        <Section title="Toasts">
+          <div class="flex flex-wrap items-start gap-4">
+            <Button
+              variant="default"
+              onClick={() =>
+                showToast("Changes saved", "Your profile has been updated successfully.")
+              }
+            >
+              Show Toast
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={() =>
+                showToast("Something went wrong", "Please try again or contact support.")
+              }
+            >
+              Show Error Toast
+            </Button>
+          </div>
+        </Section>
+
         {/* Drawers */}
         <Section title="Drawers">
           <div class="flex flex-wrap items-start gap-4">
