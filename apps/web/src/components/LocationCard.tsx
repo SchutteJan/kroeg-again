@@ -200,56 +200,54 @@ export function LocationCard(props: LocationCardProps) {
 
   return (
     <div
-      class={`border-cream-300 bg-cream-50 flex gap-4 rounded-lg border p-4 ${local.class ?? ""}`}
+      class={`border-cream-300 bg-cream-50 flex flex-col gap-3 rounded-lg border p-4 ${local.class ?? ""}`}
       {...rest}
     >
-      <div class="relative shrink-0">
-        <img
-          src={local.imageUrl}
-          alt={local.name}
-          class="bg-cream-200 h-28 w-28 rounded-md object-cover"
-        />
-        <Show when={local.checkedIn}>
-          <span class="bg-accent-green absolute top-0 left-0 flex h-7 w-7 items-center justify-center rounded-tl-md rounded-br-md text-white shadow">
-            <Check class="h-4 w-4 stroke-[3]" />
-          </span>
-        </Show>
-      </div>
-      <div class="flex min-w-0 flex-1 flex-col">
-        <div class="flex items-start justify-between gap-2">
-          <div>
-            <div class="flex items-center gap-2">
-              <h3 class="text-ink-900 text-2xl font-semibold">{local.name}</h3>
-            </div>
-            <div class="mt-1 flex flex-wrap items-center gap-1.5">
-              <span class="bg-accent-yellow/20 text-ink-800 rounded-full px-2.5 py-0.5 text-xs font-medium">
-                {local.type}
-              </span>
-              <span class="bg-cream-200 text-ink-700 rounded-full px-2.5 py-0.5 text-xs font-medium">
-                {local.areaName}
-              </span>
-              <span class="text-ink-400 text-xs">&middot;</span>
-              <span class="text-ink-500 text-xs">{local.addressLine}</span>
-            </div>
-          </div>
-          <div class="flex shrink-0 items-center gap-1">
-            <Button
-              size="sm"
-              variant={local.checkedIn ? "outline" : "default"}
-              onClick={local.onToggleCheckIn}
-            >
-              {local.checkedIn ? "Check out" : "Check in"}
-            </Button>
-            <LocationMenuButton
-              onShare={local.onShare}
-              onOpenInMaps={local.onOpenInMaps}
-              onShowOnMap={local.onShowOnMap}
-              onHide={local.onHide}
-              class="p-1.5"
-            />
-          </div>
+      <div class="flex items-start justify-between gap-2">
+        <h3 class="text-ink-900 min-w-0 text-2xl font-semibold">{local.name}</h3>
+        <div class="flex shrink-0 items-center gap-1">
+          <Button
+            size="sm"
+            variant={local.checkedIn ? "outline" : "default"}
+            onClick={local.onToggleCheckIn}
+          >
+            {local.checkedIn ? "Check out" : "Check in"}
+          </Button>
+          <LocationMenuButton
+            onShare={local.onShare}
+            onOpenInMaps={local.onOpenInMaps}
+            onShowOnMap={local.onShowOnMap}
+            onHide={local.onHide}
+            class="p-1.5"
+          />
         </div>
-        <p class="text-ink-600 mt-2 line-clamp-2 text-sm leading-relaxed">{local.description}</p>
+      </div>
+      <div class="flex flex-wrap items-center gap-1.5">
+        <span class="bg-accent-yellow/20 text-ink-800 rounded-full px-2.5 py-0.5 text-xs font-medium">
+          {local.type}
+        </span>
+        <span class="bg-cream-200 text-ink-700 rounded-full px-2.5 py-0.5 text-xs font-medium">
+          {local.areaName}
+        </span>
+        <span class="text-ink-400 text-xs">&middot;</span>
+        <span class="text-ink-500 text-xs">{local.addressLine}</span>
+      </div>
+      <div class="flex gap-3">
+        <div class="relative shrink-0">
+          <img
+            src={local.imageUrl}
+            alt={local.name}
+            class="bg-cream-200 h-24 w-24 rounded-md object-cover"
+          />
+          <Show when={local.checkedIn}>
+            <span class="bg-accent-green absolute top-0 left-0 flex h-6 w-6 items-center justify-center rounded-tl-md rounded-br-md text-white shadow">
+              <Check class="h-3.5 w-3.5 stroke-[3]" />
+            </span>
+          </Show>
+        </div>
+        <p class="text-ink-600 line-clamp-4 min-w-0 flex-1 text-sm leading-relaxed">
+          {local.description}
+        </p>
       </div>
     </div>
   );
