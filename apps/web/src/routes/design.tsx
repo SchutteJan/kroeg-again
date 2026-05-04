@@ -1,5 +1,4 @@
 import { Title } from "@solidjs/meta";
-import { CircleCheck, CircleX, Info, TriangleAlert } from "lucide-solid";
 import type { ParentProps } from "solid-js";
 import { createSignal } from "solid-js";
 import { Alert, AlertTitle, AlertDescription } from "~/components/Alert";
@@ -273,26 +272,26 @@ export default function Design() {
         {/* Alerts */}
         <Section title="Alerts">
           <div class="max-w-md space-y-3">
-            <Alert variant="error" icon={<CircleX />}>
+            <Alert variant="error">
               <AlertTitle>Something went wrong</AlertTitle>
               <AlertDescription>
                 Please try again or contact support if the problem persists.
               </AlertDescription>
             </Alert>
 
-            <Alert variant="warning" icon={<TriangleAlert />}>
+            <Alert variant="warning">
               <AlertTitle>Your subscription expires in 3 days</AlertTitle>
               <AlertDescription>Renew now to avoid service interruption.</AlertDescription>
             </Alert>
 
-            <Alert variant="info" icon={<Info />}>
+            <Alert variant="info">
               <AlertTitle>New device detected</AlertTitle>
               <AlertDescription>
                 Your account was accessed from a device we don't recognize.
               </AlertDescription>
             </Alert>
 
-            <Alert variant="success" icon={<CircleCheck />}>
+            <Alert variant="success">
               <AlertTitle>Changes saved</AlertTitle>
               <AlertDescription>Your profile has been updated successfully.</AlertDescription>
             </Alert>

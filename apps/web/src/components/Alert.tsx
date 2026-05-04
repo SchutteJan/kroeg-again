@@ -1,6 +1,8 @@
 import { Alert as AlertPrimitive } from "@kobalte/core/alert";
-import type { JSX, ParentProps } from "solid-js";
-import { Show, splitProps } from "solid-js";
+import { CircleCheck, CircleX, Info, TriangleAlert } from "lucide-solid";
+import type { Component, ParentProps } from "solid-js";
+import { splitProps } from "solid-js";
+import { Dynamic } from "solid-js/web";
 
 type Variant = "error" | "warning" | "info" | "success";
 
@@ -18,29 +20,34 @@ const iconVariantClasses: Record<Variant, string> = {
   success: "text-accent-green",
 };
 
+const variantIcons: Record<Variant, Component> = {
+  error: CircleX,
+  warning: TriangleAlert,
+  info: Info,
+  success: CircleCheck,
+};
+
 export type AlertProps = ParentProps<{
   variant?: Variant;
   class?: string;
-  icon?: JSX.Element;
 }>;
 
 export function Alert(props: AlertProps) {
-  const [local, rest] = splitProps(props, ["variant", "class", "children", "icon"]);
+  const [local, rest] = splitProps(props, ["variant", "class", "children"]);
   const variant = () => local.variant ?? "error";
+  const Icon = () => variantIcons[variant()];
 
   return (
     <AlertPrimitive
       class={`rounded-lg border px-3 py-2.5 text-sm ${variantClasses[variant()]} ${local.class ?? ""}`}
       {...rest}
     >
-      <Show when={local.icon} fallback={local.children}>
-        <div class="grid grid-cols-[auto_1fr] gap-x-2.5">
-          <div class={`row-span-2 mt-0.5 [&>svg]:size-4 ${iconVariantClasses[variant()]}`}>
-            {local.icon}
-          </div>
-          <div>{local.children}</div>
+      <div class="grid grid-cols-[auto_1fr] gap-x-2.5">
+        <div class={`row-span-2 mt-0.5 [&>svg]:size-4 ${iconVariantClasses[variant()]}`}>
+          <Dynamic component={Icon()} />
         </div>
-      </Show>
+        <div>{local.children}</div>
+      </div>
     </AlertPrimitive>
   );
 }
