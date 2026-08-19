@@ -1,0 +1,93 @@
+{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": { "name": "urn:ogc:def:crs:OGC::CRS84" }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": "exploitatievergunning.266500627",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.919830204409463, 52.35345481528437]
+      },
+      "properties": {
+        "id": 266500627,
+        "zaaknummer": 1115,
+        "zaaknaam": "Café Oost",
+        "adres": "Krugerplein 40",
+        "zaakCategorie": "Café",
+        "zaakSpecificatie": "Café",
+        "begindatum": "2025-12-01",
+        "einddatum": "2028-12-01",
+        "openingstijdenZoDoVan": "07.00",
+        "openingstijdenZoDoTot": "01.00",
+        "openingstijdenVrZaVan": "07.00",
+        "openingstijdenVrZaTot": "03.00",
+        "oTijdenTerrasZoDoVan": "07.00",
+        "oTijdenTerrasZoDoTot": "01.00",
+        "oTijdenTerrasVrZaVan": "07.00",
+        "oTijdenTerrasVrZaTot": "02.00",
+        "terrasgeometrie": {
+          "type": "MultiPolygon",
+          "coordinates": [
+            [
+              [
+                [4.919898577491801, 52.35346136263563],
+                [4.919911477587612, 52.3534759934487],
+                [4.919845607863583, 52.35349776916331],
+                [4.919832707783206, 52.35348313834316],
+                [4.919898577491801, 52.35346136263563]
+              ]
+            ]
+          ]
+        },
+        "postcode": "1091LA",
+        "statusVergunning": "Verleend",
+        "statusTijdelijkTerras": null,
+        "toestemmingTijdelijkTerras": null,
+        "publBesluitTijdelijkTerras": null,
+        "tijdelijkTerrasDetails": null,
+        "statusVerlengingTijdelijkTerras": null,
+        "verlengingTijdelijkTerrasDetails": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "exploitatievergunning.45057304107",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.926687575697756, 52.3574362888777]
+      },
+      "properties": {
+        "id": 45057304107,
+        "zaaknummer": 19275,
+        "zaaknaam": "Café Ruk en Pluk",
+        "adres": "Linnaeusstraat 48-H",
+        "zaakCategorie": "Café",
+        "zaakSpecificatie": "Café",
+        "begindatum": "2025-03-01",
+        "einddatum": "2028-03-01",
+        "openingstijdenZoDoVan": "07.00",
+        "openingstijdenZoDoTot": "01.00",
+        "openingstijdenVrZaVan": "07.00",
+        "openingstijdenVrZaTot": "03.00",
+        "oTijdenTerrasZoDoVan": "07.00",
+        "oTijdenTerrasZoDoTot": "01.00",
+        "oTijdenTerrasVrZaVan": "07.00",
+        "oTijdenTerrasVrZaTot": "02.00",
+        "terrasgeometrie": null,
+        "postcode": "1092CM",
+        "statusVergunning": "Verleend",
+        "statusTijdelijkTerras": null,
+        "toestemmingTijdelijkTerras": null,
+        "publBesluitTijdelijkTerras": null,
+        "tijdelijkTerrasDetails": null,
+        "statusVerlengingTijdelijkTerras": null,
+        "verlengingTijdelijkTerrasDetails": null
+      }
+    }
+  ],
+  "_links": []
+}
