@@ -21,6 +21,11 @@ function AuthNav() {
         </NavItem>
       }
     >
+      <Show when={me.data()?.role === "admin"}>
+        <NavItem href="/admin" chalkClass="bg-accent-yellow">
+          Admin
+        </NavItem>
+      </Show>
       <NavItem href="/user" chalkClass="bg-accent-green">
         Account
       </NavItem>
