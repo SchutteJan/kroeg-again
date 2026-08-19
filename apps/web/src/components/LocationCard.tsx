@@ -9,6 +9,7 @@ import {
 import type { JSX } from "solid-js";
 import { Show, splitProps } from "solid-js";
 import { Button } from "~/components/Button";
+import { Pill } from "~/components/Pill";
 import { Popover, PopoverContent, PopoverItem, PopoverTrigger } from "~/components/Popover";
 
 type LocationMenuActions = {
@@ -81,7 +82,7 @@ export function LocationPopup(props: LocationPopupProps) {
             />
             <Show when={local.checkedIn}>
               <span class="bg-accent-green absolute top-0 left-0 flex h-5 w-5 items-center justify-center rounded-tl rounded-br text-white shadow">
-                <Check class="h-3.5 w-3.5 stroke-[3]" />
+                <Check class="h-3.5 w-3.5 stroke-3" />
               </span>
             </Show>
           </div>
@@ -114,7 +115,7 @@ export function LocationPopup(props: LocationPopupProps) {
       </div>
       {/* Speech bubble arrow */}
       <div class="border-cream-300 -mt-px h-0 w-0 border-x-8 border-t-8 border-x-transparent" />
-      <div class="border-cream-50 -mt-[9px] h-0 w-0 border-x-[7px] border-t-[7px] border-x-transparent" />
+      <div class="border-cream-50 -mt-2.25 h-0 w-0 border-x-[7px] border-t-[7px] border-x-transparent" />
     </div>
   );
 }
@@ -223,12 +224,8 @@ export function LocationCard(props: LocationCardProps) {
         </div>
       </div>
       <div class="flex flex-wrap items-center gap-1.5">
-        <span class="bg-accent-yellow/20 text-ink-800 rounded-full px-2.5 py-0.5 text-xs font-medium">
-          {local.type}
-        </span>
-        <span class="bg-cream-200 text-ink-700 rounded-full px-2.5 py-0.5 text-xs font-medium">
-          {local.areaName}
-        </span>
+        <Pill class="bg-accent-yellow/20 text-ink-800">{local.type}</Pill>
+        <Pill class="bg-cream-200 text-ink-700">{local.areaName}</Pill>
         <span class="text-ink-400 text-xs">&middot;</span>
         <span class="text-ink-500 text-xs">{local.addressLine}</span>
       </div>
@@ -241,7 +238,7 @@ export function LocationCard(props: LocationCardProps) {
           />
           <Show when={local.checkedIn}>
             <span class="bg-accent-green absolute top-0 left-0 flex h-6 w-6 items-center justify-center rounded-tl-md rounded-br-md text-white shadow">
-              <Check class="h-3.5 w-3.5 stroke-[3]" />
+              <Check class="h-3.5 w-3.5 stroke-3" />
             </span>
           </Show>
         </div>

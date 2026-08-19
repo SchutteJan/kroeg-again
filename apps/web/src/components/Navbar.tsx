@@ -54,7 +54,7 @@ export function NavItem(props: NavItemProps) {
         <Show when={local.chalkClass}>
           <span
             aria-hidden="true"
-            class={`chalk pointer-events-none absolute bottom-0 left-0 -z-10 h-[5px] w-full mask-[url('/chalk-line.png')] mask-size-[100%_100%] mask-no-repeat opacity-0 transition-opacity select-none ${local.chalkClass}`}
+            class={`chalk pointer-events-none absolute bottom-0 left-0 -z-10 h-1.25 w-full mask-[url('/chalk-line.png')] mask-size-[100%_100%] mask-no-repeat opacity-0 transition-opacity select-none ${local.chalkClass}`}
           />
         </Show>
       </span>
