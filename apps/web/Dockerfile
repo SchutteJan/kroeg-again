@@ -1,4 +1,4 @@
-FROM node:22-bookworm-slim AS base
+FROM node:24-trixie-slim AS base
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -10,7 +10,6 @@ FROM base AS deps
 WORKDIR /app
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json .npmrc ./
-COPY patches ./patches
 COPY apps/web/package.json ./apps/web/package.json
 COPY packages/ts-config/package.json ./packages/ts-config/package.json
 
@@ -24,7 +23,7 @@ COPY . .
 
 RUN pnpm --filter @kroegen/web build
 
-FROM node:22-bookworm-slim AS runner
+FROM node:24-trixie-slim AS runner
 
 ENV NODE_ENV=production
 ENV HOST=0.0.0.0
