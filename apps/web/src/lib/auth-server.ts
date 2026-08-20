@@ -19,4 +19,5 @@ export function createAuthServer(
 
 export type AuthFragment = ReturnType<typeof createAuthServer>;
 
+// For the fragno-cli db generate command
 export const fragment = createAuthServer(() => createPostgresPool());
