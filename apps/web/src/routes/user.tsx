@@ -4,6 +4,7 @@ import { Show } from "solid-js";
 import { authClient, useMe } from "~/lib/auth-client";
 import { Button } from "~/components/Button";
 import { Card } from "~/components/Card";
+import { Loading } from "~/components/Loading";
 import { PageContent } from "~/components/PageLayout";
 
 export default function User() {
@@ -23,7 +24,7 @@ export default function User() {
     <PageContent class="flex items-start justify-center pt-16">
       <Title>Account — Kroegen</Title>
       <Show when={me.loading()}>
-        <p class="text-ink-500">Loading...</p>
+        <Loading size="lg" />
       </Show>
       <Show when={isUnauthenticated()}>
         <Card class="w-full max-w-sm p-6">

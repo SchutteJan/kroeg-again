@@ -21,6 +21,7 @@ import {
   DropdownItem,
   DropdownSeparator,
 } from "~/components/DropdownMenu";
+import { Loading } from "~/components/Loading";
 import { LocationCard, LocationPopup, MapPin, MockMap } from "~/components/LocationCard";
 import { Map } from "~/components/Map";
 import { showToast } from "~/components/Toast";
@@ -48,6 +49,14 @@ export default function Design() {
 
       <PageContent>
         <h1 class="text-ink-900 mb-8 text-4xl font-bold">Design</h1>
+
+        <Section title="Loading">
+          <div class="flex items-end gap-8">
+            <Loading size="sm" />
+            <Loading />
+            <Loading size="lg" label="Pohhh lekker zeg" />
+          </div>
+        </Section>
 
         {/* Color Palette */}
         <Section title="Color Palette">
