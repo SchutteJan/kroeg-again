@@ -11,10 +11,8 @@
   "sortPackageJson": false,
   "ignorePatterns": [
     "pnpm-lock.yaml",
-    "apps/web/cloudflare-env.d.ts",
     "apps/agent/.mastra",
     "apps/web/.output",
-    "apps/web/worker-configuration.d.ts",
     "apps/web/db/fragment-schemas.ts"
   ]
 }

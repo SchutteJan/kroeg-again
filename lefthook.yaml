@@ -7,7 +7,7 @@ pre-commit:
     - name: format
       run: pnpx oxfmt --check "{staged_files}"
     - name: lint
-      run: pnpx oxlint --fix "{staged_files}"
+      run: pnpx oxlint --fix "{staged_files}" --no-error-on-unmatched-pattern
     - name: "turbo: build + test + type-check"
       run: pnpx turbo run --no-daemon build types:check test
       glob: "{*.ts,*.tsx,tsconfig.json}"

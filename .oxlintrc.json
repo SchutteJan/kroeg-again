@@ -107,8 +107,7 @@
     "@typescript-eslint/triple-slash-reference": "error",
     "curly": "error",
     "unicorn/empty-brace-spaces": "error",
-    "unicorn/no-nested-ternary": "off",
-    "unicorn/number-literal-case": "error"
+    "unicorn/no-nested-ternary": "off"
   },
   "overrides": [
     {
@@ -130,12 +129,6 @@
         "no-with": "error",
         "prefer-rest-params": "error",
         "prefer-spread": "error"
-      }
-    },
-    {
-      "files": ["packages/base32/**"],
-      "rules": {
-        "unicorn/number-literal-case": "off"
       }
     }
   ]
