@@ -12,6 +12,8 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json .npmrc ./
 COPY apps/web/package.json ./apps/web/package.json
 COPY packages/ts-config/package.json ./packages/ts-config/package.json
+COPY packages/base32/package.json ./packages/base32/package.json
+COPY packages/one-time-password-fragment/package.json ./packages/one-time-password-fragment/package.json
 
 RUN pnpm install --frozen-lockfile
 
@@ -21,7 +23,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN pnpm --filter @kroegen/web build
+RUN pnpm --filter "@kroegen/web..." build
 
 FROM node:24-trixie-slim AS runner
 

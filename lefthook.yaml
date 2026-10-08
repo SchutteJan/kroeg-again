@@ -5,9 +5,9 @@ pre-commit:
   parallel: true
   jobs:
     - name: format
-      run: pnpx oxfmt --check "{staged_files}"
+      run: pnpm exec oxfmt --check "{staged_files}"
     - name: lint
-      run: pnpx oxlint --fix "{staged_files}" --no-error-on-unmatched-pattern
+      run: pnpm exec oxlint --fix "{staged_files}"
     - name: "turbo: build + test + type-check"
-      run: pnpx turbo run --no-daemon build types:check test
+      run: pnpm exec turbo run --no-daemon build types:check test
       glob: "{*.ts,*.tsx,tsconfig.json}"
