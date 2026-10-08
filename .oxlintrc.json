@@ -131,6 +131,12 @@
         "prefer-rest-params": "error",
         "prefer-spread": "error"
       }
+    },
+    {
+      "files": ["packages/base32/**"],
+      "rules": {
+        "unicorn/number-literal-case": "off"
+      }
     }
   ]
 }
