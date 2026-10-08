@@ -1,0 +1,23 @@
+{
+  "extends": "@kroegen/ts-config/base.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    // Vendored code wasn't written against this flag; the totp module (unused by this task)
+    // isn't worth a wider refactor to satisfy it.
+    "noUncheckedIndexedAccess": false,
+    "verbatimModuleSyntax": true,
+    "allowImportingTsExtensions": true,
+    "rewriteRelativeImportExtensions": true,
+    "sourceMap": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noUnusedParameters": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noErrorTruncation": true,
+    "outDir": "./dist",
+    "rootDir": "."
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}
