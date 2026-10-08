@@ -1,13 +1,13 @@
 import { Title } from "@solidjs/meta";
 import { A, useNavigate } from "@solidjs/router";
 import { Show } from "solid-js";
-import { authClient } from "~/lib/auth-client";
+import { authClient, useMe } from "~/lib/auth-client";
 import { Button } from "~/components/Button";
 import { Card } from "~/components/Card";
 import { PageContent } from "~/components/PageLayout";
 
 export default function User() {
-  const me = authClient.useMe();
+  const me = useMe();
   const { mutate: signOut } = authClient.useSignOut();
   const navigate = useNavigate();
   const isUnauthenticated = () =>

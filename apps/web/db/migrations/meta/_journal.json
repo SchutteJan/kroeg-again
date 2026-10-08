@@ -15,6 +15,13 @@
       "when": 1786911555778,
       "tag": "0001_add_licenses_table",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1787221968000,
+      "tag": "0002_ancient_joshua_kane",
+      "breakpoints": true
     }
   ]
 }

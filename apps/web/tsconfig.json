@@ -2,6 +2,7 @@
   "extends": "@kroegen/ts-config/solid.json",
   "compilerOptions": {
     "baseUrl": ".",
+    "allowImportingTsExtensions": true,
     "paths": {
       "~/*": ["./src/*"]
     }

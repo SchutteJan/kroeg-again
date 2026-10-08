@@ -53,12 +53,12 @@ export async function generateHOTP(
   const hmac = new Uint8Array(signature);
 
   // Dynamic truncation
-  const offset = hmac[hmac.length - 1] & 0x0F;
+  const offset = hmac[hmac.length - 1] & 0x0f;
   const binaryCode =
-    ((hmac[offset] & 0x7F) << 24) |
-    ((hmac[offset + 1] & 0xFF) << 16) |
-    ((hmac[offset + 2] & 0xFF) << 8) |
-    (hmac[offset + 3] & 0xFF);
+    ((hmac[offset] & 0x7f) << 24) |
+    ((hmac[offset + 1] & 0xff) << 16) |
+    ((hmac[offset + 2] & 0xff) << 8) |
+    (hmac[offset + 3] & 0xff);
 
   const otp = binaryCode % Math.pow(10, digits);
   return otp.toString().padStart(digits, "0");

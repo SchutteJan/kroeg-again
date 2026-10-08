@@ -157,3 +157,56 @@ export const simple_auth_db_schema = {
   sessionRelations: session_simple_auth_dbRelations,
   schemaVersion: 4,
 };
+
+// ============================================================================
+// Fragment: otp
+// ============================================================================
+
+const schema_otp = pgSchema("otp");
+
+export const totp_secret_otp = schema_otp.table(
+  "totp_secret",
+  {
+    id: varchar("id", { length: 30 })
+      .notNull()
+      .unique()
+      .$defaultFn(() => createId()),
+    userId: text("userId").notNull(),
+    secret: text("secret").notNull(),
+    backupCodes: text("backupCodes").notNull(),
+    createdAt: timestamp("createdAt").notNull().defaultNow(),
+    _internalId: bigserial("_internalId", { mode: "number" }).primaryKey().notNull(),
+    _version: integer("_version").notNull().default(0),
+  },
+  (table) => [uniqueIndex("idx_totp_user").on(table.userId)],
+);
+
+export const one_time_token_otp = schema_otp.table(
+  "one_time_token",
+  {
+    id: varchar("id", { length: 30 })
+      .notNull()
+      .unique()
+      .$defaultFn(() => createId()),
+    userId: text("userId").notNull(),
+    token: text("token").notNull(),
+    type: text("type").notNull(),
+    expiresAt: timestamp("expiresAt").notNull(),
+    createdAt: timestamp("createdAt").notNull().defaultNow(),
+    _internalId: bigserial("_internalId", { mode: "number" }).primaryKey().notNull(),
+    _version: integer("_version").notNull().default(0),
+  },
+  (table) => [
+    uniqueIndex("idx_ott_token").on(table.token),
+    index("idx_ott_user_type").on(table.userId, table.type),
+    index("idx_expires_at").on(table.expiresAt),
+  ],
+);
+
+export const otp_schema = {
+  totp_secret_otp: totp_secret_otp,
+  totp_secret: totp_secret_otp,
+  one_time_token_otp: one_time_token_otp,
+  one_time_token: one_time_token_otp,
+  schemaVersion: 2,
+};

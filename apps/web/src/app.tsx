@@ -3,14 +3,14 @@ import { Router } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start/router";
 import type { ParentProps } from "solid-js";
 import { Show, Suspense } from "solid-js";
-import { authClient } from "~/lib/auth-client";
+import { useMe } from "~/lib/auth-client";
 import { Navbar, NavItem } from "~/components/Navbar";
 import { PageLayout } from "~/components/PageLayout";
 import { ToastRegion } from "~/components/Toast";
 import "./app.css";
 
 function AuthNav() {
-  const me = authClient.useMe();
+  const me = useMe();
 
   return (
     <Show

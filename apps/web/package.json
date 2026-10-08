@@ -8,7 +8,7 @@
     "preview": "node .output/server/index.mjs",
     "types:check": "tsc --noEmit",
     "test": "vitest run",
-    "db:fragno:generate": "fragno-cli db generate ./src/lib/auth-server.ts --format drizzle -o ./src/postgres/fragno-auth-schema.ts",
+    "db:fragno:generate": "fragno-cli db generate ./src/lib/auth-server.ts ./src/lib/otp-server.ts --format drizzle -o ./src/postgres/fragment-schemas.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio"
@@ -18,6 +18,7 @@
     "@fragno-dev/core": "^0.2.0",
     "@fragno-dev/db": "^0.3.0",
     "@kobalte/core": "^0.13.12",
+    "@kroegen/one-time-password-fragment": "workspace:*",
     "@solidjs/meta": "^0.29.4",
     "@solidjs/router": "^1.0.0",
     "@solidjs/start": "^2.0.0",

@@ -54,6 +54,11 @@ export default function Login() {
           </Button>
         </form>
         <p class="text-ink-600 mt-4 text-center text-sm">
+          <A href="/forgot-password" class="text-primary-500 hover:underline">
+            Forgot password?
+          </A>
+        </p>
+        <p class="text-ink-600 mt-2 text-center text-sm">
           Don't have an account?{" "}
           <A href="/signup" class="text-primary-500 hover:underline">
             Sign up
