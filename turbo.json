@@ -8,7 +8,7 @@
       "outputs": [".output/**", "dist/**"]
     },
     "types:check": {
-      "dependsOn": ["^types:check"]
+      "dependsOn": ["^build", "^types:check"]
     },
     "test": {
       "dependsOn": ["build"]
