@@ -15,6 +15,9 @@ COPY packages/ts-config/package.json ./packages/ts-config/package.json
 COPY packages/base32/package.json ./packages/base32/package.json
 COPY packages/one-time-password-fragment/package.json ./packages/one-time-password-fragment/package.json
 
+# lefthook skips its postinstall git hook setup when CI is set; there is no git in the image
+ENV CI=true
+
 RUN pnpm install --frozen-lockfile
 
 FROM deps AS build
