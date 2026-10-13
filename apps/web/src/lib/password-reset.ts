@@ -2,6 +2,8 @@ import { OttType } from "@kroegen/one-time-password-fragment";
 import { createAuthServer } from "./auth-server";
 import { getConfig } from "./config";
 import type { PostgresPool } from "./db";
+import { sendEmail } from "~/emails/resend";
+import { passwordReset } from "~/emails/templates";
 import { createOtpServer } from "./otp-server";
 
 const RESET_TOKEN_TTL_MINUTES = 30;
@@ -74,8 +76,11 @@ async function sendResetLink(pool: PostgresPool, email: string): Promise<void> {
   );
 
   const resetUrl = `${getConfig().publicBaseUrl}/reset-password?email=${encodeURIComponent(email)}&token=${token}`;
-  // TODO: send this by email instead of logging it
-  console.log(`Password reset link for ${email}: ${resetUrl}`);
+  // Not awaited: the Resend round trip can outlast MIN_REQUEST_DURATION_MS, which would make
+  // registered emails measurably slower.
+  sendEmail(passwordReset(resetUrl, RESET_TOKEN_TTL_MINUTES), user.email).catch((error) => {
+    console.error("Failed to send password reset email", error);
+  });
 }
 
 export type ConfirmPasswordResetResult =

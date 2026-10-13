@@ -7,6 +7,14 @@ export interface AppConfig {
    * Origin used for links sent to users (e.g. password reset).
    */
   publicBaseUrl: string;
+  /**
+   * API key for sending email through Resend. Only required in production;
+   */
+  resendApiKey: string | undefined;
+  /**
+   * Sender for outgoing email, e.g. `Kroegen <noreply@example.com>`.
+   */
+  emailFrom: string;
   /** One message per missing or malformed setting. */
   errors: string[];
   valid: () => boolean;
@@ -37,9 +45,13 @@ export function loadConfig(env: Env): AppConfig {
     }
   }
 
+  const production = env.NODE_ENV === "production";
+
   return {
     databaseUrl: required("DATABASE_URL"),
     publicBaseUrl: url("PUBLIC_BASE_URL"),
+    resendApiKey: production ? required("RESEND_API_KEY") : env.RESEND_API_KEY || undefined,
+    emailFrom: env.EMAIL_FROM || "Kroegen <accounts@kroeg.jan.tf>",
     errors,
     valid: () => errors.length === 0,
   };
