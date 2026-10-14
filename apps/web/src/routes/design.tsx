@@ -4,6 +4,7 @@ import { createSignal } from "solid-js";
 import { Alert, AlertTitle, AlertDescription } from "~/components/Alert";
 import { Button } from "~/components/Button";
 import { Card, CardHeader, CardBody, CardFooter } from "~/components/Card";
+import { Checkbox } from "~/components/Checkbox";
 import {
   Drawer,
   DrawerTrigger,
@@ -27,6 +28,7 @@ import { Map } from "~/components/Map";
 import { showToast } from "~/components/Toast";
 import { PageContent } from "~/components/PageLayout";
 import { TextInput } from "~/components/TextInput";
+import { Altcha } from "~/components/Altcha";
 
 function Section(props: ParentProps<{ title: string }>) {
   return (
@@ -275,6 +277,24 @@ export default function Design() {
             <TextInput label="Password" type="password" placeholder="••••••••" />
             <TextInput label="Disabled" placeholder="Cannot edit" disabled />
             <TextInput label="Required" required />
+          </div>
+        </Section>
+
+        {/* Checkboxes */}
+        <Section title="Checkboxes">
+          <div class="flex flex-col items-start gap-4">
+            <Checkbox label="Remember me" />
+            <Checkbox label="Checked" defaultChecked />
+            <Checkbox label="Disabled" disabled />
+            <Checkbox label="Disabled and checked" disabled defaultChecked />
+            <Checkbox label="Invalid" validationState="invalid" />
+          </div>
+        </Section>
+
+        {/* Captcha */}
+        <Section title="Captcha">
+          <div class="max-w-sm space-y-4">
+            <Altcha />
           </div>
         </Section>
 

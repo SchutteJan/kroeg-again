@@ -4,10 +4,12 @@ import { Match, Show, Switch } from "solid-js";
 import { getRequestEvent } from "solid-js/web";
 import { z } from "zod";
 import { Alert } from "~/components/Alert";
+import { Altcha } from "~/components/Altcha";
 import { Button } from "~/components/Button";
 import { Card } from "~/components/Card";
 import { PageContent } from "~/components/PageLayout";
 import { TextInput } from "~/components/TextInput";
+import { ALTCHA_FIELD, verifyAltcha } from "~/lib/altcha";
 import { requestPasswordReset } from "~/lib/password-reset";
 
 const sendResetLink = action(async (formData: FormData) => {
@@ -16,9 +18,12 @@ const sendResetLink = action(async (formData: FormData) => {
   if (!event) {
     throw new Error("sendResetLink requires a request event");
   }
+  if (!(await verifyAltcha(formData.get(ALTCHA_FIELD)))) {
+    return { ok: false as const, error: "captcha_failed" as const };
+  }
   const email = z.email().parse(formData.get("email"));
   await requestPasswordReset(event.locals.pool, email);
-  return { ok: true };
+  return { ok: true as const };
 }, "send-reset-link");
 
 export default function ForgotPassword() {
@@ -35,6 +40,9 @@ export default function ForgotPassword() {
               <Show when={submission.error}>
                 <Alert class="mb-4">Something went wrong. Please try again.</Alert>
               </Show>
+              <Show when={submission.result?.ok === false}>
+                <Alert class="mb-4">Verification failed. Please try again.</Alert>
+              </Show>
               <form action={sendResetLink} method="post" class="flex flex-col gap-4">
                 <TextInput
                   label="Email"
@@ -43,6 +51,7 @@ export default function ForgotPassword() {
                   required
                   placeholder="you@example.com"
                 />
+                <Altcha />
                 <Button type="submit">Send reset link</Button>
               </form>
             </>

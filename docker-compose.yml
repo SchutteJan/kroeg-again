@@ -25,4 +25,5 @@ services:
       - DATABASE_URL=postgres://kroeg:${DATABASE_PASSWORD}@db:5432/kroeg
       - PUBLIC_BASE_URL=${PUBLIC_BASE_URL}
       - RESEND_API_KEY=${RESEND_API_KEY}
+      - ALTCHA_HMAC_SECRET=${ALTCHA_HMAC_SECRET}
       - EMAIL_FROM=${EMAIL_FROM:-}

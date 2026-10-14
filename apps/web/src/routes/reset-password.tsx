@@ -4,10 +4,12 @@ import { Match, Show, Switch } from "solid-js";
 import { getRequestEvent } from "solid-js/web";
 import { z } from "zod";
 import { Alert } from "~/components/Alert";
+import { Altcha } from "~/components/Altcha";
 import { Button } from "~/components/Button";
 import { Card } from "~/components/Card";
 import { PageContent } from "~/components/PageLayout";
 import { TextInput } from "~/components/TextInput";
+import { ALTCHA_FIELD, verifyAltcha } from "~/lib/altcha";
 import { confirmPasswordReset } from "~/lib/password-reset";
 
 // Matches the auth fragment's /change-password limits.
@@ -25,6 +27,10 @@ const resetPassword = action(async (formData: FormData) => {
   const event = getRequestEvent();
   if (!event) {
     throw new Error("resetPassword requires a request event");
+  }
+  // Checked before the token, so tokens can't be guessed cheaply.
+  if (!(await verifyAltcha(formData.get(ALTCHA_FIELD)))) {
+    return { ok: false as const, error: "captcha_failed" as const };
   }
   const input = ResetPasswordInput.parse(Object.fromEntries(formData));
   return confirmPasswordReset(event.locals.pool, input);
@@ -76,6 +82,11 @@ export default function ResetPassword() {
             >
               <Alert class="mb-4">Something went wrong. Please try again.</Alert>
             </Show>
+            <Show
+              when={submission.result?.ok === false && submission.result.error === "captcha_failed"}
+            >
+              <Alert class="mb-4">Verification failed. Please try again.</Alert>
+            </Show>
             <form action={resetPassword} method="post" class="flex flex-col gap-4">
               <input type="hidden" name="email" value={email()} />
               <input type="hidden" name="token" value={token()} />
@@ -89,6 +100,7 @@ export default function ResetPassword() {
                 title={`At least ${MIN_PASSWORD_LENGTH} characters`}
                 placeholder="••••••••"
               />
+              <Altcha />
               <Button type="submit" disabled={submission.pending}>
                 {submission.pending ? "Resetting…" : "Reset password"}
               </Button>

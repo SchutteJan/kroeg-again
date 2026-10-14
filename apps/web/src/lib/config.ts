@@ -15,6 +15,10 @@ export interface AppConfig {
    * Sender for outgoing email, e.g. `Kroegen <noreply@example.com>`.
    */
   emailFrom: string;
+  /**
+   * Secret for signing ALTCHA proof-of-work challenges. Only required in production;
+   */
+  altchaHmacSecret: string | undefined;
   /** One message per missing or malformed setting. */
   errors: string[];
   valid: () => boolean;
@@ -24,7 +28,7 @@ export interface AppConfig {
 export function loadConfig(env: Env): AppConfig {
   const errors: string[] = [];
 
-  function required(name: string) {
+  function alwaysRequired(name: string) {
     const value = env[name];
     if (!value) {
       errors.push(`${name} is unset and required`);
@@ -32,8 +36,15 @@ export function loadConfig(env: Env): AppConfig {
     return value ?? "";
   }
 
+  function prodRequired(name: string) {
+    if (env.NODE_ENV === "production") {
+      return alwaysRequired(name);
+    }
+    return env[name];
+  }
+
   function url(name: string) {
-    const value = required(name);
+    const value = alwaysRequired(name);
     if (!value) {
       return "";
     }
@@ -45,13 +56,12 @@ export function loadConfig(env: Env): AppConfig {
     }
   }
 
-  const production = env.NODE_ENV === "production";
-
   return {
-    databaseUrl: required("DATABASE_URL"),
+    databaseUrl: alwaysRequired("DATABASE_URL"),
     publicBaseUrl: url("PUBLIC_BASE_URL"),
-    resendApiKey: production ? required("RESEND_API_KEY") : env.RESEND_API_KEY || undefined,
+    resendApiKey: prodRequired("RESEND_API_KEY"),
     emailFrom: env.EMAIL_FROM || "Kroegen <accounts@kroeg.jan.tf>",
+    altchaHmacSecret: prodRequired("ALTCHA_HMAC_SECRET"),
     errors,
     valid: () => errors.length === 0,
   };
