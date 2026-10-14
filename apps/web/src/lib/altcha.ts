@@ -1,7 +1,7 @@
 import { createHmac, randomInt } from "node:crypto";
-import { CappedMap, createChallenge, verifySolution, type Challenge } from "altcha-lib";
+import { CappedMap, createChallenge, type Challenge } from "altcha-lib";
 import { deriveKey } from "altcha-lib/algorithms/pbkdf2";
-import { z } from "zod";
+import { verify } from "altcha-lib/frameworks/shared";
 import { getConfig } from "./config";
 
 /** Form field the widget puts its payload in. */
@@ -28,7 +28,7 @@ const DEFAULT_DIFFICULTY: ChallengeDifficulty = {
  * In-memory, so it only covers a single process. Entries outlive the challenge TTL as long as
  * fewer than `maxSize` challenges are solved within it.
  */
-const usedNonces = new CappedMap<string, true>({ maxSize: 10_000 });
+const usedNonces = new CappedMap<string, boolean>({ maxSize: 10_000 });
 
 function secrets() {
   const hmacSignatureSecret = getConfig().altchaHmacSecret || "development-signature";
@@ -54,26 +54,6 @@ export function createAltchaChallenge(
   });
 }
 
-const PayloadSchema = z.object({
-  challenge: z.object({
-    parameters: z.object({
-      algorithm: z.string(),
-      nonce: z.string(),
-      salt: z.string(),
-      cost: z.number(),
-      keyLength: z.number(),
-      keyPrefix: z.string(),
-      keySignature: z.string().optional(),
-      expiresAt: z.number().optional(),
-    }),
-    signature: z.string().optional(),
-  }),
-  solution: z.object({
-    counter: z.number(),
-    derivedKey: z.string(),
-  }),
-});
-
 /**
  * Checks the base64 payload the ALTCHA widget submits: a solution to an unexpired challenge we
  * signed, that hasn't been used before.
@@ -82,36 +62,13 @@ export async function verifyAltcha(value: unknown): Promise<boolean> {
   if (typeof value !== "string") {
     return false;
   }
-  let decoded: unknown;
-  try {
-    decoded = JSON.parse(atob(value));
-  } catch {
-    return false;
-  }
-
-  const parsed = PayloadSchema.safeParse(decoded);
-  if (!parsed.success) {
-    console.error(parsed.error);
-    return false;
-  }
-  const payload = parsed.data;
-
-  const { verified } = await verifySolution({
-    challenge: payload.challenge,
-    solution: payload.solution,
+  const { hmacSignatureSecret, hmacKeySignatureSecret } = secrets();
+  const { error } = await verify(
+    value,
     deriveKey,
-    ...secrets(),
-  });
-
-  if (!verified) {
-    return false;
-  }
-
-  // No await between the check and the set, so concurrent submissions can't both pass.
-  const nonce = payload.challenge.parameters.nonce;
-  if (usedNonces.has(nonce)) {
-    return false;
-  }
-  usedNonces.set(nonce, true);
-  return true;
+    hmacSignatureSecret,
+    hmacKeySignatureSecret,
+    usedNonces,
+  );
+  return error === null;
 }
